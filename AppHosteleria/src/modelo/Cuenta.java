@@ -4,6 +4,7 @@
  */
 package modelo;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,13 +14,19 @@ import java.util.List;
  */
 public class Cuenta {
 
-    int idCuenta;
-    double precio;
+    private int idCuenta;
+    private double precio;
+    private String factura;
+    private LocalDateTime fechaHora;
+
+    private Local local;
+    private Mesa mesa;
     private Camarero camarero;
-    List productos;
+    private List productos;
+    private List nuevosProductos;
 
     public Cuenta(Camarero camarero) {
-        
+
         precio = 0.0;
         productos = new ArrayList();
         this.camarero = camarero;
@@ -31,10 +38,27 @@ public class Cuenta {
         this.camarero = null;
     }
 
-    public void anadirProducto(Producto producto, int cantidad) {
+    public void anadirNuevosProductos(Producto producto, int cantidad) {
+        for (int i = 0; i < cantidad; i++) {
+            nuevosProductos.add(producto);
+        }
+    }
+
+    public void pedirNuevosProducto() {
+        productos.addAll(nuevosProductos);
+        generarPedido(nuevosProductos);
+        nuevosProductos.clear();
+
     }
 
     public void eliminarProducto(Producto producto) {
+
+        productos.remove(producto);
+
+    }
+
+    private void generarPedido(List<Producto> nuevosProductos) {
+        //cargar productos a base de datos para hacer el trigger de pedido.
     }
 
     public void dividirImporte() {

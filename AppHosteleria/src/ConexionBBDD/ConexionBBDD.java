@@ -28,9 +28,15 @@ public class ConexionBBDD {
     //QUERYS
     private String queryAnadirSala = "insert into salas values (null,'?')";
     private String queryConsultarProductos = "select * from productos;";
-   
-    
-    
+
+    // <editor-fold defaultstate="collapsed" desc="GettersAndSetters">       
+    public String getQueryAnadirSala() {
+        return queryAnadirSala;
+    }
+
+    public String getQueryConsultarProductos() {
+        return queryConsultarProductos;
+    }   // </editor-fold>  
 
     //PREPAREDSTATEMENT
     private PreparedStatement preConsultarProductos;

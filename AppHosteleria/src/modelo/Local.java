@@ -17,6 +17,7 @@ public class Local {
 
     String nombre;
     String cif;
+    String direccion;
 
     List<Sala> salas;
     List<Camarero> Camareros;
@@ -30,13 +31,11 @@ public class Local {
         this.Camareros = new ArrayList();
         this.interfaz = interfaz;
         conexionBBDD = new ConexionBBDD();
-
     }
 
     public void anadirSala(String nombre, int ancho, int alto) {
-        salas.add(new Sala(nombre), ancho, alto);
-        conexionBBDD.modificacion("insert into salas values (null,'+ nombre +','" + ancho + "'+'" + alto + "´");
-        
+
+        conexionBBDD.modificacion(conexionBBDD.getQueryAnadirSala());
 
     }
 
@@ -44,8 +43,11 @@ public class Local {
         salas.remove(sala);
     }
 
-    public void anadirSala(Sala sala) {
+    public void cargarProductos() {
 
+    }
+
+    public void cierreCaja() {
     }
 
 }

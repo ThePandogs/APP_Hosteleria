@@ -13,24 +13,35 @@ import java.util.List;
  */
 public class Sala {
 
+    int id;
     String nombre;
-    List<Mesa> mesas;
-    Local local;
 
-    public Sala(String nombre) {
+    Local local;
+    List<Mesa> mesas;
+    List<Mesa> decoraciones;
+
+    public Sala(int id, String nombre, Local local) {
+        this.id = id;
         this.nombre = nombre;
-        mesas = new ArrayList();
         this.local = local;
+        mesas = new ArrayList();
+        decoraciones = new ArrayList();
+
     }
 
-    public void anadirMesa(Camarero camarero, int idmesa) {
-
-        mesas.add(new Mesa(camarero, idmesa));
+    public void anadirMesa(int idMesa, int posicionX, int posicionY, boolean disponible, String imagenURL) {
+        mesas.add(new Mesa(idMesa, posicionX, posicionY, disponible, imagenURL));
     }
 
     public void eliminarMesa(Mesa mesa) {
 
         mesas.remove(mesa);
+    }
+
+    public void cambiarPosicionMesa(Mesa mesa, int x, int y) {
+
+        mesa.cambiarPosicion(x, y);
+
     }
 
 }

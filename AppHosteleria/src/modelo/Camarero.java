@@ -9,10 +9,12 @@ package modelo;
  * @author ThePandogs
  */
 public class Camarero {
+
     int id;
     String nombre;
 
-    public Camarero(String nombre) {
+    public Camarero(int id, String nombre) {
+        this.id = id;
         this.nombre = nombre;
     }
 
