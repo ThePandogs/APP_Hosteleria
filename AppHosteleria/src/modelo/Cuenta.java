@@ -61,7 +61,8 @@ public class Cuenta {
         //cargar productos a base de datos para hacer el trigger de pedido.
     }
 
-    public void dividirImporte() {
+    public double dividirImporte(Double Precio, int personas) {
+        return precio / personas;
     }
 
     public void cobrarTarjeta() {

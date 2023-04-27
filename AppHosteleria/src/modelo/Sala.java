@@ -30,7 +30,11 @@ public class Sala {
     }
 
     public void anadirMesa(int idMesa, int posicionX, int posicionY, boolean disponible, String imagenURL) {
-        mesas.add(new Mesa(idMesa, posicionX, posicionY, disponible, imagenURL));
+        Mesa mesa = new Mesa(idMesa, posicionX, posicionY, disponible);
+        mesas.add(mesa);
+        mesa.asociarImagen(imagenURL);
+        mesa.cambiarTamano(id, id);
+
     }
 
     public void eliminarMesa(Mesa mesa) {

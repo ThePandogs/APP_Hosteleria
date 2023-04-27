@@ -20,4 +20,12 @@ public class Producto {
         this.id = id;
     }
 
+    public void cambiarPrecio(Producto producto, Double nuevoPrecio) {
+        producto.precio = nuevoPrecio;
+    }
+
+    public void comprobarStock(Producto producto) {
+        //consulta BBDD
+    }
+
 }

@@ -5,12 +5,13 @@
 package modelo;
 
 import javax.swing.JLabel;
+import javax.swing.plaf.IconUIResource;
 
 /**
  *
  * @author ThePandogs
  */
-public class Mesa {
+public class Mesa implements Representarse {
 
     private int idMesa;
     private Cuenta cuenta;
@@ -19,12 +20,10 @@ public class Mesa {
     private int x;
     private int y;
 
-    public Mesa(int idMesa, int posicionX, int posicionY, boolean disponible, String imagenURL) {
+    public Mesa(int idMesa, int posicionX, int posicionY, boolean disponible) {
         this.idMesa = idMesa;
         this.disponible = disponible;
         cuenta = new Cuenta();
-        representacion = new JLabel(new javax.swing.ImageIcon(getClass().getResource(imagenURL)));
-        representacion.setLocation(posicionX, posicionX);
         this.x = posicionX;
         this.y = posicionY;
     }
@@ -39,6 +38,12 @@ public class Mesa {
 
         representacion.setSize(ancho, alto);
 
+    }
+
+    @Override
+    public void asociarImagen(String url) {
+        representacion.setIcon(new javax.swing.ImageIcon(getClass().getResource(url)));
+        representacion.setLocation(x, y);
     }
 
 }
