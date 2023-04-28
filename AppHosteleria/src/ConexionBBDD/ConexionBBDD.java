@@ -10,7 +10,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.PreparedStatement;
 
 /**
  *
@@ -24,23 +23,6 @@ public class ConexionBBDD {
 
     private Connection con;
     private Statement stmt;
-
-    //QUERYS
-    private String queryAnadirSala = "insert into salas values (null,'?')";
-    private String queryConsultarProductos = "select * from productos;";
-
-    // <editor-fold defaultstate="collapsed" desc="GettersAndSetters">       
-    public String getQueryAnadirSala() {
-        return queryAnadirSala;
-    }
-
-    public String getQueryConsultarProductos() {
-        return queryConsultarProductos;
-    }   // </editor-fold>  
-
-    //PREPAREDSTATEMENT
-    private PreparedStatement preConsultarProductos;
-    private PreparedStatement preAnadirSala;
 
     //LOGGER
     private LogExcepcion logExcepcion = new LogExcepcion();
@@ -56,7 +38,6 @@ public class ConexionBBDD {
         try {
             con = DriverManager.getConnection(url, usuario, clave);
             stmt = con.createStatement();
-            cargarPreparedStatements();
         } catch (SQLException ex) {
             logExcepcion.anadirExcepcionLog(ex);
         }
@@ -72,6 +53,10 @@ public class ConexionBBDD {
         } catch (SQLException ex) {
             logExcepcion.anadirExcepcionLog(ex);
         }
+    }
+
+    public Connection getCon() {
+        return con;
     }
 
     /**
@@ -124,12 +109,6 @@ public class ConexionBBDD {
             logExcepcion.anadirExcepcionLog(ex);
         }
         return -1;
-    }
-
-    private void cargarPreparedStatements() throws SQLException {
-
-        preAnadirSala = con.prepareStatement(queryAnadirSala);
-        preConsultarProductos = con.prepareStatement(queryConsultarProductos);
     }
 
 }

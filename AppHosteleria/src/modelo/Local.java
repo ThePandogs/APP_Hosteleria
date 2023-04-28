@@ -4,7 +4,7 @@
  */
 package modelo;
 
-import ConexionBBDD.ConexionBBDD;
+import ConexionBBDD.ControllerBBDD;
 import iu.Interfaz;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,19 +23,17 @@ public class Local {
     List<Camarero> Camareros;
     List<GrupoProducto> GruposProductos;
 
-    ConexionBBDD conexionBBDD;
+    ControllerBBDD conexionBBDD;
     Interfaz interfaz;
 
     public Local(Interfaz interfaz) {
         this.salas = new ArrayList();
         this.Camareros = new ArrayList();
         this.interfaz = interfaz;
-        conexionBBDD = new ConexionBBDD();
+        
     }
 
     public void anadirSala(String nombre, int ancho, int alto) {
-
-        conexionBBDD.modificacion(conexionBBDD.getQueryAnadirSala());
 
     }
 
