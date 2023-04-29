@@ -9,6 +9,8 @@ import iu.Interfaz;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,13 +23,15 @@ public class ControllerBBDD {
     //QUERYS
     private String queryGetUsuarios = "select id_usuario,usuario from usuarios;";
 
-    private String queryAnadirSala = "insert into salas values (null,'?')";
+    private String queryAnadirSala = "insert into salas values (null,?)";
     private String queryConsultarProductos = "select * from productos;";
+    private String queryComprobarPasswordUsuario = "SELECT * FROM usuarios WHERE usuario = ? AND pin = ?";
 
     //PREPAREDSTATEMENT
     private PreparedStatement preGetUsuarios;
     private PreparedStatement preConsultarProductos;
     private PreparedStatement preAnadirSala;
+    private PreparedStatement preComprobarPasswordUsuario;
     // <editor-fold defaultstate="collapsed" desc="GettersAndSetters">   
     // </editor-fold>
 
@@ -48,6 +52,7 @@ public class ControllerBBDD {
         preGetUsuarios = bbdd.getCon().prepareStatement(queryGetUsuarios, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         preAnadirSala = bbdd.getCon().prepareStatement(queryAnadirSala);
         preConsultarProductos = bbdd.getCon().prepareStatement(queryConsultarProductos);
+        preComprobarPasswordUsuario = bbdd.getCon().prepareStatement(queryComprobarPasswordUsuario);
     }
 
     public ResultSet cargarUsuarios() {
@@ -61,12 +66,33 @@ public class ControllerBBDD {
 
     }
 
-    public int calcularRows(ResultSet resulSet) throws SQLException {
+    public boolean comprobarPasswordUsuario(String usuario, String contraseña) {
+
+        try {
+            preComprobarPasswordUsuario.setString(1, usuario);
+            preComprobarPasswordUsuario.setString(2, contraseña);
+            boolean coincide = false;
+            if (calcularRows(preComprobarPasswordUsuario.executeQuery()) == 1) {
+                coincide = true;
+            }
+            return coincide;
+        } catch (SQLException ex) {
+            logExcepcion.anadirExcepcionLog(ex);
+            return false;
+        }
+
+    }
+
+    public int calcularRows(ResultSet resulSet) {
 
         int numFilas = 0;
 
-        while (resulSet.next()) {
-            numFilas++;
+        try {
+            while (resulSet.next()) {
+                numFilas++;
+            }
+        } catch (SQLException ex) {
+            return -1;
         }
 
         return numFilas;

@@ -1,5 +1,6 @@
 package Swing;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -73,9 +74,21 @@ public class MainPanel extends JPanel {
         setOpaque(false);
     }
 
+    public int getRound() {
+        return round;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
+        repaint();
+    }
+
+    private int round = 20;
+
     @Override
     public void paint(Graphics grphcs) {
         super.paint(grphcs);
+        
         Graphics2D g2 = (Graphics2D) grphcs.create();
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         if (imageOld != null) {
@@ -86,6 +99,7 @@ public class MainPanel extends JPanel {
             Rectangle size = getAutoSize(image, imageSize);
             g2.drawImage(toImage(image), imageLocation.x, imageLocation.y, size.getSize().width, size.getSize().height, null);
         }
+       
         g2.dispose();
     }
 

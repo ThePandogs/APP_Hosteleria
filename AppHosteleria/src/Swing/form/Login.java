@@ -1,22 +1,37 @@
 package Swing.form;
 
-import Swing.component.Item;
+import ConexionBBDD.ControllerBBDD;
 import Swing.ScrollBar;
 import Swing.component.Numero;
 import Swing.component.User;
 import Swing.model.ModelNumero;
 import Swing.model.ModelUser;
+import iu.Interfaz;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
 public class Login extends javax.swing.JPanel {
 
-    public Login() {
+    ControllerBBDD controllerBBDD;
+
+    public Login(ControllerBBDD controllerBBDD) {
+        this.controllerBBDD = controllerBBDD;
         initComponents();
         scroll.setVerticalScrollBar(new ScrollBar());
+        init();
+
+    }
+
+    private void init() {
+        cargarTecladoNumerico();
+        cargarUsuarios();
     }
 
     public void addUser(ModelUser data) {
@@ -26,13 +41,48 @@ public class Login extends javax.swing.JPanel {
             @Override
             public void mousePressed(MouseEvent me) {
                 if (SwingUtilities.isLeftMouseButton(me)) {
-                    System.out.println("le has dado");
+                  
+                    setSelected(user);
+                    nombre.setText(data.getItemName());
+                    if (!campoPassword.isEditable()) {
+                        campoPassword.setEditable(true);
+                        advertencia.setText("");
+                    }
+                    botonLogin.setBackground(new java.awt.Color(94, 156, 255));
                 }
             }
         });
-        PanelUsuarios.add(user);
-        PanelUsuarios.repaint();
-        PanelUsuarios.revalidate();
+        panelUsuarios.add(user);
+        panelUsuarios.repaint();
+        panelUsuarios.revalidate();
+    }
+
+    private void cargarUsuarios() {
+
+        try {
+            ResultSet consulta = controllerBBDD.cargarUsuarios();
+
+            while (consulta.next()) {
+                for (int i = 0; i < 15; i++) {
+                addUser(new ModelUser(1, consulta.getString(2)));
+                 }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void cargarTecladoNumerico() {
+
+        for (int i = 1; i < 10; i++) {
+            addNumero(new ModelNumero(String.valueOf(i)));
+        }
+        addNumero(new ModelNumero("C"));
+        addNumero(new ModelNumero("0"));
+
+        char flechaIzquierda = '\u2190';
+        addNumero(new ModelNumero(Character.toString(flechaIzquierda)));
     }
 
     public void addNumero(ModelNumero data) {
@@ -42,23 +92,54 @@ public class Login extends javax.swing.JPanel {
             @Override
             public void mousePressed(MouseEvent me) {
                 if (SwingUtilities.isLeftMouseButton(me)) {
-                    System.out.println(numero.getData().getNumero());
+                    if (campoPassword.isEditable()) {
+                        interaccionTecladoNumerico(data);
+                    }
+
                 }
             }
+
         });
-        TecladoNumerico.add(numero);
-        TecladoNumerico.repaint();
-        TecladoNumerico.revalidate();
+        tecladoNumerico.add(numero);
+        tecladoNumerico.repaint();
+        tecladoNumerico.revalidate();
     }
 
-    public void setSelected(Component item) {
-        for (Component com : PanelUsuarios.getComponents()) {
-            Item i = (Item) com;
+    private void interaccionTecladoNumerico(ModelNumero data) {
+        //LimpiarPanel
+        if (data.getNumero().equals("C")) {
+            campoPassword.setText("");
+        } else {
+            String passwordString = new String(campoPassword.getPassword());
+
+            //Eliminar un caracter
+            if (data.getNumero().equals(String.valueOf('\u2190'))) {
+                if (passwordString.isEmpty()) {
+                    return;
+                }
+                StringBuilder sb = new StringBuilder(passwordString);
+                sb.deleteCharAt(passwordString.length() - 1);
+                passwordString = sb.toString();
+
+            } //Anadir un caracter
+            else {
+                passwordString += data.getNumero();
+            }
+            campoPassword.setText(passwordString);
+
+        }
+    }
+
+    public void setSelected(Component user) {
+        for (Component com : panelUsuarios.getComponents()) {
+            User i = (User) com;
             if (i.isSelected()) {
                 i.setSelected(false);
             }
         }
-        ((Item) item).setSelected(true);
+        ((User) user).setSelected(true);
+        campoPassword.setText("");
+        campoPassword.requestFocus();
     }
 
     public Point getPanelItemLocation() {
@@ -71,43 +152,84 @@ public class Login extends javax.swing.JPanel {
     private void initComponents() {
 
         scroll = new javax.swing.JScrollPane();
-        PanelUsuarios = new Swing.PanelComponentes();
-        PanelNumerico = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        TecladoNumerico = new Swing.PanelComponentes();
+        panelUsuarios = new Swing.PanelComponentes();
+        panelNumerico = new javax.swing.JPanel();
+        nombre = new javax.swing.JLabel();
+        inicioSesion = new javax.swing.JLabel();
+        advertencia = new javax.swing.JLabel();
+        tecladoNumerico = new Swing.PanelComponentes();
+        campoPassword = new swing.Password();
+        botonLogin = new swing.Button();
 
         setOpaque(false);
 
         scroll.setBorder(null);
         scroll.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scroll.setViewportView(PanelUsuarios);
+        scroll.setViewportView(panelUsuarios);
 
-        PanelNumerico.setBackground(new java.awt.Color(255, 255, 255));
+        panelNumerico.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Inicio Sesión");
+        nombre.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        nombre.setForeground(new java.awt.Color(102, 102, 102));
+        nombre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        TecladoNumerico.setLayout(new java.awt.GridLayout(4, 3, 10, 10));
+        inicioSesion.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        inicioSesion.setForeground(new java.awt.Color(102, 102, 102));
+        inicioSesion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        inicioSesion.setText("Inicio Sesión");
 
-        javax.swing.GroupLayout PanelNumericoLayout = new javax.swing.GroupLayout(PanelNumerico);
-        PanelNumerico.setLayout(PanelNumericoLayout);
-        PanelNumericoLayout.setHorizontalGroup(
-            PanelNumericoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
-            .addGroup(PanelNumericoLayout.createSequentialGroup()
+        advertencia.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        advertencia.setForeground(new java.awt.Color(255, 102, 102));
+        advertencia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        tecladoNumerico.setMaximumSize(new java.awt.Dimension(100, 100));
+        tecladoNumerico.setLayout(new java.awt.GridLayout(4, 3, 10, 10));
+
+        campoPassword.setEditable(false);
+        campoPassword.setText("password");
+        campoPassword.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+
+        botonLogin.setBackground(new java.awt.Color(204, 204, 204));
+        botonLogin.setForeground(new java.awt.Color(255, 255, 255));
+        botonLogin.setText("Entrar");
+        botonLogin.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        botonLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonLoginActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelNumericoLayout = new javax.swing.GroupLayout(panelNumerico);
+        panelNumerico.setLayout(panelNumericoLayout);
+        panelNumericoLayout.setHorizontalGroup(
+            panelNumericoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(nombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(panelNumericoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(TecladoNumerico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelNumericoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(advertencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tecladoNumerico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botonLogin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(campoPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(inicioSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        PanelNumericoLayout.setVerticalGroup(
-            PanelNumericoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelNumericoLayout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+        panelNumericoLayout.setVerticalGroup(
+            panelNumericoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelNumericoLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(inicioSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(campoPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(advertencia, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(botonLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(TecladoNumerico, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-                .addGap(94, 94, 94))
+                .addComponent(tecladoNumerico, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                .addGap(28, 28, 28))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -115,25 +237,43 @@ public class Login extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 758, Short.MAX_VALUE)
-                .addGap(26, 26, 26)
-                .addComponent(PanelNumerico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(15, 15, 15)
+                .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(panelNumerico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(22, 22, 22))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelNumerico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addComponent(panelNumerico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(scroll)
-                .addContainerGap())
+                .addGap(24, 24, 24))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void botonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLoginActionPerformed
+        if (!campoPassword.isEditable()) {
+            advertencia.setText("* Elige un Usuario!");
+        } else if (controllerBBDD.comprobarPasswordUsuario(nombre.getText(), new String(campoPassword.getPassword()))) {
+            advertencia.setText("Correcto!");
+        } else {
+            advertencia.setText("* PIN incorrecto!");
+            campoPassword.setText("");
+            campoPassword.requestFocus();
+        }
+    }//GEN-LAST:event_botonLoginActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel PanelNumerico;
-    private Swing.PanelComponentes PanelUsuarios;
-    private Swing.PanelComponentes TecladoNumerico;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel advertencia;
+    private swing.Button botonLogin;
+    private swing.Password campoPassword;
+    private javax.swing.JLabel inicioSesion;
+    private javax.swing.JLabel nombre;
+    private javax.swing.JPanel panelNumerico;
+    private Swing.PanelComponentes panelUsuarios;
     private javax.swing.JScrollPane scroll;
+    private Swing.PanelComponentes tecladoNumerico;
     // End of variables declaration//GEN-END:variables
 }

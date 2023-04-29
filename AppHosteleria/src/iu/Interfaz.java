@@ -5,25 +5,9 @@
 package iu;
 
 import ConexionBBDD.ControllerBBDD;
-import Swing.event.EventItem;
 import Swing.form.Login;
-import Swing.model.ModelItem;
-import Swing.model.ModelNumero;
-import Swing.model.ModelUser;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.Point;
-import org.jdesktop.animation.timing.Animator;
-import org.jdesktop.animation.timing.TimingTargetAdapter;
-import org.jdesktop.animation.timing.interpolation.PropertySetter;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author ThePandogs
@@ -31,78 +15,23 @@ import java.util.logging.Logger;
 public class Interfaz extends javax.swing.JFrame {
 
     private Login loginForm;
-    private Animator animator;
-    private Point animatePoint;
-    private ModelItem itemSelected;
-
-    ControllerBBDD controllerBBDD = new ControllerBBDD(this);
-    GridBagConstraints constraints = new GridBagConstraints();
+    ControllerBBDD controllerBBDD;
 
     public Interfaz() {
         initComponents();
+        controllerBBDD = new ControllerBBDD(this);
         setBackground(new Color(0, 0, 0, 0));
 
         init();
 
-        //  Animator start form animatePoint to TagetPoint
-        animator = PropertySetter.createAnimator(500, mainPanel1, "imageLocation", animatePoint, mainPanel1.getTargetLocation());
-        animator.addTarget(new PropertySetter(mainPanel1, "imageSize", new Dimension(180, 120), mainPanel1.getTargetSize()));
-        animator.addTarget(new TimingTargetAdapter() {
-            @Override
-            public void end() {
-                mainPanel1.setImageOld(null);
-            }
-        });
-        animator.setResolution(0);
-        animator.setAcceleration(.5f);
-        animator.setDeceleration(.5f);
     }
 
     private void init() {
-        loginForm = new Login();
+        loginForm = new Login(controllerBBDD);
         winButton2.initEvent(this, background1);
         mainPanel1.setLayout(new BorderLayout());
         mainPanel1.add(loginForm);
-        cargarUsuarios();
-        cargarNumeros();
-    }
 
-    private void cargarUsuarios() {
-
-        try {
-            ResultSet consulta = controllerBBDD.cargarUsuarios();
-
-            while (consulta.next()) {
-                for (int i = 0; i < 15; i++) {
-                    loginForm.addUser(new ModelUser(1, consulta.getString(2)));
-                }
-
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    private void cargarNumeros() {
-
-        for (int i = 1; i < 10; i++) {
-            loginForm.addNumero(new ModelNumero(String.valueOf(i)));
-        }
-        loginForm.addNumero(new ModelNumero("C"));
-        loginForm.addNumero(new ModelNumero("0"));
-        loginForm.addNumero(new ModelNumero("<-"));
-    }
-
-    private Point getLocationOf(Component com) {
-        Point p = loginForm.getPanelItemLocation();
-        int x = p.x;
-        int y = p.y;
-        int itemX = com.getX();
-        int itemY = com.getY();
-        int left = 10;
-        int top = 35;
-        return new Point(x + itemX + left, y + itemY + top);
     }
 
     /**
