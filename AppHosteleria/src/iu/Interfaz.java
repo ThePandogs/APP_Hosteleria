@@ -5,14 +5,24 @@
 package iu;
 
 import ConexionBBDD.ControllerBBDD;
+import Swing.event.EventItem;
+import Swing.form.Login;
+import Swing.model.ModelItem;
+import Swing.model.ModelNumero;
+import Swing.model.ModelUser;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.Point;
+import org.jdesktop.animation.timing.Animator;
+import org.jdesktop.animation.timing.TimingTargetAdapter;
+import org.jdesktop.animation.timing.interpolation.PropertySetter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JButton;
 
 /**
  *
@@ -20,14 +30,79 @@ import javax.swing.JButton;
  */
 public class Interfaz extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Interfaz
-     */
+    private Login loginForm;
+    private Animator animator;
+    private Point animatePoint;
+    private ModelItem itemSelected;
+
     ControllerBBDD controllerBBDD = new ControllerBBDD(this);
+    GridBagConstraints constraints = new GridBagConstraints();
 
     public Interfaz() {
         initComponents();
+        setBackground(new Color(0, 0, 0, 0));
+
+        init();
+
+        //  Animator start form animatePoint to TagetPoint
+        animator = PropertySetter.createAnimator(500, mainPanel1, "imageLocation", animatePoint, mainPanel1.getTargetLocation());
+        animator.addTarget(new PropertySetter(mainPanel1, "imageSize", new Dimension(180, 120), mainPanel1.getTargetSize()));
+        animator.addTarget(new TimingTargetAdapter() {
+            @Override
+            public void end() {
+                mainPanel1.setImageOld(null);
+            }
+        });
+        animator.setResolution(0);
+        animator.setAcceleration(.5f);
+        animator.setDeceleration(.5f);
+    }
+
+    private void init() {
+        loginForm = new Login();
+        winButton2.initEvent(this, background1);
+        mainPanel1.setLayout(new BorderLayout());
+        mainPanel1.add(loginForm);
         cargarUsuarios();
+        cargarNumeros();
+    }
+
+    private void cargarUsuarios() {
+
+        try {
+            ResultSet consulta = controllerBBDD.cargarUsuarios();
+
+            while (consulta.next()) {
+                for (int i = 0; i < 15; i++) {
+                    loginForm.addUser(new ModelUser(1, consulta.getString(2)));
+                }
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void cargarNumeros() {
+
+        for (int i = 1; i < 10; i++) {
+            loginForm.addNumero(new ModelNumero(String.valueOf(i)));
+        }
+        loginForm.addNumero(new ModelNumero("C"));
+        loginForm.addNumero(new ModelNumero("0"));
+        loginForm.addNumero(new ModelNumero("<-"));
+    }
+
+    private Point getLocationOf(Component com) {
+        Point p = loginForm.getPanelItemLocation();
+        int x = p.x;
+        int y = p.y;
+        int itemX = com.getX();
+        int itemY = com.getY();
+        int left = 10;
+        int top = 35;
+        return new Point(x + itemX + left, y + itemY + top);
     }
 
     /**
@@ -40,58 +115,79 @@ public class Interfaz extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
-        background = new javax.swing.JPanel();
-        usuariosJPanel = new javax.swing.JPanel();
-        usuariosLbl = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        botonesUsuarios = new javax.swing.JPanel();
+        background1 = new Swing.Background();
+        header = new javax.swing.JPanel();
+        winButton2 = new Swing.win_button.WinButton();
+        mainPanel1 = new Swing.MainPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(620, 620));
         setName("APP_Hosteleria"); // NOI18N
+        setUndecorated(true);
 
-        background.setBackground(new java.awt.Color(204, 204, 255));
-        background.setMinimumSize(new java.awt.Dimension(600, 600));
-        background.setPreferredSize(new java.awt.Dimension(600, 600));
-        background.setLayout(new java.awt.GridBagLayout());
+        background1.setRound(40);
 
-        usuariosJPanel.setBackground(new java.awt.Color(204, 204, 255));
-        usuariosJPanel.setMinimumSize(new java.awt.Dimension(0, 0));
-        usuariosJPanel.setPreferredSize(new java.awt.Dimension(600, 600));
-        usuariosJPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        header.setBackground(new java.awt.Color(255, 255, 255));
+        header.setPreferredSize(new java.awt.Dimension(66, 100));
 
-        usuariosLbl.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        usuariosLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        usuariosLbl.setText("Usuarios");
-        usuariosLbl.setMinimumSize(new java.awt.Dimension(0, 0));
-        usuariosJPanel.add(usuariosLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 600, -1));
+        javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
+        header.setLayout(headerLayout);
+        headerLayout.setHorizontalGroup(
+            headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
+                .addContainerGap(1065, Short.MAX_VALUE)
+                .addComponent(winButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
+        );
+        headerLayout.setVerticalGroup(
+            headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(winButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
-        botonesUsuarios.setBackground(new java.awt.Color(255, 255, 255));
-        botonesUsuarios.setPreferredSize(new java.awt.Dimension(500, 500));
-        botonesUsuarios.setLayout(new java.awt.GridLayout(50, 50));
-        jScrollPane1.setViewportView(botonesUsuarios);
+        mainPanel1.setMinimumSize(new java.awt.Dimension(0, 0));
 
-        usuariosJPanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 530, 480));
+        javax.swing.GroupLayout mainPanel1Layout = new javax.swing.GroupLayout(mainPanel1);
+        mainPanel1.setLayout(mainPanel1Layout);
+        mainPanel1Layout.setHorizontalGroup(
+            mainPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        mainPanel1Layout.setVerticalGroup(
+            mainPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 608, Short.MAX_VALUE)
+        );
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 600;
-        gridBagConstraints.ipady = 600;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        background.add(usuariosJPanel, gridBagConstraints);
+        javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
+        background1.setLayout(background1Layout);
+        background1Layout.setHorizontalGroup(
+            background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(mainPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, 1125, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        background1Layout.setVerticalGroup(
+            background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(background1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(header, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mainPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE)
+            .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -102,6 +198,7 @@ public class Interfaz extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -112,16 +209,24 @@ public class Interfaz extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Interfaz.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Interfaz.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Interfaz.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Interfaz.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -134,34 +239,10 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel background;
-    private javax.swing.JPanel botonesUsuarios;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JPanel usuariosJPanel;
-    private javax.swing.JLabel usuariosLbl;
+    private Swing.Background background1;
+    private javax.swing.JPanel header;
+    private Swing.MainPanel mainPanel1;
+    private Swing.win_button.WinButton winButton2;
     // End of variables declaration//GEN-END:variables
-
-    private void cargarUsuarios() {
-        int count = 0;
-        ResultSet consulta = controllerBBDD.cargarUsuarios();
-        try {
-            while (consulta.next()) {
-                for (int i = 0; i < 15; i++) {
-                    if (count % 5 == 0) {
-                        botonesUsuarios.setPreferredSize(new Dimension(botonesUsuarios.getX(), botonesUsuarios.getY() + 50));
-                    }
-                    JButton nuevoBoton = new javax.swing.JButton(consulta.getString(1));
-
-                    nuevoBoton.setPreferredSize(new Dimension(botonesUsuarios.getWidth() / 5, botonesUsuarios.getHeight() / 5));
-                    // nuevoBoton.setPreferredSize(new Dimension(botonesUsuarios.getWidth() / 5, botonesUsuarios.getHeight() / 5));
-                    botonesUsuarios.add(nuevoBoton);
-                    count++;
-                }
-
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
 }

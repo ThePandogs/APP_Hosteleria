@@ -19,7 +19,7 @@ public class ControllerBBDD {
     private LogExcepcion logExcepcion = new LogExcepcion();
     private Interfaz interfaz;
     //QUERYS
-    private String queryGetUsuarios = "select usuario from usuarios;";
+    private String queryGetUsuarios = "select id_usuario,usuario from usuarios;";
 
     private String queryAnadirSala = "insert into salas values (null,'?')";
     private String queryConsultarProductos = "select * from productos;";
@@ -45,7 +45,7 @@ public class ControllerBBDD {
     }
 
     private void cargarPreparedStatements() throws SQLException {
-        preGetUsuarios = bbdd.getCon().prepareStatement(queryGetUsuarios);
+        preGetUsuarios = bbdd.getCon().prepareStatement(queryGetUsuarios, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         preAnadirSala = bbdd.getCon().prepareStatement(queryAnadirSala);
         preConsultarProductos = bbdd.getCon().prepareStatement(queryConsultarProductos);
     }
@@ -56,7 +56,19 @@ public class ControllerBBDD {
             return preGetUsuarios.executeQuery();
         } catch (SQLException ex) {
             logExcepcion.anadirExcepcionLog(ex);
+            return null;
         }
-        return null;
+
+    }
+
+    public int calcularRows(ResultSet resulSet) throws SQLException {
+
+        int numFilas = 0;
+
+        while (resulSet.next()) {
+            numFilas++;
+        }
+
+        return numFilas;
     }
 }
