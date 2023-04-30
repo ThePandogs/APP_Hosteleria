@@ -1,49 +1,86 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package modelo;
 
-import javax.swing.JLabel;
-import javax.swing.plaf.IconUIResource;
-
-/**
- *
- * @author ThePandogs
- */
-public class Mesa implements Representarse {
+public class Mesa {
 
     private int idMesa;
     private Cuenta cuenta;
-    private JLabel representacion;
+    private String imagenURL;
     private boolean disponible;
     private int x;
     private int y;
+    private int width;
+    private int height;
 
-    public Mesa(int idMesa, int posicionX, int posicionY, boolean disponible) {
+    public Mesa(int idMesa, int posicionX, int posicionY, int width, int height, boolean disponible) {
         this.idMesa = idMesa;
-        this.disponible = disponible;
         cuenta = new Cuenta();
         this.x = posicionX;
         this.y = posicionY;
+        this.width = width;
+        this.height = height;
+        this.disponible = disponible;
     }
 
-    public void cambiarPosicion(int x, int y) {
+// <editor-fold defaultstate="collapsed" desc="Getter_Setter">
+    public int getIdMesa() {
+        return idMesa;
+    }
+
+    public void setIdMesa(int idMesa) {
+        this.idMesa = idMesa;
+    }
+
+    public Cuenta getCuenta() {
+        return cuenta;
+    }
+
+    public void setCuenta(Cuenta cuenta) {
+        this.cuenta = cuenta;
+    }
+
+    public String getImagenURL() {
+        return imagenURL;
+    }
+
+    public void setImagenURL(String imagenURL) {
+        this.imagenURL = imagenURL;
+    }
+
+    public boolean isDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
         this.x = x;
-        this.y = y;
-        representacion.setLocation(x, y);
     }
 
-    public void cambiarTamano(int ancho, int alto) {
-
-        representacion.setSize(ancho, alto);
-
+    public int getY() {
+        return y;
     }
 
-    @Override
-    public void asociarImagen(String url) {
-        representacion.setIcon(new javax.swing.ImageIcon(getClass().getResource(url)));
-        representacion.setLocation(x, y);
+    public int getWidth() {
+        return width;
     }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+// </editor-fold>
 
 }

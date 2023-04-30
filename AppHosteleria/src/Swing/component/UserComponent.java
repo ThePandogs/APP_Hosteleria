@@ -1,15 +1,15 @@
 package Swing.component;
 
-import Swing.model.ModelNumero;
+import modelo.ModelUser;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
-public class Numero extends javax.swing.JPanel {
+public class UserComponent extends javax.swing.JPanel {
 
-    public ModelNumero getData() {
+    public ModelUser getData() {
         return data;
     }
 
@@ -24,17 +24,17 @@ public class Numero extends javax.swing.JPanel {
 
     private boolean selected;
 
-    public Numero() {
+    public UserComponent() {
         initComponents();
         setOpaque(false);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
-    private ModelNumero data;
+    private ModelUser data;
 
-    public void setData(ModelNumero data) {
+    public void setData(ModelUser data) {
         this.data = data;
-        lbItemName.setText(data.getNumero());
+        lbItemName.setText(data.getItemName());
     }
 
     @Override
@@ -60,7 +60,7 @@ public class Numero extends javax.swing.JPanel {
         lbItemName.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
         lbItemName.setForeground(new java.awt.Color(76, 76, 76));
         lbItemName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbItemName.setText("0");
+        lbItemName.setText("User Name");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -68,14 +68,14 @@ public class Numero extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbItemName, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
+                .addComponent(lbItemName, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbItemName, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                .addComponent(lbItemName, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents

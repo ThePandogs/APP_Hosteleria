@@ -26,15 +26,17 @@ public class ControllerBBDD {
     private String queryAnadirSala = "insert into salas values (null,?)";
     private String queryConsultarProductos = "select * from productos;";
     private String queryComprobarPasswordUsuario = "SELECT * FROM usuarios WHERE usuario = ? AND pin = ?";
-
+    private String queryConsultarMesas = "select id_mesa,posicionX,posicionY,tamanoX,tamanoY,imagen from mesas;";
+    private String queryConsultarSalas = "select id_sala,nombre from salas;";
     //PREPAREDSTATEMENT
     private PreparedStatement preGetUsuarios;
     private PreparedStatement preConsultarProductos;
     private PreparedStatement preAnadirSala;
     private PreparedStatement preComprobarPasswordUsuario;
+    private PreparedStatement preConsultarMesas;
+    private PreparedStatement preConsultarSalas;
     // <editor-fold defaultstate="collapsed" desc="GettersAndSetters">   
     // </editor-fold>
-
     //CONEXION
     ConexionBBDD bbdd;
 
@@ -48,13 +50,30 @@ public class ControllerBBDD {
         }
     }
 
+    /**
+     * Carga los PreparedStatements necesarios para realizar consultas y
+     * modificaciones en la base de datos.
+     *
+     * @throws SQLException Si ocurre un error al crear alguno de los
+     * PreparedStatements.
+     */
     private void cargarPreparedStatements() throws SQLException {
         preGetUsuarios = bbdd.getCon().prepareStatement(queryGetUsuarios, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         preAnadirSala = bbdd.getCon().prepareStatement(queryAnadirSala);
         preConsultarProductos = bbdd.getCon().prepareStatement(queryConsultarProductos);
         preComprobarPasswordUsuario = bbdd.getCon().prepareStatement(queryComprobarPasswordUsuario);
+        preConsultarMesas = bbdd.getCon().prepareStatement(queryConsultarMesas);
+        preConsultarSalas = bbdd.getCon().prepareStatement(queryConsultarSalas);
     }
 
+    /**
+     *
+     * Devuelve un objeto ResultSet que contiene los usuarios almacenados en la
+     * base de datos.
+     *
+     * @return objeto ResultSet que contiene los usuarios almacenados en la base
+     * de datos.
+     */
     public ResultSet cargarUsuarios() {
 
         try {
@@ -66,6 +85,37 @@ public class ControllerBBDD {
 
     }
 
+    public ResultSet cargarSalas() {
+
+        try {
+            return preConsultarSalas.executeQuery();
+        } catch (SQLException ex) {
+            logExcepcion.anadirExcepcionLog(ex);
+            return null;
+        }
+
+    }
+
+    public ResultSet cargarMesas() {
+
+        try {
+            return preConsultarMesas.executeQuery();
+        } catch (SQLException ex) {
+            logExcepcion.anadirExcepcionLog(ex);
+            return null;
+        }
+
+    }
+
+    /**
+     *
+     * Comprueba si una contraseña coincide con un usuario en la base de datos.
+     *
+     * @param usuario El nombre de usuario a comprobar.
+     * @param contraseña La contraseña a comprobar.
+     * @return true si la contraseña coincide con el usuario, false en caso
+     * contrario.
+     */
     public boolean comprobarPasswordUsuario(String usuario, String contraseña) {
 
         try {

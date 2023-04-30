@@ -16,36 +16,38 @@ public class Sala {
     int id;
     String nombre;
 
-    Local local;
     List<Mesa> mesas;
-    List<Mesa> decoraciones;
 
-    public Sala(int id, String nombre, Local local) {
+    public Sala(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
-        this.local = local;
         mesas = new ArrayList();
-        decoraciones = new ArrayList();
 
     }
 
-    public void anadirMesa(int idMesa, int posicionX, int posicionY, boolean disponible, String imagenURL) {
-        Mesa mesa = new Mesa(idMesa, posicionX, posicionY, disponible);
-        mesas.add(mesa);
-        mesa.asociarImagen(imagenURL);
-        mesa.cambiarTamano(id, id);
-
+    public int getId() {
+        return id;
     }
 
-    public void eliminarMesa(Mesa mesa) {
-
-        mesas.remove(mesa);
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void cambiarPosicionMesa(Mesa mesa, int x, int y) {
-
-        mesa.cambiarPosicion(x, y);
-
+    public String getNombre() {
+        return nombre;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public List<Mesa> getMesas() {
+        return mesas;
+    }
+
+    public void setMesas(List<Mesa> mesas) {
+        this.mesas = mesas;
+    }
+
+    
 }

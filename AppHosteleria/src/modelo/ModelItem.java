@@ -1,4 +1,4 @@
-package Swing.model;
+package modelo;
 
 import javax.swing.Icon;
 

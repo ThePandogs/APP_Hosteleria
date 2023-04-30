@@ -8,6 +8,13 @@ import ConexionBBDD.ControllerBBDD;
 import Swing.form.Login;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import Swing.form.Local;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import javax.swing.JFrame;
+
 /**
  *
  * @author ThePandogs
@@ -15,7 +22,10 @@ import java.awt.Color;
 public class Interfaz extends javax.swing.JFrame {
 
     private Login loginForm;
+    private Local localForm;
+
     ControllerBBDD controllerBBDD;
+    private Point initialClick;
 
     public Interfaz() {
         initComponents();
@@ -24,13 +34,48 @@ public class Interfaz extends javax.swing.JFrame {
 
         init();
 
+        header.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                initialClick = e.getPoint();
+            }
+
+        });
+        header.addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if (getExtendedState() != JFrame.MAXIMIZED_BOTH) {
+                    int thisX = getLocation().x;
+                    int thisY = getLocation().y;
+
+                    // Determine how much the mouse moved since the initial click
+                    int xMoved = (thisX + e.getX()) - (thisX + initialClick.x);
+                    int yMoved = (thisY + e.getY()) - (thisY + initialClick.y);
+
+                    // Move the window to this position
+                    int X = thisX + xMoved;
+                    int Y = thisY + yMoved;
+                    setLocation(X, Y);
+                }
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+            }
+        });
+
     }
 
     private void init() {
         loginForm = new Login(controllerBBDD);
+        localForm = new Local(controllerBBDD);
+
         winButton2.initEvent(this, background1);
         mainPanel1.setLayout(new BorderLayout());
-        mainPanel1.add(loginForm);
+        mainPanel1.add(loginForm); mainPanel1.add(localForm);
+       
+       
 
     }
 
@@ -51,7 +96,7 @@ public class Interfaz extends javax.swing.JFrame {
         mainPanel1 = new Swing.MainPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(620, 620));
+        setMinimumSize(new java.awt.Dimension(1150, 647));
         setName("APP_Hosteleria"); // NOI18N
         setUndecorated(true);
 
@@ -65,7 +110,7 @@ public class Interfaz extends javax.swing.JFrame {
         headerLayout.setHorizontalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
-                .addContainerGap(1065, Short.MAX_VALUE)
+                .addContainerGap(1078, Short.MAX_VALUE)
                 .addComponent(winButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
@@ -84,7 +129,7 @@ public class Interfaz extends javax.swing.JFrame {
         );
         mainPanel1Layout.setVerticalGroup(
             mainPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 608, Short.MAX_VALUE)
+            .addGap(0, 611, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
@@ -95,7 +140,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(mainPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, 1125, Short.MAX_VALUE))
+                    .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, 1138, Short.MAX_VALUE))
                 .addContainerGap())
         );
         background1Layout.setVerticalGroup(

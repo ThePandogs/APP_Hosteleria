@@ -16,6 +16,13 @@ public class Button extends JButton {
         setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
+    public Button(String texto) {
+        setBorder(new EmptyBorder(10, 10, 10, 10));
+        setContentAreaFilled(false);
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
+        setText(texto);
+    }
+
     @Override
     protected void paintComponent(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs.create();

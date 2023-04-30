@@ -4,7 +4,7 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[620, 620]"/>
+      <Dimension value="[1150, 647]"/>
     </Property>
     <Property name="name" type="java.lang.String" value="APP_Hosteleria" noResource="true"/>
     <Property name="undecorated" type="boolean" value="true"/>
@@ -50,7 +50,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="mainPanel1" max="32767" attributes="0"/>
-                      <Component id="header" pref="1125" max="32767" attributes="0"/>
+                      <Component id="header" pref="1138" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -83,7 +83,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="1065" max="32767" attributes="0"/>
+                      <EmptySpace pref="1078" max="32767" attributes="0"/>
                       <Component id="winButton2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   </Group>
@@ -115,7 +115,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="608" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="611" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>

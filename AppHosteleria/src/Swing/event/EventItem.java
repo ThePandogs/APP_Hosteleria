@@ -1,6 +1,6 @@
 package Swing.event;
 
-import Swing.model.ModelItem;
+import modelo.ModelItem;
 import java.awt.Component;
 
 public interface EventItem {

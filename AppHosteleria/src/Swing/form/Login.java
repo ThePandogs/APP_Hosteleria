@@ -2,10 +2,10 @@ package Swing.form;
 
 import ConexionBBDD.ControllerBBDD;
 import Swing.ScrollBar;
-import Swing.component.Numero;
-import Swing.component.User;
-import Swing.model.ModelNumero;
-import Swing.model.ModelUser;
+import Swing.component.NumeroComponent;
+import Swing.component.UserComponent;
+import modelo.ModelNumero;
+import modelo.ModelUser;
 import iu.Interfaz;
 import java.awt.Component;
 import java.awt.Point;
@@ -34,14 +34,25 @@ public class Login extends javax.swing.JPanel {
         cargarUsuarios();
     }
 
+    /**
+     *
+     * Añade un usuario al panel de usuarios y le asocia un MouseListener para
+     * activar la interacción con el usuario cuando se hace clic con el botón
+     * izquierdo del ratón sobre él. También actualiza el nombre del usuario en
+     * la interfaz y habilita el campo de contraseña para introducir la clave de
+     * acceso.
+     *
+     * @param data objeto ModelUser que contiene la información del usuario a
+     * añadir
+     */
     public void addUser(ModelUser data) {
-        User user = new User();
+        UserComponent user = new UserComponent();
         user.setData(data);
         user.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent me) {
                 if (SwingUtilities.isLeftMouseButton(me)) {
-                  
+
                     setSelected(user);
                     nombre.setText(data.getItemName());
                     if (!campoPassword.isEditable()) {
@@ -57,6 +68,12 @@ public class Login extends javax.swing.JPanel {
         panelUsuarios.revalidate();
     }
 
+    /**
+     * Carga los usuarios desde la base de datos y los añade al panel de
+     * usuarios.
+     *
+     * @throws SQLException si ocurre un error al acceder a la base de datos
+     */
     private void cargarUsuarios() {
 
         try {
@@ -64,8 +81,8 @@ public class Login extends javax.swing.JPanel {
 
             while (consulta.next()) {
                 for (int i = 0; i < 15; i++) {
-                addUser(new ModelUser(1, consulta.getString(2)));
-                 }
+                    addUser(new ModelUser(1, consulta.getString(2)));
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
@@ -73,6 +90,14 @@ public class Login extends javax.swing.JPanel {
 
     }
 
+    /**
+     *
+     * Carga los componentes del teclado numérico en la interfaz de usuario.
+     *
+     * Incluye los números del 1 al 9, el botón de borrar (C), el número 0
+     *
+     * y la flecha izquierda como botón de retroceso.
+     */
     private void cargarTecladoNumerico() {
 
         for (int i = 1; i < 10; i++) {
@@ -85,8 +110,14 @@ public class Login extends javax.swing.JPanel {
         addNumero(new ModelNumero(Character.toString(flechaIzquierda)));
     }
 
-    public void addNumero(ModelNumero data) {
-        Numero numero = new Numero();
+    /**
+     *
+     * Añade un botón numérico al teclado numérico.
+     *
+     * @param data los datos que se muestran en el botón numérico.
+     */
+    private void addNumero(ModelNumero data) {
+        NumeroComponent numero = new NumeroComponent();
         numero.setData(data);
         numero.addMouseListener(new MouseAdapter() {
             @Override
@@ -105,6 +136,22 @@ public class Login extends javax.swing.JPanel {
         tecladoNumerico.revalidate();
     }
 
+    /**
+     *
+     * Maneja la interacción del teclado numérico en la aplicación.
+     *
+     * Si el valor de "data" es "C", se borra el contenido del campo de
+     * contraseña.
+     *
+     * Si el valor de "data" es "←" caracter (\u2190), se elimina el último
+     * caracter ingresado en el campo de contraseña.
+     *
+     * Si el valor de "data" es un dígito, se agrega ese dígito al final del
+     * campo de contraseña.
+     *
+     * @param data objeto de tipo ModelNumero que representa la información del
+     * botón de teclado numérico presionado
+     */
     private void interaccionTecladoNumerico(ModelNumero data) {
         //LimpiarPanel
         if (data.getNumero().equals("C")) {
@@ -130,18 +177,33 @@ public class Login extends javax.swing.JPanel {
         }
     }
 
-    public void setSelected(Component user) {
+    /**
+     *
+     * Selecciona un componente de usuario y deselecciona los demás componentes
+     * de usuario en el panel de usuarios. También limpia el campo de contraseña
+     * y establece el foco en el campo de contraseña.
+     *
+     * @param user el componente de usuario a seleccionar
+     */
+    private void setSelected(Component user) {
         for (Component com : panelUsuarios.getComponents()) {
-            User i = (User) com;
+            UserComponent i = (UserComponent) com;
             if (i.isSelected()) {
                 i.setSelected(false);
             }
         }
-        ((User) user).setSelected(true);
+        ((UserComponent) user).setSelected(true);
         campoPassword.setText("");
         campoPassword.requestFocus();
     }
 
+    /**
+     * Devuelve la posición actual del panel en relación a la posición de la
+     * vista del JScrollPane.
+     *
+     * @return la ubicación del panel en un objeto Point
+     *
+     */
     public Point getPanelItemLocation() {
         Point p = scroll.getLocation();
         return new Point(p.x, p.y - scroll.getViewport().getViewPosition().y);
@@ -218,7 +280,7 @@ public class Login extends javax.swing.JPanel {
             panelNumericoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelNumericoLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(inicioSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inicioSesion, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
