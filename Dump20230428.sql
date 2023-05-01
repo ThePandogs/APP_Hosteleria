@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
 -- Host: localhost    Database: hosteleria
 -- ------------------------------------------------------
--- Server version	8.0.31
+-- Server version	8.0.21
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -192,6 +192,7 @@ CREATE TABLE `mesas` (
   `posicionY` int unsigned NOT NULL,
   `tamanoX` int unsigned NOT NULL,
   `tamanoY` int unsigned NOT NULL,
+  `disponible` tinyint(1) NOT NULL,
   `imagen` int unsigned DEFAULT NULL,
   `sala` int unsigned NOT NULL,
   PRIMARY KEY (`id_mesa`),
@@ -199,7 +200,7 @@ CREATE TABLE `mesas` (
   KEY `fk_imagen` (`imagen`),
   CONSTRAINT `mesas_ibfk_1` FOREIGN KEY (`sala`) REFERENCES `salas` (`id_sala`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `mesas_ibfk_2` FOREIGN KEY (`imagen`) REFERENCES `imagenes` (`id_imagen`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -208,7 +209,7 @@ CREATE TABLE `mesas` (
 
 LOCK TABLES `mesas` WRITE;
 /*!40000 ALTER TABLE `mesas` DISABLE KEYS */;
-INSERT INTO `mesas` VALUES (1,50,50,200,200,NULL,1),(2,50,50,200,200,NULL,1);
+INSERT INTO `mesas` VALUES (1,50,50,100,100,0,NULL,1),(2,200,150,200,100,0,NULL,1),(3,50,200,100,100,1,NULL,1);
 /*!40000 ALTER TABLE `mesas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -309,10 +310,10 @@ DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE `usuarios` (
   `id_usuario` int unsigned NOT NULL AUTO_INCREMENT,
   `empleado` int unsigned NOT NULL,
-  `usuario` varchar(20) DEFAULT NULL,
-  `contraseña` varchar(12) NOT NULL,
+  `usuario` varchar(20) NOT NULL,
+  `pin` varchar(12) NOT NULL,
   PRIMARY KEY (`id_usuario`),
-  UNIQUE KEY `usuario_UNIQUE` (`usuario`,`contraseña`)
+  UNIQUE KEY `usuario_UNIQUE` (`usuario`,`pin`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -322,7 +323,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,1,'Matias','matias'),(2,3,'Lucas','lucas'),(3,5,'Ruben','ruben'),(4,7,'Carlos','fraile'),(5,4,'Andrea','andrea'),(6,7,'Ana','ana');
+INSERT INTO `usuarios` VALUES (1,1,'Matias','1234'),(2,3,'Lucas','1234'),(3,5,'Ruben','1234'),(4,7,'Carlos','1234'),(5,4,'Andrea','1234'),(6,7,'Ana','1234');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -335,4 +336,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-28 12:46:11
+-- Dump completed on 2023-05-01 22:28:38
