@@ -3,10 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/modelo/Sala.java</file>
             <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/Swing/form/Local.java</file>
+            <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/Swing/component/MesaComponent.java</file>
             <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/iu/Interfaz.java</file>
-            <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/Swing/component/Mesa.java</file>
+            <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/Swing/component/SalaComponent.java</file>
+            <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/Log/Exception.txt</file>
             <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/modelo/Mesa.java</file>
+            <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/Swing/form/Login.java</file>
+            <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/ConexionBBDD/ControllerBBDD.java</file>
         </group>
     </open-files>
 </project-private>
