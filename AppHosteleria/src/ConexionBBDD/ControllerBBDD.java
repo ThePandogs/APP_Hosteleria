@@ -8,8 +8,6 @@ import Log.LogExcepcion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -28,7 +26,9 @@ public class ControllerBBDD {
     private String queryConsultarMesas = "select id_mesa,posicionX,posicionY,tamanoX,tamanoY,imagen from mesas;";
     private String queryConsultarMesasPorSala = "select id_mesa,posicionX,posicionY,tamanoX,tamanoY,imagen from mesas where sala='?';";
     private String queryConsultarSalas = "select id_sala,nombre from salas;";
+    private String queryConsultarEstablecimientos = "select id_establecimiento,nombre,direccion,cif,prefijo_telefono,telefono from establecimientos;";
     //PREPAREDSTATEMENT
+    private PreparedStatement preconsultarEstablecimientos;
     private PreparedStatement preGetUsuarios;
     private PreparedStatement preConsultarProductos;
     private PreparedStatement preAnadirSala;
@@ -36,6 +36,7 @@ public class ControllerBBDD {
     private PreparedStatement preConsultarMesas;
     private PreparedStatement preConsultarSalas;
     private PreparedStatement consultarMesasPorSala;
+
     // <editor-fold defaultstate="collapsed" desc="GettersAndSetters">   
     // </editor-fold>
     //CONEXION
@@ -59,13 +60,14 @@ public class ControllerBBDD {
      * PreparedStatements.
      */
     private void cargarPreparedStatements() throws SQLException {
-        preGetUsuarios = bbdd.getCon().prepareStatement(queryGetUsuarios, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        preGetUsuarios = bbdd.getCon().prepareStatement(queryGetUsuarios);
         preAnadirSala = bbdd.getCon().prepareStatement(queryAnadirSala);
         preConsultarProductos = bbdd.getCon().prepareStatement(queryConsultarProductos);
         preComprobarPasswordUsuario = bbdd.getCon().prepareStatement(queryComprobarPasswordUsuario);
         preConsultarMesas = bbdd.getCon().prepareStatement(queryConsultarMesas);
         preConsultarSalas = bbdd.getCon().prepareStatement(queryConsultarSalas);
         consultarMesasPorSala = bbdd.getCon().prepareStatement(queryConsultarMesasPorSala);
+        preconsultarEstablecimientos = bbdd.getCon().prepareStatement(queryConsultarEstablecimientos);
     }
 
     /**
@@ -85,6 +87,16 @@ public class ControllerBBDD {
             return null;
         }
 
+    }
+
+    public ResultSet consultarEstablecimientos() {
+
+        try {
+            return preconsultarEstablecimientos.executeQuery();
+        } catch (SQLException ex) {
+            logExcepcion.anadirExcepcionLog(ex);
+            return null;
+        }
     }
 
     public ResultSet consultarSalas() {
@@ -113,8 +125,10 @@ public class ControllerBBDD {
         try {
             return preConsultarMesas.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(ControllerBBDD.class.getName()).log(Level.SEVERE, null, ex);
+            logExcepcion.anadirExcepcionLog(ex);
+            return null;
         }
+
     }
 
     /**

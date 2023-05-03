@@ -8,3 +8,8 @@ Fecha:  2023-05-02
 Hora:   12:32:01
 Motivo: No suitable driver found for jdbc:mysql://localhost/hosteleria
 
+Excepción: class java.sql.SQLException
+Fecha:  2023-05-03
+Hora:   10:19:50
+Motivo: No suitable driver found for jdbc:mysql://localhost/hosteleria
+

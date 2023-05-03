@@ -13,12 +13,12 @@ public class Mesa {
 
     public Mesa(int idMesa, int posicionX, int posicionY, int width, int height, boolean disponible) {
         this.idMesa = idMesa;
-        cuenta = new Cuenta();
         this.x = posicionX;
         this.y = posicionY;
         this.width = width;
         this.height = height;
         this.disponible = disponible;
+        cuenta = new Cuenta();
     }
 
 // <editor-fold defaultstate="collapsed" desc="Getter_Setter">
