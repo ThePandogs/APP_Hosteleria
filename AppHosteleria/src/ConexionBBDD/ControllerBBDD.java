@@ -18,13 +18,14 @@ public class ControllerBBDD {
     private LogExcepcion logExcepcion = new LogExcepcion();
 
     //QUERYS
-    private String queryGetUsuarios = "select id_usuario,usuario from usuarios;";
+    private String queryGetUsuarios = "select id_usuario,usuario,rol from usuarios;";
 
     private String queryAnadirSala = "insert into salas values (null,?)";
     private String queryConsultarProductos = "select * from productos;";
-    private String queryComprobarPasswordUsuario = "SELECT * FROM usuarios WHERE usuario = ? AND pin = ?";
-    private String queryConsultarMesas = "select id_mesa,posicionX,posicionY,tamanoX,tamanoY,imagen from mesas;";
-    private String queryConsultarMesasPorSala = "select id_mesa,posicionX,posicionY,tamanoX,tamanoY,imagen from mesas where sala='?';";
+    private String queryComprobarPasswordUsuario = "SELECT * FROM usuarios WHERE usuario = ? AND pin = ?;";
+    private String queryConsultarMesas = "select id_mesa,posicionX,posicionY,tamanoX,tamanoY,disponible from mesas;";
+    private String queryConsultarMesasPorSala = "select id_mesa,posicionX,posicionY,tamanoX,tamanoY,disponible from mesas where sala=?;";
+
     private String queryConsultarSalas = "select id_sala,nombre from salas;";
     private String queryConsultarEstablecimientos = "select id_establecimiento,nombre,direccion,cif,prefijo_telefono,telefono from establecimientos;";
     //PREPAREDSTATEMENT
@@ -119,6 +120,17 @@ public class ControllerBBDD {
             return null;
         }
 
+    }
+
+    public ResultSet consultarMesasPorSala(int id_sala) {
+
+        try {
+            consultarMesasPorSala.setInt(1, id_sala);
+            return consultarMesasPorSala.executeQuery();
+        } catch (SQLException ex) {
+            logExcepcion.anadirExcepcionLog(ex);
+            return null;
+        }
     }
 
     public ResultSet cargarMesas(int sala) {

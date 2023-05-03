@@ -20,6 +20,8 @@ public class Mesa {
         this.disponible = disponible;
         cuenta = new Cuenta();
     }
+    
+
 
 // <editor-fold defaultstate="collapsed" desc="Getter_Setter">
     public int getIdMesa() {

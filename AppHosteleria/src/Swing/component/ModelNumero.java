@@ -1,4 +1,4 @@
-package modelo;
+package Swing.component;
 
 public class ModelNumero {
 

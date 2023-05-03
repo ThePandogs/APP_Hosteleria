@@ -2,7 +2,6 @@ package Swing.component;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -40,7 +39,7 @@ public class MesaComponent extends javax.swing.JPanel {
             @Override
             public void mouseReleased(MouseEvent e) {
                 resizing = false;
-                setCursor(Cursor.getDefaultCursor());
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
             }
         });
 
@@ -63,7 +62,7 @@ public class MesaComponent extends javax.swing.JPanel {
                 if (isOnResizeMargin(e.getPoint())) {
                     setCursor(getCursorForPoint(e.getPoint()));
                 } else {
-                    setCursor(Cursor.getDefaultCursor());
+                    setCursor(new Cursor(Cursor.HAND_CURSOR));
                 }
             }
         });

@@ -1,8 +1,20 @@
 package modelo;
 
+public class Usuario {
 
+    private int itemID;
+    private String itemName;
+    private String rol;
 
-public class ModelUser {
+    public Usuario(int itemID, String itemName, String rol) {
+        this.itemID = itemID;
+        this.itemName = itemName;
+        this.rol = rol;
+
+    }
+
+    public Usuario() {
+    }
 
     public int getItemID() {
         return itemID;
@@ -19,17 +31,4 @@ public class ModelUser {
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
-
-    public ModelUser(int itemID, String itemName) {
-        this.itemID = itemID;
-        this.itemName = itemName;
-
-    }
-
-    public ModelUser() {
-    }
-
-    private int itemID;
-    private String itemName;
-
 }

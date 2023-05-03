@@ -1,30 +1,27 @@
 package Swing.form;
 
-import ConexionBBDD.ControllerBBDD;
 import Swing.ScrollBar;
 import Swing.component.NumeroComponent;
 import Swing.component.UserComponent;
-import modelo.ModelNumero;
-import modelo.ModelUser;
+import Swing.component.ModelNumero;
+import modelo.Usuario;
 import iu.Interfaz;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JPanel;
+import java.util.Iterator;
 import javax.swing.SwingUtilities;
+import modelo.Gestion;
 
 public class LoginForm extends javax.swing.JPanel {
 
-    ControllerBBDD controllerBBDD;
+    Gestion gestion;
     Interfaz interfaz;
 
-    public LoginForm(ControllerBBDD controllerBBDD, Interfaz interfaz) {
-        this.controllerBBDD = controllerBBDD;
+    public LoginForm(Gestion gestion, Interfaz interfaz) {
+        this.gestion = gestion;
         this.interfaz = interfaz;
         initComponents();
         scroll.setVerticalScrollBar(new ScrollBar());
@@ -45,10 +42,10 @@ public class LoginForm extends javax.swing.JPanel {
      * la interfaz y habilita el campo de contraseña para introducir la clave de
      * acceso.
      *
-     * @param data objeto ModelUser que contiene la información del usuario a
+     * @param data objeto Usuario que contiene la información del usuario a
      * añadir
      */
-    public void addUser(ModelUser data) {
+    public void addUser(Usuario data) {
         UserComponent user = new UserComponent();
         user.setData(data);
         user.addMouseListener(new MouseAdapter() {
@@ -72,25 +69,20 @@ public class LoginForm extends javax.swing.JPanel {
     }
 
     /**
-     * Carga los usuarios desde la base de datos y los añade al panel de
-     * usuarios.
+     * Carga los usuarios desde el array de usuarios almacenados en gestion y
+     * los añade al panel de usuarios.
      *
      * @throws SQLException si ocurre un error al acceder a la base de datos
      */
     private void cargarUsuarios() {
 
-        try {
-            ResultSet consulta = controllerBBDD.cargarUsuarios();
+        Iterator<Usuario> usuarios = gestion.getUsuarios().iterator();
 
-            while (consulta.next()) {
-                for (int i = 0; i < 15; i++) {
-                    addUser(new ModelUser(1, consulta.getString(2)));
-                }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+        while (usuarios.hasNext()) {
+            //  for (int i = 0; i < 15; i++) {
+            addUser(usuarios.next());
+            //    }
         }
-
     }
 
     /**
@@ -321,8 +313,8 @@ public class LoginForm extends javax.swing.JPanel {
     private void botonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLoginActionPerformed
         if (!campoPassword.isEditable()) {
             advertencia.setText("* Elige un Usuario!");
-        } else if (controllerBBDD.comprobarPasswordUsuario(nombre.getText(), new String(campoPassword.getPassword()))) {
-               interfaz.cambiarFormulario(interfaz.getLocalForm());
+        } else if (gestion.comprobarUsuario(nombre.getText(), new String(campoPassword.getPassword()))) {
+            interfaz.cambiarFormulario(interfaz.getLocalForm());
         } else {
 
             advertencia.setText("* PIN incorrecto!");

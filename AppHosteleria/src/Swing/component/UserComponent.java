@@ -1,6 +1,6 @@
 package Swing.component;
 
-import modelo.ModelUser;
+import modelo.Usuario;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
@@ -9,7 +9,7 @@ import java.awt.RenderingHints;
 
 public class UserComponent extends javax.swing.JPanel {
 
-    public ModelUser getData() {
+    public Usuario getData() {
         return data;
     }
 
@@ -30,9 +30,9 @@ public class UserComponent extends javax.swing.JPanel {
         setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
-    private ModelUser data;
+    private Usuario data;
 
-    public void setData(ModelUser data) {
+    public void setData(Usuario data) {
         this.data = data;
         lbItemName.setText(data.getItemName());
     }

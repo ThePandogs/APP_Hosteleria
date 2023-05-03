@@ -1,10 +1,14 @@
 package Swing.component;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.RenderingHints;
+import javax.swing.GroupLayout;
 import modelo.Sala;
 
 public class SalaComponent extends javax.swing.JPanel {
@@ -19,15 +23,16 @@ public class SalaComponent extends javax.swing.JPanel {
     public SalaComponent() {
         initComponents();
         setOpaque(false);
-        setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+       setLayout(null);
     }
 
-    public SalaComponent(Color color) {
-        initComponents();
-        setOpaque(false);
-        setCursor(new Cursor(Cursor.HAND_CURSOR));
-        this.color = color;
-    }
+//    public SalaComponent(Color color) {
+//        initComponents();
+//        setOpaque(false);
+//
+//        this.color = color;
+//    }
 
     public void setColor(Color color) {
         this.color = color;

@@ -15,33 +15,35 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import modelo.Gestion;
 
 /**
  *
  * @author ThePandogs
  */
 public class Interfaz extends javax.swing.JFrame {
-
+    
+    private Gestion gestion;
     private LoginForm loginForm;
     private LocalForm localForm;
-
-    ControllerBBDD controllerBBDD;
+    
     private Point initialClick;
-
+    
     public Interfaz() {
         initComponents();
-        controllerBBDD = new ControllerBBDD();
+        
+        gestion = new Gestion();
         setBackground(new Color(0, 0, 0, 0));
-
+        
         init();
-
+        
         header.addMouseListener(new MouseAdapter() {
-
+            
             @Override
             public void mousePressed(MouseEvent e) {
                 initialClick = e.getPoint();
             }
-
+            
         });
         header.addMouseMotionListener(new MouseMotionListener() {
             @Override
@@ -53,42 +55,42 @@ public class Interfaz extends javax.swing.JFrame {
                     //determina lo que se mueve el raton despues del primer click
                     int xMoved = (thisX + e.getX()) - (thisX + initialClick.x);
                     int yMoved = (thisY + e.getY()) - (thisY + initialClick.y);
-
+                    
                     setLocation(thisX + xMoved, thisY + yMoved);
                 }
             }
-
+            
             @Override
             public void mouseMoved(MouseEvent e) {
             }
         });
-
+        
     }
-
+    
     private void init() {
-        loginForm = new LoginForm(controllerBBDD, this);
-        localForm = new LocalForm(controllerBBDD, this);
-
+        loginForm = new LoginForm(gestion, this);
+        localForm = new LocalForm(gestion, this, gestion.getLocales().get(0));
+        
         winButton2.initEvent(this, background1);
         mainPanel1.setLayout(new BorderLayout());
         mainPanel1.add(loginForm);
-
+        
     }
-
+    
     public void cambiarFormulario(JPanel nuevoFormulario) {
-
+        
         mainPanel1.removeAll();
         mainPanel1.add(nuevoFormulario);
         revalidate();
-
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="GETTERS_SETTERS">
     public LoginForm getLoginForm() {
-
+        
         return loginForm;
     }
-
+    
     public LocalForm getLocalForm() {
         return localForm;
     }
@@ -192,21 +194,21 @@ public class Interfaz extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-
+                    
                 }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(Interfaz.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(Interfaz.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            
         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(Interfaz.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Interfaz.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
