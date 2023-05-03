@@ -15,14 +15,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-public class Login extends javax.swing.JPanel {
+public class LoginForm extends javax.swing.JPanel {
 
     ControllerBBDD controllerBBDD;
+    Interfaz interfaz;
 
-    public Login(ControllerBBDD controllerBBDD) {
+    public LoginForm(ControllerBBDD controllerBBDD, Interfaz interfaz) {
         this.controllerBBDD = controllerBBDD;
+        this.interfaz = interfaz;
         initComponents();
         scroll.setVerticalScrollBar(new ScrollBar());
         init();
@@ -319,8 +322,9 @@ public class Login extends javax.swing.JPanel {
         if (!campoPassword.isEditable()) {
             advertencia.setText("* Elige un Usuario!");
         } else if (controllerBBDD.comprobarPasswordUsuario(nombre.getText(), new String(campoPassword.getPassword()))) {
-            advertencia.setText("Correcto!");
+               interfaz.cambiarFormulario(interfaz.getLocalForm());
         } else {
+
             advertencia.setText("* PIN incorrecto!");
             campoPassword.setText("");
             campoPassword.requestFocus();

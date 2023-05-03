@@ -1,7 +1,6 @@
 package Swing.form;
 
 import ConexionBBDD.ControllerBBDD;
-import Swing.PanelRedondeado;
 import Swing.component.MesaComponent;
 import Swing.component.SalaComponent;
 import Swing.component.UserComponent;
@@ -16,16 +15,21 @@ import java.sql.SQLException;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import modelo.Local;
 import modelo.Mesa;
 import modelo.Sala;
 
-public class Local extends javax.swing.JPanel {
+public class LocalForm extends javax.swing.JPanel {
 
     ControllerBBDD controllerBBDD;
+    Interfaz interfaz;
+    Local local;
 
-    public Local(ControllerBBDD controllerBBDD) {
+    public LocalForm(ControllerBBDD controllerBBDD, Interfaz interfaz) {
         this.controllerBBDD = controllerBBDD;
+        this.interfaz = interfaz;
         initComponents();
 
         init();
@@ -40,7 +44,7 @@ public class Local extends javax.swing.JPanel {
     public void cargarSalas() {
 
         try {
-            ResultSet consulta = controllerBBDD.cargarSalas();
+            ResultSet consulta = controllerBBDD.consultarSalas();
 
             while (consulta.next()) {
 
@@ -56,7 +60,7 @@ public class Local extends javax.swing.JPanel {
     public void cargarMesas() {
 
         try {
-            ResultSet consulta = controllerBBDD.cargarMesas();
+            ResultSet consulta = controllerBBDD.consultarMesas();
 
             while (consulta.next()) {
 
@@ -66,6 +70,13 @@ public class Local extends javax.swing.JPanel {
         } catch (SQLException ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+    }
+
+    private void cambiarSala(JPanel nuevaSala) {
+
+        salas.removeAll();
+        salas.add(nuevaSala);
 
     }
 
@@ -144,7 +155,7 @@ public class Local extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(salas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(

@@ -20,29 +20,27 @@ public class Local {
     String direccion;
 
     List<Sala> salas;
-    List<Camarero> Camareros;
-    List<GrupoProducto> GruposProductos;
+    List<Camarero> camareros;
+    List<GrupoProducto> gruposProductos;
 
-    ControllerBBDD conexionBBDD;
-    Interfaz interfaz;
+    public Local(String nombre, String cif, String direccion) {
 
-    public Local(Interfaz interfaz) {
-        this.salas = new ArrayList();
-        this.Camareros = new ArrayList();
-        this.interfaz = interfaz;
-        
-    }
-
-    public void anadirSala(String nombre, int ancho, int alto) {
+        salas = new ArrayList();
+        camareros = new ArrayList();
+        gruposProductos = new ArrayList();
 
     }
 
-    public void borrar(Sala sala) {
+    public void anadirSala(Sala sala) {
+        salas.add(sala);
+    }
+
+    public void borrarSala(Sala sala) {
         salas.remove(sala);
     }
 
-    public void cargarProductos() {
-
+    public void anadirGrupoProducto(GrupoProducto grupo) {
+        gruposProductos.add(grupo);
     }
 
     public void cierreCaja() {

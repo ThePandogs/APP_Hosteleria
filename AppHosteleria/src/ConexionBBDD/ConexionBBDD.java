@@ -7,7 +7,6 @@ package ConexionBBDD;
 import Log.LogExcepcion;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -76,39 +75,6 @@ public class ConexionBBDD {
 
     }
 
-    /**
-     * A partir de una Query realiza la consulta a la BBDD.
-     *
-     * @param query a realizar.
-     * @return Retorna los datos resultantes, si retorna null, sifnifica que
-     * arrojo la excepcion "SQLException".
-     */
-    public ResultSet consulta(String query) {
-        try {
-
-            return stmt.executeQuery(query);
-
-        } catch (SQLException ex) {
-            logExcepcion.anadirExcepcionLog(ex);
-        }
-        return null;
-
-    }
-
-    /**
-     * A partir de una instruccion realiza la modificacion en * la BBDD.
-     *
-     * @param instruccion para realizar.
-     * @return la cantidad de tuplas afectadas por la instruccion. Si retorna
-     * "-1", sifnifica que arrojo la excepcion "SQLException".
-     */
-    public int modificacion(String instruccion) {
-        try {
-            return stmt.executeUpdate(instruccion);
-        } catch (SQLException ex) {
-            logExcepcion.anadirExcepcionLog(ex);
-        }
-        return -1;
-    }
+   
 
 }
