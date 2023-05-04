@@ -100,6 +100,7 @@ public class CuentaForm extends javax.swing.JPanel {
 
         PADRE = new Swing.PanelRedondeado();
         header = new Swing.PanelRedondeado();
+        mesa = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaProductos = new javax.swing.JTable();
         panelRedondeado1 = new Swing.PanelRedondeado();
@@ -111,15 +112,20 @@ public class CuentaForm extends javax.swing.JPanel {
         PADRE.setBackground(new java.awt.Color(51, 255, 153));
         PADRE.setOpaque(true);
 
+        mesa.setText("Mesa:");
+
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
         header.setLayout(headerLayout);
         headerLayout.setHorizontalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(headerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(mesa, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(893, Short.MAX_VALUE))
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 31, Short.MAX_VALUE)
+            .addComponent(mesa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
         );
 
         jScrollPane3.setBorder(null);
@@ -153,7 +159,7 @@ public class CuentaForm extends javax.swing.JPanel {
         panelRedondeado1.setLayout(panelRedondeado1Layout);
         panelRedondeado1Layout.setHorizontalGroup(
             panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 579, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         panelRedondeado1Layout.setVerticalGroup(
             panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -232,6 +238,7 @@ public class CuentaForm extends javax.swing.JPanel {
     private Swing.PanelRedondeado PADRE;
     private Swing.PanelRedondeado header;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextField mesa;
     private Swing.PanelRedondeado panelRedondeado1;
     private Swing.PanelRedondeado panelRedondeado2;
     private Swing.PanelRedondeado panelRedondeado3;
