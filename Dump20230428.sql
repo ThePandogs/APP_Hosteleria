@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `hosteleria` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `hosteleria`;
 -- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
 -- Host: localhost    Database: hosteleria
@@ -157,6 +159,30 @@ INSERT INTO `establecimientos` VALUES (1,'Celme Galego','Valadares, Carr. do Por
 UNLOCK TABLES;
 
 --
+-- Table structure for table `grupos_productos`
+--
+
+DROP TABLE IF EXISTS `grupos_productos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `grupos_productos` (
+  `id_grupo` int unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id_grupo`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `grupos_productos`
+--
+
+LOCK TABLES `grupos_productos` WRITE;
+/*!40000 ALTER TABLE `grupos_productos` DISABLE KEYS */;
+INSERT INTO `grupos_productos` VALUES (1,'Bebidas'),(2,'Entrantes'),(3,'Carnes'),(4,'Pescado'),(5,'Postre');
+/*!40000 ALTER TABLE `grupos_productos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `imagenes`
 --
 
@@ -209,7 +235,7 @@ CREATE TABLE `mesas` (
 
 LOCK TABLES `mesas` WRITE;
 /*!40000 ALTER TABLE `mesas` DISABLE KEYS */;
-INSERT INTO `mesas` VALUES (1,50,50,100,100,0,NULL,1),(2,200,150,200,100,0,NULL,1),(3,50,200,100,100,1,NULL,1);
+INSERT INTO `mesas` VALUES (1,50,65,100,100,0,NULL,1),(2,200,150,200,100,0,NULL,1),(3,50,200,100,100,1,NULL,1);
 /*!40000 ALTER TABLE `mesas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -256,11 +282,12 @@ CREATE TABLE `productos` (
   `disponible` tinyint(1) NOT NULL,
   `imagen` int unsigned DEFAULT NULL,
   `stock` int NOT NULL DEFAULT '0',
-  `tipo_producto` enum('bebida','comida') NOT NULL,
+  `grupo` int unsigned NOT NULL,
   PRIMARY KEY (`id_producto`),
   KEY `fk_imagen` (`imagen`),
+  KEY `fk_grupo_producto` (`grupo`),
   CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`imagen`) REFERENCES `imagenes` (`id_imagen`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -269,7 +296,7 @@ CREATE TABLE `productos` (
 
 LOCK TABLES `productos` WRITE;
 /*!40000 ALTER TABLE `productos` DISABLE KEYS */;
-INSERT INTO `productos` VALUES (1,'Cocacola',2.3,1,NULL,0,'bebida'),(2,'Kas Naranja',2.1,1,NULL,0,'bebida'),(3,'Langostinos',14.5,1,NULL,0,'comida'),(4,'Calamares',9.5,1,NULL,0,'comida'),(5,'Pulpo Pequeña',12.5,1,NULL,0,'comida'),(6,'Pulpo Mediana',15.5,1,NULL,0,'comida'),(7,'Pulpo Grande',19.5,1,NULL,0,'comida');
+INSERT INTO `productos` VALUES (1,'Cocacola',2.3,1,NULL,0,1),(2,'Kas Naranja',2.1,1,NULL,0,1),(3,'Langostinos',14.5,1,NULL,0,2),(4,'Calamares',9.5,1,NULL,0,2),(5,'Pulpo Pequeña',12.5,1,NULL,0,2),(6,'Pulpo Mediana',15.5,1,NULL,0,2),(7,'Pulpo Grande',19.5,1,NULL,0,2),(8,'Hamburguesa Buey',11.5,1,NULL,0,3),(9,'Dorada al horno',9.5,1,NULL,0,4),(10,'Flan',4.5,1,NULL,0,5);
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -312,6 +339,7 @@ CREATE TABLE `usuarios` (
   `empleado` int unsigned NOT NULL,
   `usuario` varchar(20) NOT NULL,
   `pin` varchar(12) NOT NULL,
+  `rol` enum('admin','normal') DEFAULT 'normal',
   PRIMARY KEY (`id_usuario`),
   UNIQUE KEY `usuario_UNIQUE` (`usuario`,`pin`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -323,7 +351,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,1,'Matias','1234'),(2,3,'Lucas','1234'),(3,5,'Ruben','1234'),(4,7,'Carlos','1234'),(5,4,'Andrea','1234'),(6,7,'Ana','1234');
+INSERT INTO `usuarios` VALUES (1,1,'Matias','1234','normal'),(2,3,'Lucas','1234','normal'),(3,5,'Ruben','1234','normal'),(4,7,'Carlos','1234','admin'),(5,4,'Andrea','1234','normal'),(6,7,'Ana','1234','normal');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -336,4 +364,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-01 22:28:38
+-- Dump completed on 2023-05-04 22:04:38
