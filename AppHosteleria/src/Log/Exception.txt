@@ -1,0 +1,10 @@
+Excepción: class java.sql.SQLException
+Fecha:  2023-05-04
+Hora:   17:24:15
+Motivo: No suitable driver found for jdbc:mysql://localhost/hosteleria
+
+Excepción: class java.sql.SQLException
+Fecha:  2023-05-04
+Hora:   17:59:45
+Motivo: No suitable driver found for jdbc:mysql://localhost/hosteleria
+

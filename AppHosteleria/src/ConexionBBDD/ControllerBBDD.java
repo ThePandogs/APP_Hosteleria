@@ -19,24 +19,24 @@ public class ControllerBBDD {
 
     //QUERYS
     private String queryGetUsuarios = "select id_usuario,usuario,rol from usuarios;";
-
-    private String queryAnadirSala = "insert into salas values (null,?)";
-    private String queryConsultarProductos = "select * from productos;";
+    private String queryConsultarProductos = "select id_producto,nombre,precio,disponible,imagen,tipo_producto from productos;";
     private String queryComprobarPasswordUsuario = "SELECT * FROM usuarios WHERE usuario = ? AND pin = ?;";
     private String queryConsultarMesas = "select id_mesa,posicionX,posicionY,tamanoX,tamanoY,disponible from mesas;";
     private String queryConsultarMesasPorSala = "select id_mesa,posicionX,posicionY,tamanoX,tamanoY,disponible from mesas where sala=?;";
-
+    private String queryConsultarProductosPorGrupo = "select id_producto,nombre,precio,disponible,imagen from productos where grupo=?;";
     private String queryConsultarSalas = "select id_sala,nombre from salas;";
     private String queryConsultarEstablecimientos = "select id_establecimiento,nombre,direccion,cif,prefijo_telefono,telefono from establecimientos;";
+    private String queryConsultarGruposProductos = "select id_grupo,nombre from grupos_productos;";
     //PREPAREDSTATEMENT
     private PreparedStatement preconsultarEstablecimientos;
     private PreparedStatement preGetUsuarios;
     private PreparedStatement preConsultarProductos;
-    private PreparedStatement preAnadirSala;
     private PreparedStatement preComprobarPasswordUsuario;
     private PreparedStatement preConsultarMesas;
     private PreparedStatement preConsultarSalas;
     private PreparedStatement consultarMesasPorSala;
+    private PreparedStatement preConsultarProductosPorGrupo;
+    private PreparedStatement preConsultarGruposProductos;
 
     // <editor-fold defaultstate="collapsed" desc="GettersAndSetters">   
     // </editor-fold>
@@ -62,13 +62,15 @@ public class ControllerBBDD {
      */
     private void cargarPreparedStatements() throws SQLException {
         preGetUsuarios = bbdd.getCon().prepareStatement(queryGetUsuarios);
-        preAnadirSala = bbdd.getCon().prepareStatement(queryAnadirSala);
+
         preConsultarProductos = bbdd.getCon().prepareStatement(queryConsultarProductos);
         preComprobarPasswordUsuario = bbdd.getCon().prepareStatement(queryComprobarPasswordUsuario);
         preConsultarMesas = bbdd.getCon().prepareStatement(queryConsultarMesas);
         preConsultarSalas = bbdd.getCon().prepareStatement(queryConsultarSalas);
         consultarMesasPorSala = bbdd.getCon().prepareStatement(queryConsultarMesasPorSala);
         preconsultarEstablecimientos = bbdd.getCon().prepareStatement(queryConsultarEstablecimientos);
+        preConsultarProductosPorGrupo = bbdd.getCon().prepareStatement(queryConsultarProductosPorGrupo);
+        preConsultarGruposProductos = bbdd.getCon().prepareStatement(queryConsultarGruposProductos);
     }
 
     /**
@@ -111,6 +113,17 @@ public class ControllerBBDD {
 
     }
 
+    public ResultSet consultarGruposProductos() {
+
+        try {
+            return preConsultarGruposProductos.executeQuery();
+        } catch (SQLException ex) {
+            logExcepcion.anadirExcepcionLog(ex);
+            return null;
+        }
+
+    }
+
     public ResultSet consultarMesas() {
 
         try {
@@ -120,6 +133,17 @@ public class ControllerBBDD {
             return null;
         }
 
+    }
+
+    public ResultSet consultarProductosPorGrupo(int id_sala) {
+
+        try {
+            preConsultarProductosPorGrupo.setInt(1, id_sala);
+            return preConsultarProductosPorGrupo.executeQuery();
+        } catch (SQLException ex) {
+            logExcepcion.anadirExcepcionLog(ex);
+            return null;
+        }
     }
 
     public ResultSet consultarMesasPorSala(int id_sala) {
@@ -136,6 +160,16 @@ public class ControllerBBDD {
     public ResultSet cargarMesas(int sala) {
         try {
             return preConsultarMesas.executeQuery();
+        } catch (SQLException ex) {
+            logExcepcion.anadirExcepcionLog(ex);
+            return null;
+        }
+
+    }
+
+    public ResultSet cargarProductos() {
+        try {
+            return preConsultarProductos.executeQuery();
         } catch (SQLException ex) {
             logExcepcion.anadirExcepcionLog(ex);
             return null;

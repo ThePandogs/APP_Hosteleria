@@ -51,15 +51,46 @@ public class Gestion {
 
     }
 
+    private void cargarGruposProductos(Local local) throws SQLException {
+
+        ResultSet consulta = controllerBBDD.consultarGruposProductos();
+
+        while (consulta.next()) {
+            GrupoProducto nuevoGrupo = new GrupoProducto(consulta.getInt("id_grupo"),
+                    consulta.getString("nombre"));
+            local.getGruposProductos().add(nuevoGrupo);
+            cargarProductos(nuevoGrupo);
+        }
+
+    }
+
+    /*carga los productos, si consulta es null retorna false*/
+    private boolean cargarProductos(GrupoProducto grupoProducto) throws SQLException {
+        int id_grupo = grupoProducto.getId();
+        ResultSet consulta = controllerBBDD.consultarProductosPorGrupo(id_grupo);
+        if (consulta != null) {
+            while (consulta.next()) {
+                grupoProducto.getProductos().add(new Producto(consulta.getInt("id_producto"),
+                        consulta.getString("nombre"),
+                        consulta.getDouble("precio"),
+                        consulta.getBoolean("disponible"),
+                        consulta.getString("imagen")));
+
+            }
+            return true;
+        }
+        return false;
+    }
+
     private void cargarTodo() throws SQLException {
 
         cargarLocales();
         if (!locales.isEmpty()) {
-            Iterator<Local> localesITe = locales.iterator();
-            while (localesITe.hasNext()) {
-
-                cargarSalas(localesITe.next());
-
+            Iterator<Local> localesIte = locales.iterator();
+            while (localesIte.hasNext()) {
+                Local local = localesIte.next();
+                cargarSalas(local);
+                cargarGruposProductos(local);
             }
         }
 

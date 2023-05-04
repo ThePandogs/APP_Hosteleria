@@ -42,6 +42,7 @@ public class SalaComponent extends javax.swing.JPanel {
         this.data = data;
 
     }
+    
 
     @Override
     public void paint(Graphics grphcs) {

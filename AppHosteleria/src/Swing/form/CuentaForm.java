@@ -1,97 +1,117 @@
 package Swing.form;
 
-import Swing.component.MesaComponent;
+import Swing.component.ProductoComponent;
 import Swing.component.SalaComponent;
-import Swing.component.UserComponent;
-import iu.Interfaz;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
-import static javax.swing.GroupLayout.DEFAULT_SIZE;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import modelo.Gestion;
+import modelo.GrupoProducto;
 import modelo.Local;
 import modelo.Mesa;
-import modelo.Sala;
+import modelo.Producto;
 import swing.Button;
 
 public class CuentaForm extends javax.swing.JPanel {
 
     Gestion gestion;
     Local local;
+    ArrayList<ProductoComponent> gruposProductos;
 
-    public CuentaForm(Gestion gestion) {
-
+    public CuentaForm(Gestion gestion, Local local) {
+        this.local = local;
+        gruposProductos = new ArrayList();
         initComponents();
         init();
     }
 
     private void init() {
         this.setVisible(false);
-
+        cargarTodosProductos();
+        if (!gruposProductos.isEmpty()) {
+            panelProductos.add(gruposProductos.get(0));
+        }
     }
 
     public void setData(Mesa data) {
 
     }
 
-    private void cargarProductos(Local local) {
-        Iterator<Sala> locales = local.getSalas().iterator();
-        while (locales.hasNext()) {
-            addSala(locales.next());
+    private void cargarTodosProductos() {
+        cargarGrupoProductos(local);
+        Iterator<ProductoComponent> gruposIte = gruposProductos.iterator();
+        while (gruposIte.hasNext()) {
+            cargarProductos(gruposIte.next());
+        }
+
+    }
+
+    private void cargarGrupoProductos(Local local) {
+        Iterator<GrupoProducto> grupoProductos = local.getGruposProductos().iterator();
+        while (grupoProductos.hasNext()) {
+            addGrupo(grupoProductos.next());
         }
     }
 
-    private void cambiarSala(SalaComponent nuevaSala) {
-
+    private void cambiarSala(ProductoComponent nuevoProducto) {
+        panelGruposProductos.removeAll();
+        panelGruposProductos.add(nuevoProducto);
+        panelGruposProductos.revalidate(); // actualiza el layout del panel
+        panelGruposProductos.repaint(); // repinta el panel
     }
 
-    private void addSala(Sala data) {
-        SalaComponent sala = new SalaComponent();
-        sala.setColor(new Color(46, 144, 232));
-        sala.setData(data);
+    private void addGrupo(GrupoProducto data) {
+        ProductoComponent grupo = new ProductoComponent();
+        grupo.setData(data);
         Button botonSala = new Button(data.getNombre());
 
         botonSala.addActionListener((ActionEvent e) -> {
-            cambiarSala(sala);
+            cambiarSala(grupo);
         });
-
+        panelGruposProductos.add(botonSala);
+        gruposProductos.add(grupo);
     }
 
-    private void cargarMesas(SalaComponent sala) {
+    private void cargarProductos(ProductoComponent producto) {
 
-        Iterator<Mesa> mesas = sala.getData().getMesas().iterator();
-        while (mesas.hasNext()) {
-            addMesa(mesas.next(), sala);
+        Iterator<Producto> grupoProductos = producto.getdataGrupoProducto().getProductos().iterator();
+        while (grupoProductos.hasNext()) {
+            addProducto(grupoProductos.next(), producto);
         }
     }
 
-    private void addMesa(Mesa data, SalaComponent sala) {
-        MesaComponent mesa = new MesaComponent();
-        mesa.setData(data);
-        mesa.addMouseListener(new MouseAdapter() {
+    private void addProducto(Producto data, ProductoComponent grupoProducto) {
+        SalaComponent producto = new SalaComponent();
+        producto.setData(data);
+        producto.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent me) {
                 if (SwingUtilities.isLeftMouseButton(me)) {
 
-                    abrirMesa(data);
-
+                    // anadirProducto(data);
                 }
             }
         });
 
-        sala.add(mesa);
+        grupoProducto.add(producto);
 
-        sala.repaint();
-        sala.revalidate();
+        grupoProducto.repaint();
+        grupoProducto.revalidate();
     }
 
-    private void abrirMesa(Mesa data) {
+    private void redimensionar(String url, JLabel label) {
+
+        Image image = new ImageIcon(url).getImage();
+        // Image newImage = image.getScaledInstance(boton.getWidth(), boton.getHeight(), java.awt.Image.SCALE_SMOOTH); // Redimensiona la imagen
+        Image newImage = image.getScaledInstance((int) label.getPreferredSize().getWidth(), (int) label.getPreferredSize().getHeight(), java.awt.Image.SCALE_SMOOTH); // Redimensiona la imagen
+        ImageIcon newIcon = new ImageIcon(newImage);
+        label.setIcon(newIcon);
     }
 
     @SuppressWarnings("unchecked")
@@ -103,16 +123,17 @@ public class CuentaForm extends javax.swing.JPanel {
         mesa = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaProductos = new javax.swing.JTable();
-        panelRedondeado1 = new Swing.PanelRedondeado();
-        panelRedondeado2 = new Swing.PanelRedondeado();
-        panelRedondeado3 = new Swing.PanelRedondeado();
+        panelProductos = new Swing.PanelRedondeado();
+        panelGruposProductos = new Swing.PanelRedondeado();
 
         setOpaque(false);
 
         PADRE.setBackground(new java.awt.Color(51, 255, 153));
         PADRE.setOpaque(true);
 
+        mesa.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         mesa.setText("Mesa:");
+        mesa.setBorder(null);
 
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
         header.setLayout(headerLayout);
@@ -120,12 +141,12 @@ public class CuentaForm extends javax.swing.JPanel {
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mesa, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(893, Short.MAX_VALUE))
+                .addComponent(mesa, javax.swing.GroupLayout.PREFERRED_SIZE, 751, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(191, Short.MAX_VALUE))
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mesa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+            .addComponent(mesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jScrollPane3.setBorder(null);
@@ -155,39 +176,6 @@ public class CuentaForm extends javax.swing.JPanel {
         });
         jScrollPane3.setViewportView(tablaProductos);
 
-        javax.swing.GroupLayout panelRedondeado1Layout = new javax.swing.GroupLayout(panelRedondeado1);
-        panelRedondeado1.setLayout(panelRedondeado1Layout);
-        panelRedondeado1Layout.setHorizontalGroup(
-            panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        panelRedondeado1Layout.setVerticalGroup(
-            panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout panelRedondeado2Layout = new javax.swing.GroupLayout(panelRedondeado2);
-        panelRedondeado2.setLayout(panelRedondeado2Layout);
-        panelRedondeado2Layout.setHorizontalGroup(
-            panelRedondeado2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        panelRedondeado2Layout.setVerticalGroup(
-            panelRedondeado2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 155, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout panelRedondeado3Layout = new javax.swing.GroupLayout(panelRedondeado3);
-        panelRedondeado3.setLayout(panelRedondeado3Layout);
-        panelRedondeado3Layout.setHorizontalGroup(
-            panelRedondeado3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        panelRedondeado3Layout.setVerticalGroup(
-            panelRedondeado3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
         javax.swing.GroupLayout PADRELayout = new javax.swing.GroupLayout(PADRE);
         PADRE.setLayout(PADRELayout);
         PADRELayout.setHorizontalGroup(
@@ -195,16 +183,17 @@ public class CuentaForm extends javax.swing.JPanel {
             .addGroup(PADRELayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PADRELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(PADRELayout.createSequentialGroup()
-                        .addGroup(PADRELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(panelRedondeado2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(PADRELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(panelRedondeado1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelRedondeado3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
+                            .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(PADRELayout.createSequentialGroup()
+                                .addComponent(panelGruposProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(477, 477, 477)))
+                        .addContainerGap())
+                    .addGroup(PADRELayout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)
+                        .addComponent(panelProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         PADRELayout.setVerticalGroup(
             PADRELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -212,13 +201,11 @@ public class CuentaForm extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PADRELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
-                    .addComponent(panelRedondeado1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(PADRELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PADRELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelRedondeado2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelRedondeado3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(panelGruposProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -239,9 +226,8 @@ public class CuentaForm extends javax.swing.JPanel {
     private Swing.PanelRedondeado header;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField mesa;
-    private Swing.PanelRedondeado panelRedondeado1;
-    private Swing.PanelRedondeado panelRedondeado2;
-    private Swing.PanelRedondeado panelRedondeado3;
+    private Swing.PanelRedondeado panelGruposProductos;
+    private Swing.PanelRedondeado panelProductos;
     private javax.swing.JTable tablaProductos;
     // End of variables declaration//GEN-END:variables
 }
