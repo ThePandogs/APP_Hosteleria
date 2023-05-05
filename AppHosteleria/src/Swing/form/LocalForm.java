@@ -1,7 +1,7 @@
 package Swing.form;
 
 import Swing.component.MesaComponent;
-import Swing.component.SalaComponent;
+import Swing.component.ComponentsContainer;
 import Swing.component.UserComponent;
 import iu.Interfaz;
 import java.awt.Color;
@@ -24,7 +24,7 @@ public class LocalForm extends javax.swing.JPanel {
     Gestion gestion;
     CuentaForm cuentaForm;
     Local local;
-    ArrayList<SalaComponent> salas;
+    ArrayList<ComponentsContainer> salas;
     Interfaz interfaz;
 
     public LocalForm(Gestion gestion, Interfaz interfaz, Local local) {
@@ -52,7 +52,7 @@ public class LocalForm extends javax.swing.JPanel {
 
     private void cargarEstablecimiento() {
         cargarSalas(local);
-        Iterator<SalaComponent> salasIte = salas.iterator();
+        Iterator<ComponentsContainer> salasIte = salas.iterator();
         while (salasIte.hasNext()) {
             cargarMesas(salasIte.next());
         }
@@ -66,7 +66,7 @@ public class LocalForm extends javax.swing.JPanel {
         }
     }
 
-    private void cambiarSala(SalaComponent nuevaSala) {
+    private void cambiarSala(ComponentsContainer nuevaSala) {
 
         panelSala.removeAll();
         panelSala.add(nuevaSala);
@@ -75,7 +75,7 @@ public class LocalForm extends javax.swing.JPanel {
     }
 
     private void addSala(Sala data) {
-        SalaComponent sala = new SalaComponent();
+        ComponentsContainer sala = new ComponentsContainer();
         sala.setColor(new Color(46, 144, 232));
         sala.setData(data);
         Button botonSala = new Button(data.getNombre());
@@ -89,15 +89,15 @@ public class LocalForm extends javax.swing.JPanel {
 
     }
 
-    private void cargarMesas(SalaComponent sala) {
+    private void cargarMesas(ComponentsContainer sala) {
 
-        Iterator<Mesa> mesas = sala.getData().getMesas().iterator();
+        Iterator<Mesa> mesas = sala.getDataSala().getMesas().iterator();
         while (mesas.hasNext()) {
             addMesa(mesas.next(), sala);
         }
     }
 
-    private void addMesa(Mesa data, SalaComponent sala) {
+    private void addMesa(Mesa data, ComponentsContainer sala) {
         MesaComponent mesa = new MesaComponent();
         mesa.setData(data);
         mesa.addMouseListener(new MouseAdapter() {

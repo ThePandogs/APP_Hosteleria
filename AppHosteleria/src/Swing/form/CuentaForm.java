@@ -1,7 +1,9 @@
 package Swing.form;
 
 import Swing.component.ProductoComponent;
-import Swing.component.SalaComponent;
+import Swing.component.ComponentsContainer;
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -22,7 +24,7 @@ public class CuentaForm extends javax.swing.JPanel {
 
     Gestion gestion;
     Local local;
-    ArrayList<ProductoComponent> gruposProductos;
+    ArrayList<ComponentsContainer> gruposProductos;
 
     public CuentaForm(Gestion gestion, Local local) {
         this.local = local;
@@ -39,13 +41,9 @@ public class CuentaForm extends javax.swing.JPanel {
         }
     }
 
-    public void setData(Mesa data) {
-
-    }
-
     private void cargarTodosProductos() {
         cargarGrupoProductos(local);
-        Iterator<ProductoComponent> gruposIte = gruposProductos.iterator();
+        Iterator<ComponentsContainer> gruposIte = gruposProductos.iterator();
         while (gruposIte.hasNext()) {
             cargarProductos(gruposIte.next());
         }
@@ -59,16 +57,17 @@ public class CuentaForm extends javax.swing.JPanel {
         }
     }
 
-    private void cambiarSala(ProductoComponent nuevoProducto) {
-        panelGruposProductos.removeAll();
-        panelGruposProductos.add(nuevoProducto);
-        panelGruposProductos.revalidate(); // actualiza el layout del panel
-        panelGruposProductos.repaint(); // repinta el panel
+    private void cambiarSala(ComponentsContainer nuevoGrupo) {
+        panelProductos.removeAll();
+        panelProductos.add(nuevoGrupo);
+        panelProductos.revalidate(); // actualiza el layout del panel
+        panelProductos.repaint(); // repinta el panel
     }
 
     private void addGrupo(GrupoProducto data) {
-        ProductoComponent grupo = new ProductoComponent();
+        ComponentsContainer grupo = new ComponentsContainer(Color.white, new FlowLayout(FlowLayout.LEFT));
         grupo.setData(data);
+
         Button botonSala = new Button(data.getNombre());
 
         botonSala.addActionListener((ActionEvent e) -> {
@@ -78,16 +77,16 @@ public class CuentaForm extends javax.swing.JPanel {
         gruposProductos.add(grupo);
     }
 
-    private void cargarProductos(ProductoComponent producto) {
+    private void cargarProductos(ComponentsContainer grupoProducto) {
 
-        Iterator<Producto> grupoProductos = producto.getdataGrupoProducto().getProductos().iterator();
+        Iterator<Producto> grupoProductos = grupoProducto.getDataGrupo().getProductos().iterator();
         while (grupoProductos.hasNext()) {
-            addProducto(grupoProductos.next(), producto);
+            addProducto(grupoProductos.next(), grupoProducto);
         }
     }
 
-    private void addProducto(Producto data, ProductoComponent grupoProducto) {
-        SalaComponent producto = new SalaComponent();
+    private void addProducto(Producto data, ComponentsContainer grupoProducto) {
+        ProductoComponent producto = new ProductoComponent();
         producto.setData(data);
         producto.addMouseListener(new MouseAdapter() {
             @Override
@@ -100,9 +99,12 @@ public class CuentaForm extends javax.swing.JPanel {
         });
 
         grupoProducto.add(producto);
-
         grupoProducto.repaint();
         grupoProducto.revalidate();
+    }
+
+    public void setData(Mesa data) {
+
     }
 
     private void redimensionar(String url, JLabel label) {
@@ -142,7 +144,7 @@ public class CuentaForm extends javax.swing.JPanel {
             .addGroup(headerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(mesa, javax.swing.GroupLayout.PREFERRED_SIZE, 751, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(191, Short.MAX_VALUE))
+                .addContainerGap(200, Short.MAX_VALUE))
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,6 +178,8 @@ public class CuentaForm extends javax.swing.JPanel {
         });
         jScrollPane3.setViewportView(tablaProductos);
 
+        panelProductos.setLayout(new java.awt.GridLayout());
+
         javax.swing.GroupLayout PADRELayout = new javax.swing.GroupLayout(PADRE);
         PADRE.setLayout(PADRELayout);
         PADRELayout.setHorizontalGroup(
@@ -183,17 +187,14 @@ public class CuentaForm extends javax.swing.JPanel {
             .addGroup(PADRELayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PADRELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PADRELayout.createSequentialGroup()
-                        .addGroup(PADRELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(PADRELayout.createSequentialGroup()
-                                .addComponent(panelGruposProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(477, 477, 477)))
-                        .addContainerGap())
+                    .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(PADRELayout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)
-                        .addComponent(panelProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(18, 18, 18)
+                        .addGroup(PADRELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(panelProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panelGruposProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         PADRELayout.setVerticalGroup(
             PADRELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,12 +202,13 @@ public class CuentaForm extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PADRELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelGruposProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(PADRELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PADRELayout.createSequentialGroup()
+                        .addComponent(panelProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panelGruposProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE))
+                .addGap(69, 69, 69))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

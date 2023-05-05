@@ -1,48 +1,67 @@
 package Swing.component;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.RenderingHints;
-import javax.swing.GroupLayout;
+import modelo.GrupoProducto;
 import modelo.Sala;
 
-public class SalaComponent extends javax.swing.JPanel {
+public class ComponentsContainer extends javax.swing.JPanel {
 
     private Color color;
-    private Sala data;
+    private Sala dataSala;
+    private GrupoProducto dataGrupoProducto;
 
-    public Sala getData() {
-        return data;
+    public ComponentsContainer() {
+        init();
+        setOpaque(false);
+        setLayout(null);
+
     }
 
-    public SalaComponent() {
+    public ComponentsContainer(Color color, LayoutManager layaot) {
+        init();
+
+        this.color = color;
+        setLayout(layaot);
+
+    }
+
+    private void init() {
         initComponents();
         setOpaque(false);
-        
-       setLayout(null);
+
     }
 
-//    public SalaComponent(Color color) {
+//    public ComponentsContainer(Color color) {
 //        initComponents();
 //        setOpaque(false);
 //
 //        this.color = color;
 //    }
-
     public void setColor(Color color) {
         this.color = color;
     }
 
     public void setData(Sala data) {
-        this.data = data;
+        this.dataSala = data;
 
     }
-    
+
+    public Sala getDataSala() {
+        return dataSala;
+    }
+
+    public GrupoProducto getDataGrupo() {
+        return dataGrupoProducto;
+    }
+
+    public void setData(GrupoProducto data) {
+        this.dataGrupoProducto = data;
+
+    }
 
     @Override
     public void paint(Graphics grphcs) {
