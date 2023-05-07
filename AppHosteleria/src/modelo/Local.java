@@ -4,14 +4,10 @@
  */
 package modelo;
 
-import ConexionBBDD.ControllerBBDD;
-import iu.Interfaz;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Map;
 
 /**
  *
@@ -27,6 +23,7 @@ public class Local {
     String telefono;
     List<Sala> salas;
     List<Camarero> camareros;
+    Map<Integer, Producto> productos;
     List<GrupoProducto> gruposProductos;
 
     public Local(int id_establecimiento, String nombre, String direccion, String cif, String prefijo_telefono, String telefono) {
@@ -40,6 +37,7 @@ public class Local {
 
         salas = new ArrayList();
         camareros = new ArrayList();
+        productos = new HashMap();
         gruposProductos = new ArrayList();
 
     }
@@ -129,6 +127,10 @@ public class Local {
 
     public void setGruposProductos(List<GrupoProducto> gruposProductos) {
         this.gruposProductos = gruposProductos;
+    }
+
+    public Map<Integer, Producto> getProductos() {
+        return productos;
     }
 
 }

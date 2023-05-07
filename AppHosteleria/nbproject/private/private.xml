@@ -4,9 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/Swing/form/LocalForm.java</file>
-            <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/Swing/component/MesaComponent.java</file>
+            <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/Swing/PanelComponentes.java</file>
+            <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/modelo/Cuenta.java</file>
             <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/Swing/component/ComponentsContainer.java</file>
             <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/Swing/component/ProductoComponent.java</file>
+            <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/Swing/form/CuentaForm.java</file>
         </group>
     </open-files>
 </project-private>

@@ -8,15 +8,15 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 
-public class Button extends JButton {
+public class ButtonRedondeado extends JButton {
 
-    public Button() {
+    public ButtonRedondeado() {
         setBorder(new EmptyBorder(10, 10, 10, 10));
         setContentAreaFilled(false);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
-    public Button(String texto) {
+    public ButtonRedondeado(String texto) {
         setBorder(new EmptyBorder(10, 10, 10, 10));
         setContentAreaFilled(false);
         setCursor(new Cursor(Cursor.HAND_CURSOR));

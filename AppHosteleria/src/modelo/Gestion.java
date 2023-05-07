@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,27 +60,43 @@ public class Gestion {
             GrupoProducto nuevoGrupo = new GrupoProducto(consulta.getInt("id_grupo"),
                     consulta.getString("nombre"));
             local.getGruposProductos().add(nuevoGrupo);
-            cargarProductos(nuevoGrupo);
+            cargarProductosGrupo(nuevoGrupo);
         }
 
     }
 
     /*carga los productos, si consulta es null retorna false*/
-    private boolean cargarProductos(GrupoProducto grupoProducto) throws SQLException {
+    private boolean cargarProductosGrupo(GrupoProducto grupoProducto) throws SQLException {
         int id_grupo = grupoProducto.getId();
         ResultSet consulta = controllerBBDD.consultarProductosPorGrupo(id_grupo);
+
         if (consulta != null) {
             while (consulta.next()) {
-                grupoProducto.getProductos().add(new Producto(consulta.getInt("id_producto"),
+                Producto nuevoProducto = new Producto(consulta.getInt("id_producto"),
                         consulta.getString("nombre"),
                         consulta.getDouble("precio"),
                         consulta.getBoolean("disponible"),
-                        consulta.getString("imagen")));
+                        consulta.getString("imagen"));
+                grupoProducto.getProductos().add(nuevoProducto);
 
             }
             return true;
         }
         return false;
+    }
+
+    private void cargarProductos() throws SQLException {
+
+        ResultSet consulta = controllerBBDD.consultarProductos();
+        while (consulta.next()) {
+            int id_producto = consulta.getInt("id_producto");
+            locales.get(0).getProductos().put(id_producto, new Producto(id_producto,
+                    consulta.getString("nombre"),
+                    consulta.getDouble("precio"),
+                    consulta.getBoolean("disponible"),
+                    consulta.getString("imagen")));
+
+        }
     }
 
     private void cargarTodo() throws SQLException {
@@ -89,8 +106,12 @@ public class Gestion {
             Iterator<Local> localesIte = locales.iterator();
             while (localesIte.hasNext()) {
                 Local local = localesIte.next();
-                cargarSalas(local);
+                cargarCamareros();
+                 cargarProductos();
                 cargarGruposProductos(local);
+                cargarSalas(local);
+               
+
             }
         }
 
@@ -117,20 +138,78 @@ public class Gestion {
 
     }
 
+    private boolean cargarCamareros() throws SQLException {
+
+        ResultSet consulta = controllerBBDD.consultarCamareros();
+        locales.get(0).camareros.add(null);
+        if (consulta != null) {
+            while (consulta.next()) {
+                locales.get(0).camareros.add(new Camarero(consulta.getInt("id_empleado"), consulta.getString("nombre")));
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private void cargarCamareroUsuario(int id_usuario) {
+
+        ResultSet consulta = controllerBBDD.consultarEmpleadoUsuario(id_usuario);
+
+    }
+
+    public boolean cargarCuenta(Mesa mesa) throws SQLException {
+
+        int id_mesa = mesa.getIdMesa();
+        ResultSet consulta = controllerBBDD.consultarCuenta(id_mesa);
+        if (consulta != null) {
+            while (consulta.next()) {
+                Cuenta cuentaNueva = new Cuenta(consulta.getInt("id_cuenta"),
+                        consulta.getTimestamp("fecha_hora").toLocalDateTime(),
+                        locales.get(0).camareros.get(consulta.getInt("camarero")),
+                        consulta.getInt("comensales"),
+                        consulta.getDouble("precio")
+                );
+                mesa.setCuenta(cuentaNueva);
+                cargarPedidos(cuentaNueva);
+            }
+            return true;
+        }
+        return false;
+
+    }
+
+    public void cargarPedidos(Cuenta cuenta) throws SQLException {
+
+        int id_cuenta = cuenta.getIdCuenta();
+        ResultSet consulta = controllerBBDD.consultarPedido(id_cuenta);
+        Map<Producto, Integer> productos = cuenta.getProductos();
+        if (consulta != null) {
+            while (consulta.next()) {
+                System.out.println(locales.get(0).getProductos().get(consulta.getInt("producto")));
+                productos.put(locales.get(0).getProductos().get(consulta.getInt("producto")), consulta.getInt("cantidad"));
+
+            }
+
+        }
+
+    }
+
     /*carga las mesas, si consulta es null retorna false*/
     private boolean cargarMesas(Sala sala) throws SQLException {
         int id_sala = sala.getId();
         ResultSet consulta = controllerBBDD.consultarMesasPorSala(id_sala);
         if (consulta != null) {
             while (consulta.next()) {
-                sala.getMesas().add(new Mesa(consulta.getInt("id_mesa"),
+                Mesa nuevaMesa = new Mesa(consulta.getInt("id_mesa"),
                         consulta.getInt("posicionX"),
                         consulta.getInt("posicionY"),
                         consulta.getInt("tamanoX"),
                         consulta.getInt("tamanoY"),
-                        consulta.getBoolean("disponible")));
-
+                        consulta.getBoolean("disponible"));
+                sala.getMesas().add(nuevaMesa);
+                cargarCuenta(nuevaMesa);
             }
+
             return true;
         }
         return false;

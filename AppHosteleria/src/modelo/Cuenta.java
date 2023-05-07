@@ -6,7 +6,9 @@ package modelo;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -15,41 +17,39 @@ import java.util.List;
 public class Cuenta {
 
     private int idCuenta;
-    private double precio;
-    private String factura;
     private LocalDateTime fechaHora;
-
-    private Local local;
-    private Mesa mesa;
     private Camarero camarero;
-    private List productos;
-    private List nuevosProductos;
+    private int comensales;
+    private double precio;
 
-    public Cuenta(Camarero camarero) {
+    private Map<Producto, Integer> productos;
+    private Map<Producto, Integer> nuevosProductos;
 
-        precio = 0.0;
-        productos = new ArrayList();
+    public Cuenta(int idCuenta, LocalDateTime fechaHora, Camarero camarero, int comensales, double precio) {
+        this.idCuenta = idCuenta;
+        this.fechaHora = fechaHora;
         this.camarero = camarero;
+        this.comensales = comensales;
+        this.precio = precio;
+        this.productos = new HashMap();
+        this.nuevosProductos = new HashMap();
     }
 
     public Cuenta() {
-        precio = 0.0;
-        productos = new ArrayList();
-        this.camarero = null;
     }
-
-    public void anadirNuevosProductos(Producto producto, int cantidad) {
-        for (int i = 0; i < cantidad; i++) {
-            nuevosProductos.add(producto);
-        }
-    }
-
-    public void pedirNuevosProducto() {
-        productos.addAll(nuevosProductos);
-        generarPedido(nuevosProductos);
-        nuevosProductos.clear();
-
-    }
+//
+//    public void anadirNuevosProductos(Producto producto, int cantidad) {
+//        for (int i = 0; i < cantidad; i++) {
+//            nuevosProductos.add(producto);
+//        }
+//    }
+//
+//    public void pedirNuevosProducto() {
+//        productos.addAll(nuevosProductos);
+//        generarPedido(nuevosProductos);
+//        nuevosProductos.clear();
+//
+//    }
 
     public void eliminarProducto(Producto producto) {
 
@@ -73,4 +73,48 @@ public class Cuenta {
 
     public void asociarIdTicket() {
     }
+
+    public void setData(int idCuenta, LocalDateTime fechaHora, Camarero camarero, int comensales, double precio, List productos) {
+
+        this.idCuenta = idCuenta;
+        this.fechaHora = fechaHora;
+        this.camarero = camarero;
+        this.comensales = comensales;
+        this.precio = precio;
+        this.productos = new HashMap();
+
+    }
+
+    public int getIdCuenta() {
+        return idCuenta;
+    }
+
+    public void setProductos(Map productos) {
+        this.productos = productos;
+    }
+
+    public LocalDateTime getFechaHora() {
+        return fechaHora;
+    }
+
+    public Camarero getCamarero() {
+        return camarero;
+    }
+
+    public int getComensales() {
+        return comensales;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public Map<Producto, Integer> getProductos() {
+        return productos;
+    }
+
+    public Map<Producto, Integer> getNuevosProductos() {
+        return nuevosProductos;
+    }
+
 }

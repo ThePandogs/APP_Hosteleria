@@ -1,5 +1,6 @@
 package Swing.form;
 
+import Swing.PanelRedondeado;
 import Swing.component.MesaComponent;
 import Swing.component.ComponentsContainer;
 import Swing.component.UserComponent;
@@ -17,7 +18,7 @@ import modelo.Gestion;
 import modelo.Local;
 import modelo.Mesa;
 import modelo.Sala;
-import swing.Button;
+import swing.ButtonRedondeado;
 
 public class LocalForm extends javax.swing.JPanel {
 
@@ -26,6 +27,7 @@ public class LocalForm extends javax.swing.JPanel {
     Local local;
     ArrayList<ComponentsContainer> salas;
     Interfaz interfaz;
+    Sala salaActual;
 
     public LocalForm(Gestion gestion, Interfaz interfaz, Local local) {
         this.gestion = gestion;
@@ -41,11 +43,11 @@ public class LocalForm extends javax.swing.JPanel {
 
     private void init() {
         cargarEstablecimiento();
-        cuentaForm = new CuentaForm(gestion,local);
+        cuentaForm = new CuentaForm(local, this);
         this.add(cuentaForm, 0);
         panelSala.setColor(new Color(46, 144, 232));
         if (!salas.isEmpty()) {
-            panelSala.add(salas.get(0));
+            cambiarSala(salas.get(0));
         }
 
     }
@@ -67,7 +69,7 @@ public class LocalForm extends javax.swing.JPanel {
     }
 
     private void cambiarSala(ComponentsContainer nuevaSala) {
-
+        salaActual = nuevaSala.getDataSala();
         panelSala.removeAll();
         panelSala.add(nuevaSala);
         panelSala.revalidate(); // actualiza el layout del panel
@@ -78,7 +80,7 @@ public class LocalForm extends javax.swing.JPanel {
         ComponentsContainer sala = new ComponentsContainer();
         sala.setColor(new Color(46, 144, 232));
         sala.setData(data);
-        Button botonSala = new Button(data.getNombre());
+        ButtonRedondeado botonSala = new ButtonRedondeado(data.getNombre());
 
         botonSala.addActionListener((ActionEvent e) -> {
             cambiarSala(sala);
@@ -119,7 +121,15 @@ public class LocalForm extends javax.swing.JPanel {
 
     private void abrirMesa(Mesa data) {
         cuentaForm.setData(data);
+        panelSalas.setVisible(false);
         cuentaForm.setVisible(true);
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void cerrarMesa() {
+        cuentaForm.setVisible(false);
+        panelSalas.setVisible(true);
         this.revalidate();
         this.repaint();
     }
@@ -133,6 +143,10 @@ public class LocalForm extends javax.swing.JPanel {
         }
         ((UserComponent) user).setSelected(true);
 
+    }
+
+    public Sala getSalaActual() {
+        return salaActual;
     }
 
     @SuppressWarnings("unchecked")

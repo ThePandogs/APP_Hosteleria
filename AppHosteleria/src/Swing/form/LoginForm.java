@@ -216,7 +216,7 @@ public class LoginForm extends javax.swing.JPanel {
         advertencia = new javax.swing.JLabel();
         tecladoNumerico = new Swing.PanelComponentes();
         campoPassword = new swing.Password();
-        botonLogin = new swing.Button();
+        botonLogin = new swing.ButtonRedondeado();
 
         setOpaque(false);
 
@@ -325,7 +325,7 @@ public class LoginForm extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel advertencia;
-    private swing.Button botonLogin;
+    private swing.ButtonRedondeado botonLogin;
     private swing.Password campoPassword;
     private javax.swing.JLabel inicioSesion;
     private javax.swing.JLabel nombre;

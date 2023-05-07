@@ -1,10 +1,105 @@
-Excepción: class java.sql.SQLException
-Fecha:  2023-05-04
-Hora:   17:24:15
-Motivo: No suitable driver found for jdbc:mysql://localhost/hosteleria
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:38:23
+Motivo: Unknown column 'id_producto' in 'field list'
 
-Excepción: class java.sql.SQLException
-Fecha:  2023-05-04
-Hora:   17:59:45
-Motivo: No suitable driver found for jdbc:mysql://localhost/hosteleria
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:38:23
+Motivo: Unknown column 'id_producto' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:38:23
+Motivo: Unknown column 'id_producto' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:38:23
+Motivo: Unknown column 'id_producto' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:38:23
+Motivo: Unknown column 'id_producto' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:38:57
+Motivo: Unknown column 'id_producto' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:38:57
+Motivo: Unknown column 'id_producto' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:38:57
+Motivo: Unknown column 'id_producto' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:38:57
+Motivo: Unknown column 'id_producto' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:38:57
+Motivo: Unknown column 'id_producto' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:39:22
+Motivo: Unknown column 'id_producto' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:39:22
+Motivo: Unknown column 'id_producto' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:39:22
+Motivo: Unknown column 'id_producto' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:39:22
+Motivo: Unknown column 'id_producto' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:39:22
+Motivo: Unknown column 'id_producto' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:41:28
+Motivo: Unknown column 'id_producto' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:41:28
+Motivo: Unknown column 'id_producto' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:41:28
+Motivo: Unknown column 'id_producto' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:41:28
+Motivo: Unknown column 'id_producto' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:41:28
+Motivo: Unknown column 'id_producto' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-07
+Hora:   19:41:49
+Motivo: Unknown column 'id_producto' in 'field list'
 
