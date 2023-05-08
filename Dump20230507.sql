@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `hosteleria` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `hosteleria`;
--- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
 -- Host: localhost    Database: hosteleria
 -- ------------------------------------------------------
--- Server version	8.0.21
+-- Server version	8.0.31
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -33,9 +33,9 @@ CREATE TABLE `cuentas` (
   `comensales` int unsigned DEFAULT NULL,
   `precio` double unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_cuenta`),
-  KEY `fk_mesa` (`mesa`),
   KEY `fk_camarero` (`camarero`),
-  CONSTRAINT `cuentas_ibfk_1` FOREIGN KEY (`mesa`) REFERENCES `mesas` (`id_mesa`) ON DELETE CASCADE ON UPDATE CASCADE,
+  KEY `cuentas.ibfk_2_idx` (`mesa`),
+  CONSTRAINT `cuentas.ibfk_2` FOREIGN KEY (`mesa`) REFERENCES `mesas` (`id_mesa`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `cuentas_ibfk_2` FOREIGN KEY (`camarero`) REFERENCES `usuarios` (`id_usuario`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -217,6 +217,7 @@ DROP TABLE IF EXISTS `mesas`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `mesas` (
   `id_mesa` int unsigned NOT NULL AUTO_INCREMENT,
+  `numero` int unsigned NOT NULL,
   `posicionX` int unsigned NOT NULL,
   `posicionY` int unsigned NOT NULL,
   `tamanoX` int unsigned NOT NULL,
@@ -224,12 +225,12 @@ CREATE TABLE `mesas` (
   `disponible` tinyint(1) NOT NULL,
   `imagen` int unsigned DEFAULT NULL,
   `sala` int unsigned NOT NULL,
-  PRIMARY KEY (`id_mesa`,`sala`),
+  PRIMARY KEY (`id_mesa`,`numero`,`sala`),
   KEY `fk_sala` (`sala`),
   KEY `fk_imagen` (`imagen`),
   CONSTRAINT `mesas_ibfk_1` FOREIGN KEY (`sala`) REFERENCES `salas` (`id_sala`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `mesas_ibfk_2` FOREIGN KEY (`imagen`) REFERENCES `imagenes` (`id_imagen`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -238,7 +239,7 @@ CREATE TABLE `mesas` (
 
 LOCK TABLES `mesas` WRITE;
 /*!40000 ALTER TABLE `mesas` DISABLE KEYS */;
-INSERT INTO `mesas` VALUES (1,50,65,100,100,0,NULL,1),(1,50,50,100,150,1,NULL,2),(2,200,150,200,100,0,NULL,1),(2,200,300,100,250,1,NULL,2),(3,50,200,100,100,1,NULL,1);
+INSERT INTO `mesas` VALUES (1,1,50,65,100,100,0,NULL,1),(2,1,50,50,100,150,1,NULL,2),(3,2,200,150,200,100,0,NULL,1),(4,2,200,300,100,250,1,NULL,2),(5,3,50,200,100,100,1,NULL,1);
 /*!40000 ALTER TABLE `mesas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -367,4 +368,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-07 22:51:59
+-- Dump completed on 2023-05-08 14:00:59

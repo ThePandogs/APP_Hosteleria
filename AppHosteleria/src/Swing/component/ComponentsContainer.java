@@ -35,12 +35,7 @@ public class ComponentsContainer extends javax.swing.JPanel {
 
     }
 
-//    public ComponentsContainer(Color color) {
-//        initComponents();
-//        setOpaque(false);
-//
-//        this.color = color;
-//    }
+
     public void setColor(Color color) {
         this.color = color;
     }

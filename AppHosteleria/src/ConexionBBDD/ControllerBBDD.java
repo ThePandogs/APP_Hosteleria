@@ -21,8 +21,8 @@ public class ControllerBBDD {
     private String queryGetUsuarios = "select id_usuario,usuario,rol from usuarios;";
     private String queryConsultarProductos = "select id_producto,nombre,precio,disponible,imagen from productos;";
     private String queryComprobarPasswordUsuario = "SELECT * FROM usuarios WHERE usuario = ? AND pin = ?;";
-    private String queryConsultarMesas = "select id_mesa,posicionX,posicionY,tamanoX,tamanoY,disponible from mesas;";
-    private String queryConsultarMesasPorSala = "select id_mesa,posicionX,posicionY,tamanoX,tamanoY,disponible from mesas where sala=?;";
+    private String queryConsultarMesas = "select id_mesa,numero,posicionX,posicionY,tamanoX,tamanoY,disponible from mesas;";
+    private String queryConsultarMesasPorSala = "select id_mesa,numero,posicionX,posicionY,tamanoX,tamanoY,disponible from mesas where sala=?;";
     private String queryConsultarProductosPorGrupo = "select id_producto,nombre,precio,disponible,imagen from productos where grupo=?;";
     private String queryConsultarSalas = "select id_sala,nombre from salas;";
     private String queryConsultarEstablecimientos = "select id_establecimiento,nombre,direccion,cif,prefijo_telefono,telefono from establecimientos;";

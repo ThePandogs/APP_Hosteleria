@@ -107,10 +107,9 @@ public class Gestion {
             while (localesIte.hasNext()) {
                 Local local = localesIte.next();
                 cargarCamareros();
-                 cargarProductos();
+                cargarProductos();
                 cargarGruposProductos(local);
                 cargarSalas(local);
-               
 
             }
         }
@@ -185,7 +184,7 @@ public class Gestion {
         Map<Producto, Integer> productos = cuenta.getProductos();
         if (consulta != null) {
             while (consulta.next()) {
-                System.out.println(locales.get(0).getProductos().get(consulta.getInt("producto")));
+
                 productos.put(locales.get(0).getProductos().get(consulta.getInt("producto")), consulta.getInt("cantidad"));
 
             }
@@ -201,6 +200,7 @@ public class Gestion {
         if (consulta != null) {
             while (consulta.next()) {
                 Mesa nuevaMesa = new Mesa(consulta.getInt("id_mesa"),
+                        consulta.getInt("numero"),
                         consulta.getInt("posicionX"),
                         consulta.getInt("posicionY"),
                         consulta.getInt("tamanoX"),

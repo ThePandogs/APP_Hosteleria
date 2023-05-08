@@ -200,7 +200,7 @@ public class MesaComponent extends javax.swing.JPanel {
 
     public void setData(Mesa data) {
         this.data = data;
-        numeroMesa.setText(String.valueOf(data.getIdMesa()));
+        numeroMesa.setText(String.valueOf(data.getNumero()));
         setBounds(data.getX(), data.getY(), data.getWidth(), data.getHeight());
 
     }

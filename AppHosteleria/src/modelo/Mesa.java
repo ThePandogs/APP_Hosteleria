@@ -3,6 +3,7 @@ package modelo;
 public class Mesa {
 
     private int idMesa;
+    private int numero;
     private Cuenta cuenta;
     private String imagenURL;
     private boolean disponible;
@@ -11,14 +12,15 @@ public class Mesa {
     private int width;
     private int height;
 
-    public Mesa(int idMesa, int posicionX, int posicionY, int width, int height, boolean disponible) {
+    public Mesa(int idMesa, int numero, int posicionX, int posicionY, int width, int height, boolean disponible) {
         this.idMesa = idMesa;
+        this.numero = numero;
         this.x = posicionX;
         this.y = posicionY;
         this.width = width;
         this.height = height;
         this.disponible = disponible;
-
+        
     }
 
 // <editor-fold defaultstate="collapsed" desc="Getter_Setter">
@@ -81,6 +83,10 @@ public class Mesa {
     public void setHeight(int height) {
         this.height = height;
     }
-// </editor-fold>
 
+    public int getNumero() {
+        return numero;
+    }
+
+// </editor-fold>
 }

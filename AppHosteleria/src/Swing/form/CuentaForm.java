@@ -1,5 +1,6 @@
 package Swing.form;
 
+import Swing.WrapLayout;
 import Swing.component.ProductoComponent;
 import Swing.component.ComponentsContainer;
 import Swing.component.ModelNumero;
@@ -64,7 +65,7 @@ public class CuentaForm extends javax.swing.JPanel {
         }
     }
 
-    private void cambiarSala(ComponentsContainer nuevoGrupo) {
+    private void cambiarGrupoProductos(ComponentsContainer nuevoGrupo) {
         panelProductos.removeAll();
         panelProductos.add(nuevoGrupo);
         panelProductos.revalidate(); // actualiza el layout del panel
@@ -72,7 +73,7 @@ public class CuentaForm extends javax.swing.JPanel {
     }
 
     private void addGrupo(GrupoProducto data) {
-        ComponentsContainer grupo = new ComponentsContainer(Color.white, new FlowLayout(FlowLayout.LEFT));
+        ComponentsContainer grupo = new ComponentsContainer(Color.white, new WrapLayout(WrapLayout.LEFT, 10, 10));
         grupo.setData(data);
 
         ProductoComponent botonSala = new ProductoComponent();
@@ -82,7 +83,7 @@ public class CuentaForm extends javax.swing.JPanel {
             public void mousePressed(MouseEvent me) {
                 if (SwingUtilities.isLeftMouseButton(me)) {
 
-                    cambiarSala(grupo);
+                    cambiarGrupoProductos(grupo);
                 }
             }
         });
@@ -107,7 +108,6 @@ public class CuentaForm extends javax.swing.JPanel {
             public void mousePressed(MouseEvent me) {
                 if (SwingUtilities.isLeftMouseButton(me)) {
 
-                    // anadirProducto(data);
                 }
             }
         });
@@ -162,21 +162,26 @@ public class CuentaForm extends javax.swing.JPanel {
 
     public void setData(Mesa data) {
         mesa = data;
-        cargarInformacionCuenta();
+        if (data.getCuenta() != null) {
+            cargarInformacionCuenta();
+        } else {
+            data.setCuenta(new Cuenta());
+        }
     }
 
     private void cargarInformacionCuenta() {
-       
-        tituloMesa.setText("Mesa: " + mesa.getIdMesa() + " Sala: " + localForm.getSalaActual().getId());
+
+        tituloMesa.setText("Mesa: " + mesa.getNumero() + " Sala: " + localForm.getSalaActual().getId());
         Map<Producto, Integer> mapa = mesa.getCuenta().getProductos();
-        DefaultTableModel modelo = (DefaultTableModel) tablaProductos.getModel();   modelo.setRowCount(0);
+        DefaultTableModel modelo = (DefaultTableModel) tablaProductos.getModel();
+        modelo.setRowCount(0);
         // Recorrer el mapa y agregar las filas a la tabla
         for (Map.Entry<Producto, Integer> entry : mapa.entrySet()) {
             Producto producto = entry.getKey();
             Integer cantidad = entry.getValue();
             Object[] fila = {producto.getNombre(), producto.getPrecio(), cantidad};
             modelo.addRow(fila);
-         
+
         }
 
     }
