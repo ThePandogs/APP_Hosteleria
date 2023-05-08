@@ -188,9 +188,7 @@ public class Gestion {
                 productos.put(locales.get(0).getProductos().get(consulta.getInt("producto")), consulta.getInt("cantidad"));
 
             }
-
         }
-
     }
 
     /*carga las mesas, si consulta es null retorna false*/

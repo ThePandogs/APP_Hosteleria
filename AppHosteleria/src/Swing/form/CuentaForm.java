@@ -10,6 +10,7 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import static java.awt.image.ImageObserver.WIDTH;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -30,6 +31,7 @@ public class CuentaForm extends javax.swing.JPanel {
     LocalForm localForm;
     Cuenta cuenta;
     Mesa mesa;
+    DefaultTableModel modelo;
 
     public CuentaForm(Local local, LocalForm localForm) {
         this.local = local;
@@ -37,6 +39,7 @@ public class CuentaForm extends javax.swing.JPanel {
         gruposProductos = new ArrayList();
         initComponents();
         init();
+
     }
 
     private void init() {
@@ -46,6 +49,7 @@ public class CuentaForm extends javax.swing.JPanel {
         if (!gruposProductos.isEmpty()) {
             panelProductos.add(gruposProductos.get(1));
         }
+        modelo = (DefaultTableModel) tablaProductos.getModel();
 
     }
 
@@ -107,7 +111,31 @@ public class CuentaForm extends javax.swing.JPanel {
             @Override
             public void mousePressed(MouseEvent me) {
                 if (SwingUtilities.isLeftMouseButton(me)) {
+                    Object[] fila = null;
+                    int cantidadProductos = Integer.parseInt(calcText.getText());
+                    if (cantidadProductos == 0) {
+                        mesa.getCuenta().anadirNuevosProductos(data, 1);
+                        fila = new Object[]{data.getNombre(), data.getPrecio(), 1};
 
+                    } else {
+
+                        mesa.getCuenta().anadirNuevosProductos(data, cantidadProductos);
+                        fila = new Object[]{data.getNombre(), data.getPrecio(), cantidadProductos};
+
+                        calcText.setText("0");
+                    }
+                    if (!mesa.getCuenta().getProductos().containsKey(data)) {
+                        modelo.addRow(fila);
+                    } else {
+                        for (int i = 0; i < modelo.getRowCount(); i++) {
+                            if (modelo.getValueAt(i, 0).equals(producto.getDataProducto().getNombre())) {
+
+                                modelo.setValueAt(Integer.parseInt(modelo.getValueAt(i, 2).toString()) + cantidadProductos, i, 2);
+
+                            }
+                        }
+
+                    }
                 }
             }
         });
@@ -173,7 +201,7 @@ public class CuentaForm extends javax.swing.JPanel {
 
         tituloMesa.setText("Mesa: " + mesa.getNumero() + " Sala: " + localForm.getSalaActual().getId());
         Map<Producto, Integer> mapa = mesa.getCuenta().getProductos();
-        DefaultTableModel modelo = (DefaultTableModel) tablaProductos.getModel();
+
         modelo.setRowCount(0);
         // Recorrer el mapa y agregar las filas a la tabla
         for (Map.Entry<Producto, Integer> entry : mapa.entrySet()) {
