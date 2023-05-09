@@ -5,7 +5,6 @@
 package modelo;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,20 +35,35 @@ public class Cuenta {
     }
 
     public Cuenta() {
+
+        this.productos = new HashMap();
+        this.nuevosProductos = new HashMap();
+
     }
-//
+
     public void anadirNuevosProductos(Producto producto, int cantidad) {
-        for (int i = 0; i < cantidad; i++) {
-            nuevosProductos.put(producto,cantidad);
+
+        if (nuevosProductos.containsKey(producto)) {
+            int oldCantidad = productos.get(producto);
+            int newCantidad = oldCantidad + cantidad;
+            nuevosProductos.replace(producto, newCantidad);
+        } else {
+            nuevosProductos.put(producto, cantidad);
         }
+
     }
-//
-//    public void pedirNuevosProducto() {
-//        productos.addAll(nuevosProductos);
-//        generarPedido(nuevosProductos);
-//        nuevosProductos.clear();
-//
-//    }
+
+    public void añadirCantidadProducto(Producto producto, int cantidad) {
+        int oldCantidad = productos.get(producto);
+        int newCantidad = oldCantidad + cantidad;
+        productos.replace(producto, newCantidad);
+    }
+
+    public boolean comprobarProductoExiste(Producto producto) {
+
+        return (productos.containsKey(producto) || nuevosProductos.containsKey(producto));
+
+    }
 
     public void eliminarProducto(Producto producto) {
 

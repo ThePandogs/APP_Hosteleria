@@ -6,11 +6,9 @@ import Swing.component.ComponentsContainer;
 import Swing.component.ModelNumero;
 import Swing.component.NumeroComponent;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import static java.awt.image.ImageObserver.WIDTH;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -29,7 +27,6 @@ public class CuentaForm extends javax.swing.JPanel {
     Local local;
     ArrayList<ComponentsContainer> gruposProductos;
     LocalForm localForm;
-    Cuenta cuenta;
     Mesa mesa;
     DefaultTableModel modelo;
 
@@ -104,44 +101,49 @@ public class CuentaForm extends javax.swing.JPanel {
         }
     }
 
-    private void addProducto(Producto data, ComponentsContainer grupoProducto) {
-        ProductoComponent producto = new ProductoComponent();
-        producto.setData(data);
-        producto.addMouseListener(new MouseAdapter() {
+    private void addProducto(Producto producto, ComponentsContainer grupoProducto) {
+        ProductoComponent productoComponent = new ProductoComponent();
+        productoComponent.setData(producto);
+        productoComponent.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent me) {
+                Cuenta cuenta = mesa.getCuenta();
                 if (SwingUtilities.isLeftMouseButton(me)) {
-                    Object[] fila = null;
+
+                    Object[] fila;
+
                     int cantidadProductos = Integer.parseInt(calcText.getText());
                     if (cantidadProductos == 0) {
-                        mesa.getCuenta().anadirNuevosProductos(data, 1);
-                        fila = new Object[]{data.getNombre(), data.getPrecio(), 1};
-
-                    } else {
-
-                        mesa.getCuenta().anadirNuevosProductos(data, cantidadProductos);
-                        fila = new Object[]{data.getNombre(), data.getPrecio(), cantidadProductos};
-
-                        calcText.setText("0");
+                        cantidadProductos = 1;
                     }
-                    if (!mesa.getCuenta().getProductos().containsKey(data)) {
-                        modelo.addRow(fila);
-                    } else {
-                        for (int i = 0; i < modelo.getRowCount(); i++) {
-                            if (modelo.getValueAt(i, 0).equals(producto.getDataProducto().getNombre())) {
 
-                                modelo.setValueAt(Integer.parseInt(modelo.getValueAt(i, 2).toString()) + cantidadProductos, i, 2);
+                    cuenta.anadirNuevosProductos(producto, cantidadProductos);
 
-                            }
+                    fila = new Object[]{producto.getNombre(), producto.getPrecio(), cantidadProductos};
+//aqui esta el problema
+                    boolean cambio = false;
+                    int i = 0;
+                    while (i < modelo.getRowCount() && !cambio) {
+                        if (modelo.getValueAt(i, 0).equals(producto.getNombre())) {
+                            modelo.setValueAt(Integer.parseInt(modelo.getValueAt(i, 2).toString()) + 1, i, 2);
+                            cambio = true;
                         }
-
+                        i++;
                     }
+                    if (!cambio) {
+                        modelo.addRow(fila);
+                    }
+                    calcText.setText("0");
                 }
             }
-        });
 
-        grupoProducto.add(producto);
+        }
+        );
+
+        grupoProducto.add(productoComponent);
+
         grupoProducto.repaint();
+
         grupoProducto.revalidate();
     }
 
@@ -326,7 +328,7 @@ public class CuentaForm extends javax.swing.JPanel {
         calcText.setBackground(new java.awt.Color(204, 255, 204));
         calcText.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         calcText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        calcText.setText("000000000");
+        calcText.setText("0");
         calcText.setMinimumSize(new java.awt.Dimension(0, 0));
         calcText.setOpaque(true);
 

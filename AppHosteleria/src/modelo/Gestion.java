@@ -78,6 +78,7 @@ public class Gestion {
                         consulta.getBoolean("disponible"),
                         consulta.getString("imagen"));
                 grupoProducto.getProductos().add(nuevoProducto);
+                locales.get(0).productos.put(consulta.getInt("id_producto"), nuevoProducto);
 
             }
             return true;
@@ -107,7 +108,7 @@ public class Gestion {
             while (localesIte.hasNext()) {
                 Local local = localesIte.next();
                 cargarCamareros();
-                cargarProductos();
+              
                 cargarGruposProductos(local);
                 cargarSalas(local);
 
