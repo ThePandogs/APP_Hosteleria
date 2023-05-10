@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `hosteleria` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `hosteleria`;
--- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
 -- Host: localhost    Database: hosteleria
 -- ------------------------------------------------------
--- Server version	8.0.31
+-- Server version	8.0.21
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -230,7 +230,7 @@ CREATE TABLE `mesas` (
   KEY `fk_imagen` (`imagen`),
   CONSTRAINT `mesas_ibfk_1` FOREIGN KEY (`sala`) REFERENCES `salas` (`id_sala`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `mesas_ibfk_2` FOREIGN KEY (`imagen`) REFERENCES `imagenes` (`id_imagen`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -268,7 +268,7 @@ CREATE TABLE `pedidos` (
 
 LOCK TABLES `pedidos` WRITE;
 /*!40000 ALTER TABLE `pedidos` DISABLE KEYS */;
-INSERT INTO `pedidos` VALUES (1,1,1),(2,1,2),(2,2,2),(3,1,1),(3,2,2),(4,2,1),(7,1,2);
+INSERT INTO `pedidos` VALUES (2,1,1),(2,2,2),(3,1,3),(3,2,2),(4,2,1),(4,3,2),(7,1,3);
 /*!40000 ALTER TABLE `pedidos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -358,6 +358,48 @@ LOCK TABLES `usuarios` WRITE;
 INSERT INTO `usuarios` VALUES (1,1,'Matias','1234','normal'),(2,3,'Lucas','1234','normal'),(3,5,'Ruben','1234','normal'),(4,7,'Carlos','1234','admin'),(5,4,'Andrea','1234','normal'),(6,7,'Ana','1234','normal');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'hosteleria'
+--
+/*!50003 DROP FUNCTION IF EXISTS `BORRAR_PRODUCTO` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `BORRAR_PRODUCTO`( ID_PRODUCTO_BORRAR  INT UNSIGNED , ID_CUENTA INT UNSIGNED, CANTIDAD_A_BORRAR INT UNSIGNED) RETURNS tinyint(1)
+    READS SQL DATA
+BEGIN 
+SELECT CANTIDAD INTO @CANTIDAD
+    FROM PEDIDOS 
+        WHERE cuenta = ID_CUENTA
+            AND 
+      PRODUCTO=ID_PRODUCTO_BORRAR;
+        IF @CANTIDAD = CANTIDAD_A_BORRAR THEN 
+        DELETE 
+            FROM PEDIDOS 
+                WHERE cuenta=ID_CUENTA 
+                    AND 
+                  PRODUCTO = ID_CUENTA;
+            RETURN TRUE;
+        ELSE 
+        UPDATE PEDIDOS
+        SET CANTIDAD=(CANTIDAD -  CANTIDAD_A_BORRAR)
+            WHERE cuenta=ID_CUENTA 
+                AND PRODUCTO= ID_PRODUCTO_BORRAR;
+            RETURN FALSE;
+        END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -368,4 +410,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-08 14:00:59
+-- Dump completed on 2023-05-11  1:34:37

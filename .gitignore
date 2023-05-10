@@ -25,3 +25,5 @@ hs_err_pid*
 replay_pid*
 /AppHosteleria/build/
 /AppHosteleria/dist/
+AppHosteleria/nbproject/private/private.xml
+AppHosteleria/nbproject/private/private.xml
