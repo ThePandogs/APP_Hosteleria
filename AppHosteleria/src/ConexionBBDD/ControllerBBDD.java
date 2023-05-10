@@ -32,6 +32,7 @@ public class ControllerBBDD {
     private String queryConsultarCamareros = "select id_empleado,nombre  from empleados where departamento=2;";
     private String queryConsultarEmpleadoUsuario = "select e.nombre from empleados as e inner join usuarios as u on e.id_empleado = u.empleado where u.id_usuario=?;;";
     private String queryEnviarPedido = "insert into pedidos values(?,?,?) on duplicate key update cantidad=cantidad+?;";
+    private String funtionEliminarProducto = "select  BORRAR_PRODUCTO(?,?,?);";
     //PREPAREDSTATEMENT
     private PreparedStatement preconsultarEstablecimientos;
     private PreparedStatement preGetUsuarios;
@@ -47,8 +48,8 @@ public class ControllerBBDD {
     private PreparedStatement preConsultarCamareros;
     private PreparedStatement preConsultarEmpleadoUsuario;
     private PreparedStatement preEnviarPedido;
+    private PreparedStatement preEliminarProducto;
 
-  
     //CONEXION
     ConexionBBDD bbdd;
 
@@ -85,6 +86,7 @@ public class ControllerBBDD {
         preConsultarCamareros = bbdd.getCon().prepareStatement(queryConsultarCamareros);
         preConsultarEmpleadoUsuario = bbdd.getCon().prepareStatement(queryConsultarEmpleadoUsuario);
         preEnviarPedido = bbdd.getCon().prepareStatement(queryEnviarPedido);
+        preEliminarProducto = bbdd.getCon().prepareStatement(funtionEliminarProducto);
     }
 
     /**
@@ -283,6 +285,21 @@ public class ControllerBBDD {
             preEnviarPedido.setInt(3, cantidad);
             preEnviarPedido.setInt(4, cantidad);
             preEnviarPedido.executeUpdate();
+        } catch (SQLException ex) {
+            logExcepcion.anadirExcepcionLog(ex);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean eliminarProducto(int producto, int cuenta, int cantidad) {
+
+        try {
+            preEliminarProducto.setInt(1, producto);
+            preEliminarProducto.setInt(2, cuenta);
+            preEliminarProducto.setInt(3, cantidad);
+
+            preEliminarProducto.executeQuery();
         } catch (SQLException ex) {
             logExcepcion.anadirExcepcionLog(ex);
             return false;

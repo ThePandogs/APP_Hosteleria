@@ -8,7 +8,6 @@ import ConexionBBDD.ControllerBBDD;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
@@ -80,25 +79,12 @@ public class Gestion {
                         consulta.getString("imagen"));
                 grupoProducto.getProductos().add(nuevoProducto);
                 locales.get(0).productos.put(consulta.getInt("id_producto"), nuevoProducto);
+                System.out.println(nuevoProducto.toString());
 
             }
             return true;
         }
         return false;
-    }
-
-    private void cargarProductos() throws SQLException {
-
-        ResultSet consulta = controllerBBDD.consultarProductos();
-        while (consulta.next()) {
-            int id_producto = consulta.getInt("id_producto");
-            locales.get(0).getProductos().put(id_producto, new Producto(id_producto,
-                    consulta.getString("nombre"),
-                    consulta.getDouble("precio"),
-                    consulta.getBoolean("disponible"),
-                    consulta.getString("imagen")));
-
-        }
     }
 
     private void cargarTodo() throws SQLException {
@@ -244,16 +230,19 @@ public class Gestion {
     }
 
     public void enviarPedido(Cuenta cuenta) {
-        Map<Producto, Integer> nuevosProductos = cuenta.getNuevosProductos();
+        Map<Producto, Integer> nuevosProductos = cuenta.getPedidoProductos();
         Iterator<Producto> itNuevosProductos = nuevosProductos.keySet().iterator();
 
         while (itNuevosProductos.hasNext()) {
-            Producto clave = itNuevosProductos.next();
-            int cantidad = nuevosProductos.get(clave);
-            System.out.println(controllerBBDD.enviarPedido(clave.getId(), cuenta.getIdCuenta(), cantidad));
-
+            Producto producto = itNuevosProductos.next();
+            int cantidad = nuevosProductos.get(producto);
+            controllerBBDD.enviarPedido(producto.getId(), cuenta.getIdCuenta(), cantidad);
         }
-
         cuenta.generarPedido();
+    }
+
+    public void borrarProducto(Cuenta cuenta, Producto producto, int cantidad) {
+        controllerBBDD.eliminarProducto(producto.getId(), cuenta.getIdCuenta(), cantidad);
+        cuenta.eliminarProducto(producto, cantidad);
     }
 }

@@ -1,5 +1,6 @@
 package Swing.form;
 
+import Swing.MiModeloTabla;
 import Swing.PanelComponentes;
 import Swing.WrapLayout;
 import Swing.component.ProductoComponent;
@@ -12,11 +13,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableModel;
 import modelo.Cuenta;
 import modelo.GrupoProducto;
 import modelo.Local;
@@ -29,13 +28,15 @@ public class CuentaForm extends javax.swing.JPanel {
     ArrayList<ComponentsContainer> gruposProductos;
     LocalForm localForm;
     Mesa mesa;
-    DefaultTableModel modelo;
+    MiModeloTabla modelo;
 
     public CuentaForm(Local local, LocalForm localForm) {
+
+        initComponents();
         this.local = local;
         this.localForm = localForm;
         gruposProductos = new ArrayList();
-        initComponents();
+
         init();
 
     }
@@ -43,11 +44,11 @@ public class CuentaForm extends javax.swing.JPanel {
     private void init() {
         this.setVisible(false);
         cargarTodosProductos();
-        cargarTecladoNumerico();
+        inicializarTecladoNumerico();
         if (!gruposProductos.isEmpty()) {
             panelProductos.add(gruposProductos.get(1));
         }
-        modelo = (DefaultTableModel) tablaProductos.getModel();
+        modelo = (MiModeloTabla) tablaProductos.getModel();
 
     }
 
@@ -111,29 +112,13 @@ public class CuentaForm extends javax.swing.JPanel {
                 Cuenta cuenta = mesa.getCuenta();
                 if (SwingUtilities.isLeftMouseButton(me)) {
 
-                    Object[] fila;
-
                     int cantidadProductos = Integer.parseInt(calcText.getText());
                     if (cantidadProductos == 0) {
                         cantidadProductos = 1;
                     }
 
-                    cuenta.anadirNuevosProductos(producto, cantidadProductos);
-
-                    fila = new Object[]{producto.getNombre(), producto.getPrecio(), cantidadProductos};
-                    //aqui esta el problema
-                    boolean cambio = false;
-                    int i = 0;
-                    while (i < modelo.getRowCount() && !cambio) {
-                        if (modelo.getValueAt(i, 0).equals(producto.getNombre())) {
-                            modelo.setValueAt(Integer.parseInt(modelo.getValueAt(i, 2).toString()) + 1, i, 2);
-                            cambio = true;
-                        }
-                        i++;
-                    }
-                    if (!cambio) {
-                        modelo.addRow(fila);
-                    }
+                    cuenta.anadirProductosPedido(producto, cantidadProductos);
+                    modelo.actualizarProductos();
                     calcText.setText("0");
                 }
             }
@@ -148,87 +133,84 @@ public class CuentaForm extends javax.swing.JPanel {
         grupoProducto.revalidate();
     }
 
-    /**
-     *
-     * Carga los componentes del teclado numérico en la interfaz de usuario.
-     *
-     * Incluye los números del 1 al 9, el botón de borrar (C), el número 0
-     *
-     * y la flecha izquierda como botón de retroceso.
-     */
-    private void cargarTecladoNumerico() {
-
+    private void inicializarTecladoNumerico() {
         for (int i = 1; i < 10; i++) {
-            addNumero(new ModelNumero(String.valueOf(i)), tecladoNumerico);
-
+            addNumber(new ModelNumero(String.valueOf(i)), numbersPanel);
         }
-        addNumero(new ModelNumero("0"), tecladoNumerico);
-        addNumero(new ModelNumero("+"), operadores);
 
-        addNumero(new ModelNumero("-"), operadores);
-        addNumero(new ModelNumero("C"), operadores);
-        addNumero(new ModelNumero("✓"), operadores);
-
+        addNumber(new ModelNumero("0"), numbersPanel);
+        addNumber(new ModelNumero("+"), operatorsPanel);
+        addNumber(new ModelNumero("-"), operatorsPanel);
+        addNumber(new ModelNumero("C"), operatorsPanel);
+        addNumber(new ModelNumero("✓"), operatorsPanel);
     }
 
-    /**
-     *
-     * Añade un botón numérico al teclado numérico.
-     *
-     * @param data los datos que se muestran en el botón numérico.
-     */
-    private void addNumero(ModelNumero data, PanelComponentes panel) {
-        NumeroComponent numero = new NumeroComponent();
-        numero.setData(data);
-        numero.addMouseListener(new MouseAdapter() {
+    private void addNumber(ModelNumero data, PanelComponentes panel) {
+        NumeroComponent numberButton = new NumeroComponent();
+        numberButton.setData(data);
+        numberButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent me) {
                 if (SwingUtilities.isLeftMouseButton(me)) {
-                    interaccionTecladoNumerico(data);
+                    manejarInteraccionTecladoNumerico(data);
                 }
             }
-
         });
-        panel.add(numero);
+
+        panel.add(numberButton);
         panel.repaint();
         panel.revalidate();
     }
 
-    private void interaccionTecladoNumerico(ModelNumero data) {
-        //LimpiarPanel
-        String botonPulsado = data.getNumero();
-        if (botonPulsado.equals("C")) {
-            calcText.setText("0");
-        } else if (botonPulsado.equals("✓")) {
+    private void manejarInteraccionTecladoNumerico(ModelNumero data) {
+        String buttonPressed = data.getNumero();
 
-        } else if (botonPulsado.equals("+")) {
-            if (!calcText.getText().contains("+") && !calcText.getText().contains("-")) {
-                if (calcText.getText().equals("0")) {
-                    calcText.setText(data.getNumero());
-                } else {
-                    calcText.setText("+" + calcText.getText());
+        switch (buttonPressed) {
+            case "C" ->
+                calcText.setText("0");
+            case "✓" -> {
+                int selectedRow = tablaProductos.getSelectedRow();
+                int columnObjeto = 3; // Columna que contiene el objeto en la tabla
+
+                if (selectedRow != -1) {
+
+                    Producto s = (Producto) modelo.getValueAt(selectedRow, 3);
+
+                    localForm.getGestion().borrarProducto(mesa.getCuenta(), s, Integer.parseInt(calcText.getText()));
+
                 }
-            } else {
-                calcText.setText(calcText.getText().replace('-', '+'));
             }
-        } else if (botonPulsado.equals("-")) {
+            case "+" ->
+                interaccionBotonOperador("+", "-");
+            case "-" ->
+                interaccionBotonOperador("-", "+");
+            default ->
+                interaccionBotonNumero(buttonPressed);
+        }
+        // Realizar alguna acción cuando se presiona el botón "✓"
+    }
 
-            if (!calcText.getText().contains("+") && !calcText.getText().contains("-")) {
-                if (calcText.getText().equals("0")) {
-                    calcText.setText("-");
-                } else {
-                    calcText.setText("-" + calcText.getText());
-                }
+    private void interaccionBotonOperador(String currentOperator, String oppositeOperator) {
+        String currentText = calcText.getText();
+
+        if (!currentText.contains(currentOperator) && !currentText.contains(oppositeOperator)) {
+            if (currentText.equals("0")) {
+                calcText.setText(currentOperator);
             } else {
-                calcText.setText(calcText.getText().replace('+', '-'));
+                calcText.setText(currentOperator + currentText);
             }
-
         } else {
-            if (calcText.getText().equals("0")) {
-                calcText.setText(data.getNumero());
-            } else {
-                calcText.setText(calcText.getText() + data.getNumero());
-            }
+            calcText.setText(currentText.replace(oppositeOperator, currentOperator));
+        }
+    }
+
+    private void interaccionBotonNumero(String buttonPressed) {
+        String currentText = calcText.getText();
+
+        if (currentText.equals("0")) {
+            calcText.setText(buttonPressed);
+        } else {
+            calcText.setText(currentText + buttonPressed);
         }
     }
 
@@ -236,25 +218,18 @@ public class CuentaForm extends javax.swing.JPanel {
         mesa = data;
         if (data.getCuenta() != null) {
             cargarInformacionCuenta();
+
         } else {
             data.setCuenta(new Cuenta());
+
         }
+
     }
 
     private void cargarInformacionCuenta() {
 
         tituloMesa.setText("Mesa: " + mesa.getNumero() + " Sala: " + localForm.getSalaActual().getId());
-        Map<Producto, Integer> mapa = mesa.getCuenta().getProductos();
-
-        modelo.setRowCount(0);
-        // Recorrer el mapa y agregar las filas a la tabla
-        for (Map.Entry<Producto, Integer> entry : mapa.entrySet()) {
-            Producto producto = entry.getKey();
-            Integer cantidad = entry.getValue();
-            Object[] fila = {producto.getNombre(), producto.getPrecio(), cantidad};
-            modelo.addRow(fila);
-
-        }
+        modelo.setProductos(mesa.getCuenta().getProductos(), mesa.getCuenta().getPedidoProductos());
 
     }
 
@@ -279,8 +254,8 @@ public class CuentaForm extends javax.swing.JPanel {
         tablaProductos = new javax.swing.JTable();
         calc = new Swing.PanelRedondeado();
         panelRedondeado1 = new Swing.PanelRedondeado();
-        operadores = new Swing.PanelComponentes();
-        tecladoNumerico = new Swing.PanelComponentes();
+        operatorsPanel = new Swing.PanelComponentes();
+        numbersPanel = new Swing.PanelComponentes();
         jPanel2 = new javax.swing.JPanel();
         calcText = new javax.swing.JLabel();
         productos = new Swing.PanelRedondeado();
@@ -290,6 +265,7 @@ public class CuentaForm extends javax.swing.JPanel {
         opcionesCuenta = new Swing.PanelRedondeado();
         buttonRedondeado1 = new swing.ButtonRedondeado();
         jButton1 = new javax.swing.JButton();
+        panelRedondeado2 = new Swing.PanelRedondeado();
 
         setOpaque(false);
 
@@ -311,46 +287,18 @@ public class CuentaForm extends javax.swing.JPanel {
         );
         cabeceraLayout.setVerticalGroup(
             cabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tituloMesa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(tituloMesa, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
         );
 
         tabla.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         tablaProductos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Producto", "Precio", "Cantidad"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Double.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        tablaProductos.setModel(new MiModeloTabla());
         tablaProductos.setColumnSelectionAllowed(true);
         tablaProductos.setMinimumSize(new java.awt.Dimension(105, 80));
         tablaProductos.getTableHeader().setReorderingAllowed(false);
         scrolltabla.setViewportView(tablaProductos);
         tablaProductos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        if (tablaProductos.getColumnModel().getColumnCount() > 0) {
-            tablaProductos.getColumnModel().getColumn(1).setResizable(false);
-            tablaProductos.getColumnModel().getColumn(1).setPreferredWidth(2);
-            tablaProductos.getColumnModel().getColumn(2).setResizable(false);
-            tablaProductos.getColumnModel().getColumn(2).setPreferredWidth(10);
-        }
 
         javax.swing.GroupLayout tablaLayout = new javax.swing.GroupLayout(tabla);
         tabla.setLayout(tablaLayout);
@@ -371,25 +319,25 @@ public class CuentaForm extends javax.swing.JPanel {
 
         calc.setMaximumSize(new java.awt.Dimension(300, 380));
 
-        operadores.setLayout(new java.awt.GridLayout(4, 1, 5, 5));
+        operatorsPanel.setLayout(new java.awt.GridLayout(4, 1, 5, 5));
 
-        tecladoNumerico.setLayout(new java.awt.GridLayout(4, 3, 5, 5));
+        numbersPanel.setLayout(new java.awt.GridLayout(4, 3, 5, 5));
 
         javax.swing.GroupLayout panelRedondeado1Layout = new javax.swing.GroupLayout(panelRedondeado1);
         panelRedondeado1.setLayout(panelRedondeado1Layout);
         panelRedondeado1Layout.setHorizontalGroup(
             panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRedondeado1Layout.createSequentialGroup()
-                .addComponent(tecladoNumerico, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(numbersPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(operadores, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(operatorsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         panelRedondeado1Layout.setVerticalGroup(
             panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRedondeado1Layout.createSequentialGroup()
                 .addGroup(panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(operadores, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tecladoNumerico, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))
+                    .addComponent(operatorsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(numbersPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
@@ -465,14 +413,14 @@ public class CuentaForm extends javax.swing.JPanel {
             panelGruposProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelGruposProductosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(grupositos, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
+                .addComponent(grupositos, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelGruposProductosLayout.setVerticalGroup(
             panelGruposProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelGruposProductosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(grupositos, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                .addComponent(grupositos, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -499,7 +447,7 @@ public class CuentaForm extends javax.swing.JPanel {
                 .addComponent(buttonRedondeado1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addContainerGap(138, Short.MAX_VALUE))
         );
         opcionesCuentaLayout.setVerticalGroup(
             opcionesCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -509,6 +457,17 @@ public class CuentaForm extends javax.swing.JPanel {
                     .addComponent(buttonRedondeado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout panelRedondeado2Layout = new javax.swing.GroupLayout(panelRedondeado2);
+        panelRedondeado2.setLayout(panelRedondeado2Layout);
+        panelRedondeado2Layout.setHorizontalGroup(
+            panelRedondeado2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        panelRedondeado2Layout.setVerticalGroup(
+            panelRedondeado2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 56, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -525,23 +484,28 @@ public class CuentaForm extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(opcionesCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(33, 33, 33))
+                                .addGap(0, 0, 0))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(tabla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addComponent(calc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(5, 5, 5)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(panelGruposProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(productos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(5, 5, 5))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(panelGruposProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(productos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(5, 5, 5))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(panelRedondeado2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(cabecera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
+                .addComponent(cabecera, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(productos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tabla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -550,7 +514,8 @@ public class CuentaForm extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(panelGruposProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 113, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panelRedondeado2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(opcionesCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -568,7 +533,8 @@ public class CuentaForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonRedondeado1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRedondeado1ActionPerformed
-        mesa.getCuenta().getNuevosProductos().clear();
+        mesa.getCuenta().getPedidoProductos().clear();
+        modelo.vaciarTabla();
         mesa = null;
         localForm.cerrarMesa();
     }//GEN-LAST:event_buttonRedondeado1ActionPerformed
@@ -586,16 +552,17 @@ public class CuentaForm extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private Swing.PanelComponentes numbersPanel;
     private Swing.PanelRedondeado opcionesCuenta;
-    private Swing.PanelComponentes operadores;
+    private Swing.PanelComponentes operatorsPanel;
     private Swing.PanelRedondeado panelGruposProductos;
     private Swing.PanelComponentes panelProductos;
     private Swing.PanelRedondeado panelRedondeado1;
+    private Swing.PanelRedondeado panelRedondeado2;
     private Swing.PanelRedondeado productos;
     private javax.swing.JScrollPane scrolltabla;
     private Swing.PanelRedondeado tabla;
     private javax.swing.JTable tablaProductos;
-    private Swing.PanelComponentes tecladoNumerico;
     private javax.swing.JLabel tituloMesa;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,60 +1,85 @@
-Excepción: class java.sql.SQLException
-Fecha:  2023-05-10
-Hora:   13:38:07
-Motivo: No suitable driver found for jdbc:msysql://localhost/hosteleria
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-11
+Hora:   01:20:08
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
 
 Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
-Fecha:  2023-05-10
-Hora:   14:08:36
-Motivo: Data truncation: Out of range value for column 'cantidad' at row 1
+Fecha:  2023-05-11
+Hora:   01:21:19
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
 
 Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
-Fecha:  2023-05-10
-Hora:   14:18:48
-Motivo: Data truncation: Out of range value for column 'cantidad' at row 1
+Fecha:  2023-05-11
+Hora:   01:21:23
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
 
 Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
-Fecha:  2023-05-10
-Hora:   14:22:04
-Motivo: Data truncation: Out of range value for column 'cantidad' at row 1
+Fecha:  2023-05-11
+Hora:   01:21:23
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
 
 Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
-Fecha:  2023-05-10
-Hora:   14:22:04
-Motivo: Data truncation: Out of range value for column 'cantidad' at row 1
-
-Excepción: class java.sql.SQLIntegrityConstraintViolationException
-Fecha:  2023-05-10
-Hora:   14:23:19
-Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`pedidos`, CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`cuenta`) REFERENCES `cuentas` (`id_cuenta`) ON DELETE RESTRICT ON UPDATE CASCADE)
-
-Excepción: class java.sql.SQLIntegrityConstraintViolationException
-Fecha:  2023-05-10
-Hora:   14:23:26
-Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`pedidos`, CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`cuenta`) REFERENCES `cuentas` (`id_cuenta`) ON DELETE RESTRICT ON UPDATE CASCADE)
+Fecha:  2023-05-11
+Hora:   01:21:23
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
 
 Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
-Fecha:  2023-05-10
-Hora:   14:24:57
-Motivo: Data truncation: Out of range value for column 'cantidad' at row 1
+Fecha:  2023-05-11
+Hora:   01:21:24
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
 
-Excepción: class java.sql.SQLIntegrityConstraintViolationException
-Fecha:  2023-05-10
-Hora:   14:25:39
-Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`pedidos`, CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`cuenta`) REFERENCES `cuentas` (`id_cuenta`) ON DELETE RESTRICT ON UPDATE CASCADE)
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-11
+Hora:   01:21:24
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
 
-Excepción: class java.sql.SQLIntegrityConstraintViolationException
-Fecha:  2023-05-10
-Hora:   14:26:01
-Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`pedidos`, CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`cuenta`) REFERENCES `cuentas` (`id_cuenta`) ON DELETE RESTRICT ON UPDATE CASCADE)
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-11
+Hora:   01:21:24
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
 
-Excepción: class java.sql.SQLIntegrityConstraintViolationException
-Fecha:  2023-05-10
-Hora:   14:26:08
-Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`pedidos`, CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`cuenta`) REFERENCES `cuentas` (`id_cuenta`) ON DELETE RESTRICT ON UPDATE CASCADE)
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-11
+Hora:   01:21:24
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
 
-Excepción: class java.sql.SQLIntegrityConstraintViolationException
-Fecha:  2023-05-10
-Hora:   14:26:21
-Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`pedidos`, CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`cuenta`) REFERENCES `cuentas` (`id_cuenta`) ON DELETE RESTRICT ON UPDATE CASCADE)
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-11
+Hora:   01:21:53
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-11
+Hora:   01:22:51
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-11
+Hora:   01:22:53
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-11
+Hora:   01:22:53
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-11
+Hora:   01:22:53
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-11
+Hora:   01:22:54
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-11
+Hora:   01:22:54
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-11
+Hora:   01:24:50
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
 

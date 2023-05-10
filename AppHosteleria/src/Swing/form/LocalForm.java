@@ -120,6 +120,7 @@ public class LocalForm extends javax.swing.JPanel {
 
     private void abrirMesa(Mesa data) {
         cuentaForm.setData(data);
+        
         panelSalas.setVisible(false);
         cuentaForm.setVisible(true);
         this.revalidate();

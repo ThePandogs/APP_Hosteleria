@@ -23,7 +23,7 @@ public class Cuenta {
     private double precio;
 
     private Map<Producto, Integer> productos;
-    private Map<Producto, Integer> nuevosProductos;
+    private Map<Producto, Integer> pedidoProductos;
 
     public Cuenta(int idCuenta, LocalDateTime fechaHora, Camarero camarero, int comensales, double precio) {
         this.idCuenta = idCuenta;
@@ -32,41 +32,41 @@ public class Cuenta {
         this.comensales = comensales;
         this.precio = precio;
         this.productos = new HashMap();
-        this.nuevosProductos = new HashMap();
+        this.pedidoProductos = new HashMap();
     }
 
     public Cuenta() {
 
         this.productos = new HashMap();
-        this.nuevosProductos = new HashMap();
+        this.pedidoProductos = new HashMap();
 
     }
 
-    public void anadirNuevosProductos(Producto producto, int cantidad) {
+    public void anadirProductosPedido(Producto producto, int cantidad) {
 
-        if (nuevosProductos.containsKey(producto)) {
-            int oldCantidad = nuevosProductos.get(producto);
+        if (pedidoProductos.containsKey(producto)) {
+            int oldCantidad = pedidoProductos.get(producto);
             int newCantidad = oldCantidad + cantidad;
-            nuevosProductos.replace(producto, newCantidad);
+            pedidoProductos.replace(producto, newCantidad);
         } else {
-            nuevosProductos.put(producto, cantidad);
+            pedidoProductos.put(producto, cantidad);
         }
 
     }
 
     public void generarPedido() {
 
-        Iterator<Producto> it = nuevosProductos.keySet().iterator();
+        Iterator<Producto> it = pedidoProductos.keySet().iterator();
         while (it.hasNext()) {
             Producto nuevoProducto = it.next();
-            int cantidad = nuevosProductos.get(nuevoProducto);
+            int cantidad = pedidoProductos.get(nuevoProducto);
             if (productos.containsKey(nuevoProducto)) {
                 añadirProductoExistente(nuevoProducto, cantidad);
             } else {
                 productos.put(nuevoProducto, cantidad);
             }
         }
-        nuevosProductos.clear();
+        pedidoProductos.clear();
     }
 
     private void añadirProductoExistente(Producto producto, int cantidad) {
@@ -75,9 +75,41 @@ public class Cuenta {
         productos.replace(producto, newCantidad);
     }
 
-    public void eliminarProducto(Producto producto) {
+    public int eliminarProducto(Producto producto, int cantidadEliminar) {
 
-        productos.remove(producto);
+        if (pedidoProductos.containsKey(producto)) {
+            cantidadEliminar = eliminarProductoPedido(producto, cantidadEliminar);
+        }
+
+        if (cantidadEliminar != 0) {
+            eliminarProductoCuenta(producto, cantidadEliminar);
+        }
+        return cantidadEliminar;
+    }
+
+    private int eliminarProductoPedido(Producto producto, int cantidadEliminar) {
+
+        int cantidadActual = pedidoProductos.get(producto);
+        cantidadEliminar -= cantidadActual;
+        if (cantidadEliminar >= cantidadActual) {
+            pedidoProductos.remove(producto);
+            return cantidadEliminar - cantidadActual;
+        } else {
+            pedidoProductos.replace(producto, pedidoProductos.get(producto) - cantidadEliminar);
+            return 0;
+        }
+
+    }
+
+    private void eliminarProductoCuenta(Producto producto, int cantidadEliminar) {
+
+        if (productos.get(producto) == cantidadEliminar) {
+            productos.remove(producto);
+
+        } else {
+            productos.replace(producto, productos.get(producto) - cantidadEliminar);
+
+        }
 
     }
 
@@ -133,8 +165,8 @@ public class Cuenta {
         return productos;
     }
 
-    public Map<Producto, Integer> getNuevosProductos() {
-        return nuevosProductos;
+    public Map<Producto, Integer> getPedidoProductos() {
+        return pedidoProductos;
     }
 
 }
