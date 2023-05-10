@@ -49,9 +49,10 @@ public class LogExcepcion {
             saida.println("Hora:   " + time.truncatedTo(ChronoUnit.SECONDS));
             saida.println("Motivo: " + e.getLocalizedMessage());
             saida.println();
-
+            
         } catch (IOException ex) {
             Logger.getLogger(LogExcepcion.class.getName()).log(Level.SEVERE, null, ex);
         }
+       System.out.println( e.getCause());
     }
 }

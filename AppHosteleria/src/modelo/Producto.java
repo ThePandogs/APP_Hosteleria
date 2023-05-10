@@ -10,11 +10,11 @@ package modelo;
  */
 public class Producto {
 
-    int id;
-    String nombre;
-    double precio;
-    boolean disponible;
-    String imagen;
+    private int id;
+    private String nombre;
+    private double precio;
+    private boolean disponible;
+    private String imagen;
 
     public Producto(int id, String nombre, double precio, boolean disponible, String imagen) {
         this.id = id;
@@ -71,6 +71,5 @@ public class Producto {
     public void setImagen(String imagen) {
         this.imagen = imagen;
     }
-
 
 }

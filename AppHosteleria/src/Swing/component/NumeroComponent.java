@@ -56,6 +56,8 @@ public class NumeroComponent extends javax.swing.JPanel {
 
         lbItemName = new javax.swing.JLabel();
 
+        setPreferredSize(new java.awt.Dimension(30, 50));
+
         lbItemName.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
         lbItemName.setForeground(new java.awt.Color(76, 76, 76));
         lbItemName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -67,14 +69,14 @@ public class NumeroComponent extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbItemName, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
+                .addComponent(lbItemName, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbItemName, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                .addComponent(lbItemName, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents

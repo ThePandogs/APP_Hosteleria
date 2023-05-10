@@ -31,6 +31,7 @@ public class ControllerBBDD {
     private String queryConsultarCuenta = "select id_cuenta,fecha_hora,camarero,comensales,precio from cuentas where mesa=? and fecha_salida is null;";
     private String queryConsultarCamareros = "select id_empleado,nombre  from empleados where departamento=2;";
     private String queryConsultarEmpleadoUsuario = "select e.nombre from empleados as e inner join usuarios as u on e.id_empleado = u.empleado where u.id_usuario=?;;";
+    private String queryEnviarPedido = "insert into pedidos values(?,?,?) on duplicate key update cantidad=cantidad+?;";
     //PREPAREDSTATEMENT
     private PreparedStatement preconsultarEstablecimientos;
     private PreparedStatement preGetUsuarios;
@@ -45,9 +46,9 @@ public class ControllerBBDD {
     private PreparedStatement preConsultarCuenta;
     private PreparedStatement preConsultarCamareros;
     private PreparedStatement preConsultarEmpleadoUsuario;
+    private PreparedStatement preEnviarPedido;
 
-    // <editor-fold defaultstate="collapsed" desc="GettersAndSetters">   
-    // </editor-fold>
+  
     //CONEXION
     ConexionBBDD bbdd;
 
@@ -83,6 +84,7 @@ public class ControllerBBDD {
         preConsultarCuenta = bbdd.getCon().prepareStatement(queryConsultarCuenta);
         preConsultarCamareros = bbdd.getCon().prepareStatement(queryConsultarCamareros);
         preConsultarEmpleadoUsuario = bbdd.getCon().prepareStatement(queryConsultarEmpleadoUsuario);
+        preEnviarPedido = bbdd.getCon().prepareStatement(queryEnviarPedido);
     }
 
     /**
@@ -271,6 +273,21 @@ public class ControllerBBDD {
             return false;
         }
 
+    }
+
+    public boolean enviarPedido(int producto, int cuenta, int cantidad) {
+
+        try {
+            preEnviarPedido.setInt(1, producto);
+            preEnviarPedido.setInt(2, cuenta);
+            preEnviarPedido.setInt(3, cantidad);
+            preEnviarPedido.setInt(4, cantidad);
+            preEnviarPedido.executeUpdate();
+        } catch (SQLException ex) {
+            logExcepcion.anadirExcepcionLog(ex);
+            return false;
+        }
+        return true;
     }
 
     public int calcularRows(ResultSet resulSet) {

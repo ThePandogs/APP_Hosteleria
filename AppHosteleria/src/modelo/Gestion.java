@@ -8,6 +8,7 @@ import ConexionBBDD.ControllerBBDD;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
@@ -108,7 +109,7 @@ public class Gestion {
             while (localesIte.hasNext()) {
                 Local local = localesIte.next();
                 cargarCamareros();
-              
+
                 cargarGruposProductos(local);
                 cargarSalas(local);
 
@@ -242,4 +243,17 @@ public class Gestion {
         this.usuarios = usuarios;
     }
 
+    public void enviarPedido(Cuenta cuenta) {
+        Map<Producto, Integer> nuevosProductos = cuenta.getNuevosProductos();
+        Iterator<Producto> itNuevosProductos = nuevosProductos.keySet().iterator();
+
+        while (itNuevosProductos.hasNext()) {
+            Producto clave = itNuevosProductos.next();
+            int cantidad = nuevosProductos.get(clave);
+            System.out.println(controllerBBDD.enviarPedido(clave.getId(), cuenta.getIdCuenta(), cantidad));
+
+        }
+
+        cuenta.generarPedido();
+    }
 }

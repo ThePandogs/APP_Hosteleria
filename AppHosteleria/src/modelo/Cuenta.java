@@ -6,6 +6,7 @@ package modelo;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +45,7 @@ public class Cuenta {
     public void anadirNuevosProductos(Producto producto, int cantidad) {
 
         if (nuevosProductos.containsKey(producto)) {
-            int oldCantidad = productos.get(producto);
+            int oldCantidad = nuevosProductos.get(producto);
             int newCantidad = oldCantidad + cantidad;
             nuevosProductos.replace(producto, newCantidad);
         } else {
@@ -53,26 +54,31 @@ public class Cuenta {
 
     }
 
-    public void añadirCantidadProducto(Producto producto, int cantidad) {
+    public void generarPedido() {
+
+        Iterator<Producto> it = nuevosProductos.keySet().iterator();
+        while (it.hasNext()) {
+            Producto nuevoProducto = it.next();
+            int cantidad = nuevosProductos.get(nuevoProducto);
+            if (productos.containsKey(nuevoProducto)) {
+                añadirProductoExistente(nuevoProducto, cantidad);
+            } else {
+                productos.put(nuevoProducto, cantidad);
+            }
+        }
+        nuevosProductos.clear();
+    }
+
+    private void añadirProductoExistente(Producto producto, int cantidad) {
         int oldCantidad = productos.get(producto);
         int newCantidad = oldCantidad + cantidad;
         productos.replace(producto, newCantidad);
-    }
-
-    public boolean comprobarProductoExiste(Producto producto) {
-
-        return (productos.containsKey(producto) || nuevosProductos.containsKey(producto));
-
     }
 
     public void eliminarProducto(Producto producto) {
 
         productos.remove(producto);
 
-    }
-
-    private void generarPedido(List<Producto> nuevosProductos) {
-        //cargar productos a base de datos para hacer el trigger de pedido.
     }
 
     public double dividirImporte(Double Precio, int personas) {

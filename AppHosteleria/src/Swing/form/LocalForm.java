@@ -21,12 +21,12 @@ import swing.ButtonRedondeado;
 
 public class LocalForm extends javax.swing.JPanel {
 
-    Gestion gestion;
-    CuentaForm cuentaForm;
-    Local local;
-    ArrayList<ComponentsContainer> salas;
-    Interfaz interfaz;
-    Sala salaActual;
+    private Gestion gestion;
+    private CuentaForm cuentaForm;
+    private Local local;
+    private ArrayList<ComponentsContainer> salas;
+    private Interfaz interfaz;
+    private Sala salaActual;
 
     public LocalForm(Gestion gestion, Interfaz interfaz, Local local) {
         this.gestion = gestion;
@@ -146,6 +146,10 @@ public class LocalForm extends javax.swing.JPanel {
 
     public Sala getSalaActual() {
         return salaActual;
+    }
+
+    public Gestion getGestion() {
+        return gestion;
     }
 
     @SuppressWarnings("unchecked")
