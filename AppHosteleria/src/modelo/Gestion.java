@@ -241,8 +241,17 @@ public class Gestion {
         cuenta.generarPedido();
     }
 
-    public void borrarProducto(Cuenta cuenta, Producto producto, int cantidad) {
-        controllerBBDD.eliminarProducto(producto.getId(), cuenta.getIdCuenta(), cantidad);
-        cuenta.eliminarProducto(producto, cantidad);
+    public boolean borrarProducto(Cuenta cuenta, Producto producto, int cantidad) {
+        Integer cantidadProductos = cuenta.getProductos().get(producto); // Puede ser null
+        Integer cantidadPedidos = cuenta.getPedidoProductos().get(producto); // Puede ser null
+
+        int suma = (cantidadProductos != null ? cantidadProductos : 0)
+                + (cantidadPedidos != null ? cantidadPedidos : 0);
+        if (cantidad <= suma) {
+            controllerBBDD.eliminarProducto(producto.getId(), cuenta.getIdCuenta(), cantidad);
+            cuenta.eliminarProducto(producto, cantidad);
+            return true;
+        }
+        return false;
     }
 }

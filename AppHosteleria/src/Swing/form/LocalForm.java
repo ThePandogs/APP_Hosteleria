@@ -44,7 +44,7 @@ public class LocalForm extends javax.swing.JPanel {
         cargarEstablecimiento();
         cuentaForm = new CuentaForm(local, this);
         this.add(cuentaForm, 0);
-        panelSala.setColor(new Color(46, 144, 232));
+        panelSala.setColor(new Color(153, 180, 209));
         if (!salas.isEmpty()) {
             cambiarSala(salas.get(0));
         }
@@ -77,7 +77,7 @@ public class LocalForm extends javax.swing.JPanel {
 
     private void addSala(Sala data) {
         ComponentsContainer sala = new ComponentsContainer();
-        sala.setColor(new Color(46, 144, 232));
+        sala.setColor(new Color(180, 180, 209));
         sala.setData(data);
         ButtonRedondeado botonSala = new ButtonRedondeado(data.getNombre());
 
