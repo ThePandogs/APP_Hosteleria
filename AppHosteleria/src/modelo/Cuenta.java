@@ -75,7 +75,7 @@ public class Cuenta {
         productos.replace(producto, newCantidad);
     }
 
-    public int eliminarProducto(Producto producto, int cantidadEliminar) {
+    public void eliminarProducto(Producto producto, int cantidadEliminar) {
 
         if (pedidoProductos.containsKey(producto)) {
             cantidadEliminar = eliminarProductoPedido(producto, cantidadEliminar);
@@ -84,21 +84,21 @@ public class Cuenta {
         if (cantidadEliminar != 0) {
             eliminarProductoCuenta(producto, cantidadEliminar);
         }
-        return cantidadEliminar;
+
     }
 
     private int eliminarProductoPedido(Producto producto, int cantidadEliminar) {
 
         int cantidadActual = pedidoProductos.get(producto);
-        cantidadEliminar -= cantidadActual;
+
         if (cantidadEliminar >= cantidadActual) {
             pedidoProductos.remove(producto);
-            return cantidadEliminar - cantidadActual;
+
         } else {
             pedidoProductos.replace(producto, pedidoProductos.get(producto) - cantidadEliminar);
-            return 0;
-        }
 
+        }
+        return cantidadEliminar - cantidadActual;
     }
 
     private void eliminarProductoCuenta(Producto producto, int cantidadEliminar) {

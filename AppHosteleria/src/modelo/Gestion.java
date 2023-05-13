@@ -242,11 +242,10 @@ public class Gestion {
     }
 
     public boolean borrarProducto(Cuenta cuenta, Producto producto, int cantidad) {
-        Integer cantidadProductos = cuenta.getProductos().get(producto); // Puede ser null
-        Integer cantidadPedidos = cuenta.getPedidoProductos().get(producto); // Puede ser null
+        int cantidadProductos = cuenta.getProductos().getOrDefault(producto, 0);
+        int cantidadPedidos = cuenta.getPedidoProductos().getOrDefault(producto, 0);
 
-        int suma = (cantidadProductos != null ? cantidadProductos : 0)
-                + (cantidadPedidos != null ? cantidadPedidos : 0);
+        int suma = cantidadProductos + cantidadPedidos;
         if (cantidad <= suma) {
             controllerBBDD.eliminarProducto(producto.getId(), cuenta.getIdCuenta(), cantidad);
             cuenta.eliminarProducto(producto, cantidad);

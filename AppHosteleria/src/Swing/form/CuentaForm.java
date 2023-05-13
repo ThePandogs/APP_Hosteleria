@@ -178,11 +178,11 @@ public class CuentaForm extends javax.swing.JPanel {
 
                     if (valorCalc.contains("-")) {
                         valorCalc = valorCalc.replace("-", "");
-                        System.out.println(valorCalc);
+
                         if (localForm.getGestion().borrarProducto(mesa.getCuenta(), producto, Integer.parseInt(valorCalc))) {
-                            System.out.println(valorCalc);
+
                             modelo.actualizarProductos();
-                            System.out.println(valorCalc);
+
                         } else {
                             //mostrarJdialog : la cantidad a borrar es superior a la actual
                         }
@@ -232,14 +232,10 @@ public class CuentaForm extends javax.swing.JPanel {
 
     public void setData(Mesa data) {
         mesa = data;
-        if (data.getCuenta() != null) {
-            cargarInformacionCuenta();
-
-        } else {
+        if (data.getCuenta() == null) {
             data.setCuenta(new Cuenta());
-
         }
-
+        cargarInformacionCuenta();
     }
 
     private void cargarInformacionCuenta() {
@@ -560,7 +556,7 @@ public class CuentaForm extends javax.swing.JPanel {
         modelo.vaciarTabla();
         mesa = null;
         localForm.cerrarMesa();
-        calcText.setText("");
+        calcText.setText("0");
     }//GEN-LAST:event_buttonRedondeado1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
