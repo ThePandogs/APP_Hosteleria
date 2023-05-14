@@ -205,7 +205,7 @@ public class MesaComponent extends javax.swing.JPanel {
 
     }
 // </editor-fold>  
-
+   
     @Override
     public void paint(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs.create();

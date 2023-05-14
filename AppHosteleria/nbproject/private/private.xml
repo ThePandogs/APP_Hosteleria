@@ -3,17 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/modelo/Gestion.java</file>
             <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/Swing/form/LocalForm.java</file>
-            <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/modelo/Local.java</file>
-            <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/iu/Interfaz.java</file>
-            <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/ConexionBBDD/ConexionBBDD.java</file>
+            <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/Swing/component/MesaComponent.java</file>
             <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/modelo/Cuenta.java</file>
-            <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/Log/Exception.txt</file>
             <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/Swing/component/ProductoComponent.java</file>
+            <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/Swing/component/MiModeloTabla.java</file>
             <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/ConexionBBDD/ControllerBBDD.java</file>
             <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/Swing/form/CuentaForm.java</file>
-            <file>file:/F:/Proyectos/Java/APP_Hosteleria/AppHosteleria/src/Swing/component/NumeroComponent.java</file>
         </group>
     </open-files>
 </project-private>

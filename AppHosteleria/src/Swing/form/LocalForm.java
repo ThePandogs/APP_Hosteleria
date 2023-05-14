@@ -44,7 +44,7 @@ public class LocalForm extends javax.swing.JPanel {
         cargarEstablecimiento();
         cuentaForm = new CuentaForm(local, this);
         this.add(cuentaForm, 0);
-        panelSala.setColor(new Color(153, 180, 209));
+        panelSala.setColor(new Color(153,180,209));
         if (!salas.isEmpty()) {
             cambiarSala(salas.get(0));
         }
@@ -77,7 +77,7 @@ public class LocalForm extends javax.swing.JPanel {
 
     private void addSala(Sala data) {
         ComponentsContainer sala = new ComponentsContainer();
-        sala.setColor(new Color(180, 180, 209));
+        sala.setColor(new Color(153,180,209));
         sala.setData(data);
         ButtonRedondeado botonSala = new ButtonRedondeado(data.getNombre());
 
@@ -160,21 +160,36 @@ public class LocalForm extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         listaSalas = new Swing.PanelComponentes();
         panelSala = new Swing.PanelRedondeado();
+        panelRedondeado1 = new Swing.PanelRedondeado();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new javax.swing.OverlayLayout(this));
 
         panelSalas.setOpaque(false);
+        panelSalas.setPreferredSize(new java.awt.Dimension(960, 540));
 
         jScrollPane1.setBorder(null);
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(200, 378));
 
-        java.awt.GridBagLayout listaSalasLayout = new java.awt.GridBagLayout();
-        listaSalasLayout.columnWeights = new double[] {1.0};
-        listaSalas.setLayout(listaSalasLayout);
+        listaSalas.setLayout(new javax.swing.BoxLayout(listaSalas, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane1.setViewportView(listaSalas);
 
+        panelSala.setPreferredSize(new java.awt.Dimension(720, 528));
         panelSala.setLayout(new java.awt.GridLayout(1, 0));
+
+        panelRedondeado1.setPreferredSize(new java.awt.Dimension(200, 150));
+
+        javax.swing.GroupLayout panelRedondeado1Layout = new javax.swing.GroupLayout(panelRedondeado1);
+        panelRedondeado1.setLayout(panelRedondeado1Layout);
+        panelRedondeado1Layout.setHorizontalGroup(
+            panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 203, Short.MAX_VALUE)
+        );
+        panelRedondeado1Layout.setVerticalGroup(
+            panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout panelSalasLayout = new javax.swing.GroupLayout(panelSalas);
         panelSalas.setLayout(panelSalasLayout);
@@ -182,9 +197,11 @@ public class LocalForm extends javax.swing.JPanel {
             panelSalasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSalasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelSala, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
+                .addComponent(panelSala, javax.swing.GroupLayout.DEFAULT_SIZE, 739, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelSalasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelRedondeado1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         panelSalasLayout.setVerticalGroup(
@@ -192,9 +209,13 @@ public class LocalForm extends javax.swing.JPanel {
             .addGroup(panelSalasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelSalasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(panelSala, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addGroup(panelSalasLayout.createSequentialGroup()
+                        .addComponent(panelSala, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(panelSalasLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(12, 12, 12)
+                        .addComponent(panelRedondeado1, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE))))
         );
 
         add(panelSalas);
@@ -203,6 +224,7 @@ public class LocalForm extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private Swing.PanelComponentes listaSalas;
+    private Swing.PanelRedondeado panelRedondeado1;
     private Swing.PanelRedondeado panelSala;
     private javax.swing.JPanel panelSalas;
     // End of variables declaration//GEN-END:variables

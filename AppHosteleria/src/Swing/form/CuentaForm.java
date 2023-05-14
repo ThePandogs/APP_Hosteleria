@@ -1,6 +1,6 @@
 package Swing.form;
 
-import Swing.MiModeloTabla;
+import Swing.component.MiModeloTabla;
 import Swing.PanelComponentes;
 import Swing.WrapLayout;
 import Swing.component.ProductoComponent;
@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
 import modelo.Cuenta;
 import modelo.GrupoProducto;
 import modelo.Local;
@@ -264,6 +266,7 @@ public class CuentaForm extends javax.swing.JPanel {
         tabla = new Swing.PanelRedondeado();
         scrolltabla = new javax.swing.JScrollPane();
         tablaProductos = new javax.swing.JTable();
+        buttonRedondeado2 = new swing.ButtonRedondeado();
         calc = new Swing.PanelRedondeado();
         panelRedondeado1 = new Swing.PanelRedondeado();
         operatorsPanel = new Swing.PanelComponentes();
@@ -276,7 +279,6 @@ public class CuentaForm extends javax.swing.JPanel {
         grupositos = new Swing.PanelComponentes();
         opcionesCuenta = new Swing.PanelRedondeado();
         buttonRedondeado1 = new swing.ButtonRedondeado();
-        jButton1 = new javax.swing.JButton();
         panelRedondeado2 = new Swing.PanelRedondeado();
 
         setOpaque(false);
@@ -312,6 +314,34 @@ public class CuentaForm extends javax.swing.JPanel {
         tablaProductos.getTableHeader().setReorderingAllowed(false);
         scrolltabla.setViewportView(tablaProductos);
         tablaProductos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        if (tablaProductos.getColumnModel().getColumnCount() > 0) {
+            tablaProductos.getColumnModel().getColumn(0).setPreferredWidth(120);
+            tablaProductos.getColumnModel().getColumn(1).setPreferredWidth(20);
+            tablaProductos.getColumnModel().getColumn(2).setPreferredWidth(5);
+
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+
+            //Columnas centrandas
+            tablaProductos.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+            tablaProductos.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+
+            // Columnas no sean redimensionables
+            tablaProductos.getColumnModel().getColumn(0).setResizable(false);
+            tablaProductos.getColumnModel().getColumn(1).setResizable(false);
+            tablaProductos.getColumnModel().getColumn(2).setResizable(false);
+
+        }
+
+        buttonRedondeado2.setBackground(new java.awt.Color(153, 180, 209));
+        buttonRedondeado2.setForeground(new java.awt.Color(255, 255, 255));
+        buttonRedondeado2.setText("EnviarPedido");
+        buttonRedondeado2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        buttonRedondeado2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRedondeado2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout tablaLayout = new javax.swing.GroupLayout(tabla);
         tabla.setLayout(tablaLayout);
@@ -319,7 +349,9 @@ public class CuentaForm extends javax.swing.JPanel {
             tablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tablaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scrolltabla, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGroup(tablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(scrolltabla, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+                    .addComponent(buttonRedondeado2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         tablaLayout.setVerticalGroup(
@@ -327,18 +359,20 @@ public class CuentaForm extends javax.swing.JPanel {
             .addGroup(tablaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(scrolltabla, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buttonRedondeado2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7))
         );
 
         calc.setMaximumSize(new java.awt.Dimension(284, 365));
         calc.setPreferredSize(new java.awt.Dimension(284, 365));
 
         operatorsPanel.setMaximumSize(new java.awt.Dimension(80, 32767));
-        operatorsPanel.setPreferredSize(new java.awt.Dimension(60, 262));
+        operatorsPanel.setPreferredSize(new java.awt.Dimension(60, 256));
         operatorsPanel.setLayout(new java.awt.GridLayout(4, 1, 5, 5));
 
-        numbersPanel.setMinimumSize(new java.awt.Dimension(200, 256));
-        numbersPanel.setPreferredSize(new java.awt.Dimension(200, 256));
+        numbersPanel.setMinimumSize(new java.awt.Dimension(150, 256));
+        numbersPanel.setPreferredSize(new java.awt.Dimension(180, 256));
         numbersPanel.setLayout(new java.awt.GridLayout(4, 3, 5, 5));
 
         javax.swing.GroupLayout panelRedondeado1Layout = new javax.swing.GroupLayout(panelRedondeado1);
@@ -349,13 +383,14 @@ public class CuentaForm extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(numbersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(operatorsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+                .addComponent(operatorsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelRedondeado1Layout.setVerticalGroup(
             panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(operatorsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(panelRedondeado1Layout.createSequentialGroup()
-                .addComponent(numbersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRedondeado1Layout.createSequentialGroup()
+                .addGroup(panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(operatorsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(numbersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -444,17 +479,13 @@ public class CuentaForm extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        buttonRedondeado1.setBackground(new java.awt.Color(153, 180, 209));
+        buttonRedondeado1.setForeground(new java.awt.Color(255, 255, 255));
         buttonRedondeado1.setText("Atras");
+        buttonRedondeado1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         buttonRedondeado1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonRedondeado1ActionPerformed(evt);
-            }
-        });
-
-        jButton1.setText("EnviarPedido");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
             }
         });
 
@@ -463,20 +494,16 @@ public class CuentaForm extends javax.swing.JPanel {
         opcionesCuentaLayout.setHorizontalGroup(
             opcionesCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(opcionesCuentaLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(buttonRedondeado1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(buttonRedondeado1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(144, 144, 144))
         );
         opcionesCuentaLayout.setVerticalGroup(
             opcionesCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(opcionesCuentaLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(opcionesCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonRedondeado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, opcionesCuentaLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(buttonRedondeado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout panelRedondeado2Layout = new javax.swing.GroupLayout(panelRedondeado2);
@@ -502,12 +529,10 @@ public class CuentaForm extends javax.swing.JPanel {
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(opcionesCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(tabla, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
-                                .addGap(3, 3, 3)))
-                        .addGap(5, 5, 5)
-                        .addComponent(calc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tabla, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                            .addComponent(opcionesCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(calc, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -559,17 +584,17 @@ public class CuentaForm extends javax.swing.JPanel {
         calcText.setText("0");
     }//GEN-LAST:event_buttonRedondeado1ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void buttonRedondeado2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRedondeado2ActionPerformed
         localForm.getGestion().enviarPedido(mesa.getCuenta());
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_buttonRedondeado2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private swing.ButtonRedondeado buttonRedondeado1;
+    private swing.ButtonRedondeado buttonRedondeado2;
     private Swing.PanelRedondeado cabecera;
     private Swing.PanelRedondeado calc;
     private javax.swing.JLabel calcText;
     private Swing.PanelComponentes grupositos;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private Swing.PanelComponentes numbersPanel;

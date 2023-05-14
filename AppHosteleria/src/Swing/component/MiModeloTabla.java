@@ -2,13 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Swing;
+package Swing.component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import modelo.Producto;
 
 /**
@@ -26,7 +27,7 @@ public class MiModeloTabla extends DefaultTableModel {
 
         addColumn("Producto");
         addColumn("Precio");
-        addColumn("Cantidad");
+        addColumn("Cant.");
 
     }
 
@@ -81,6 +82,11 @@ public class MiModeloTabla extends DefaultTableModel {
     }
 
     @Override
+    public boolean isCellEditable(int row, int column) {
+        return false;
+    }
+
+    @Override
     public Object getValueAt(int row, int column) {
         List<Producto> a = new ArrayList<>(listaProductos.keySet());
         Producto producto = a.get(row);
@@ -96,6 +102,7 @@ public class MiModeloTabla extends DefaultTableModel {
             default ->
                 null;
         };
+
     }
 
 }
