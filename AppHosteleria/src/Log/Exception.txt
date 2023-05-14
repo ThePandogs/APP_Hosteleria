@@ -148,3 +148,43 @@ Fecha:  2023-05-13
 Hora:   20:16:40
 Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
 
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-14
+Hora:   19:50:23
+Motivo: Data truncation: Out of range value for column 'cantidad' at row 1
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-14
+Hora:   19:50:23
+Motivo: Data truncation: Out of range value for column 'cantidad' at row 1
+
+Excepción: class java.sql.SQLIntegrityConstraintViolationException
+Fecha:  2023-05-14
+Hora:   20:57:15
+Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`cuentas`, CONSTRAINT `cuentas_ibfk_2` FOREIGN KEY (`camarero`) REFERENCES `usuarios` (`id_usuario`) ON DELETE SET NULL ON UPDATE CASCADE)
+
+Excepción: class java.sql.SQLIntegrityConstraintViolationException
+Fecha:  2023-05-14
+Hora:   20:57:55
+Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`cuentas`, CONSTRAINT `cuentas_ibfk_2` FOREIGN KEY (`camarero`) REFERENCES `usuarios` (`id_usuario`) ON DELETE SET NULL ON UPDATE CASCADE)
+
+Excepción: class java.sql.SQLIntegrityConstraintViolationException
+Fecha:  2023-05-14
+Hora:   21:37:53
+Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`pedidos`, CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`cuenta`) REFERENCES `cuentas` (`id_cuenta`) ON DELETE RESTRICT ON UPDATE CASCADE)
+
+Excepción: class java.sql.SQLIntegrityConstraintViolationException
+Fecha:  2023-05-14
+Hora:   21:37:53
+Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`pedidos`, CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`cuenta`) REFERENCES `cuentas` (`id_cuenta`) ON DELETE RESTRICT ON UPDATE CASCADE)
+
+Excepción: class java.sql.SQLIntegrityConstraintViolationException
+Fecha:  2023-05-14
+Hora:   21:37:53
+Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`pedidos`, CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`cuenta`) REFERENCES `cuentas` (`id_cuenta`) ON DELETE RESTRICT ON UPDATE CASCADE)
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-14
+Hora:   22:07:20
+Motivo: Data truncation: Out of range value for column 'cantidad' at row 1
+

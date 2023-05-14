@@ -20,7 +20,7 @@ public class Mesa {
         this.width = width;
         this.height = height;
         this.disponible = disponible;
-        
+
     }
 
 // <editor-fold defaultstate="collapsed" desc="Getter_Setter">

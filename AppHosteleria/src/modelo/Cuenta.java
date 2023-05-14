@@ -21,22 +21,25 @@ public class Cuenta {
     private Camarero camarero;
     private int comensales;
     private double precio;
+    private Mesa mesa;
 
     private Map<Producto, Integer> productos;
     private Map<Producto, Integer> pedidoProductos;
 
-    public Cuenta(int idCuenta, LocalDateTime fechaHora, Camarero camarero, int comensales, double precio) {
+    public Cuenta(int idCuenta, LocalDateTime fechaHora, Camarero camarero, int comensales, double precio, Mesa mesa) {
         this.idCuenta = idCuenta;
         this.fechaHora = fechaHora;
         this.camarero = camarero;
         this.comensales = comensales;
         this.precio = precio;
+        this.mesa = mesa;
         this.productos = new HashMap();
         this.pedidoProductos = new HashMap();
     }
 
-    public Cuenta() {
-
+    public Cuenta(Mesa mesa, Camarero camarero) {
+        this.mesa = mesa;
+        this.camarero = camarero;
         this.productos = new HashMap();
         this.pedidoProductos = new HashMap();
 
@@ -141,6 +144,10 @@ public class Cuenta {
         return idCuenta;
     }
 
+    public void setIdCuenta(int idCuenta) {
+        this.idCuenta = idCuenta;
+    }
+
     public void setProductos(Map productos) {
         this.productos = productos;
     }
@@ -159,6 +166,14 @@ public class Cuenta {
 
     public double getPrecio() {
         return precio;
+    }
+
+    public Mesa getMesa() {
+        return mesa;
+    }
+
+    public void setMesa(Mesa mesa) {
+        this.mesa = mesa;
     }
 
     public Map<Producto, Integer> getProductos() {

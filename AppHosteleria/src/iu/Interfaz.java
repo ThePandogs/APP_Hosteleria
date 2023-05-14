@@ -1,15 +1,14 @@
-
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package iu;
 
+import Swing.form.LocalForm;
 import Swing.form.LoginForm;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import Swing.form.LocalForm;
+
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

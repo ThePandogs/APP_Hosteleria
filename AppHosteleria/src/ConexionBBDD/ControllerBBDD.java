@@ -7,6 +7,7 @@ package ConexionBBDD;
 import Log.LogExcepcion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.SQLException;
 
 /**
@@ -18,7 +19,7 @@ public class ControllerBBDD {
     private LogExcepcion logExcepcion = new LogExcepcion();
 
     //QUERYS
-    private String queryGetUsuarios = "select id_usuario,usuario,rol from usuarios;";
+    private String queryGetUsuarios = "select id_usuario,empleado,usuario,rol from usuarios;";
     private String queryConsultarProductos = "select id_producto,nombre,precio,disponible,imagen from productos;";
     private String queryComprobarPasswordUsuario = "SELECT * FROM usuarios WHERE usuario = ? AND pin = ?;";
     private String queryConsultarMesas = "select id_mesa,numero,posicionX,posicionY,tamanoX,tamanoY,disponible from mesas;";
@@ -28,8 +29,9 @@ public class ControllerBBDD {
     private String queryConsultarEstablecimientos = "select id_establecimiento,nombre,direccion,cif,prefijo_telefono,telefono from establecimientos;";
     private String queryConsultarGruposProductos = "select id_grupo,nombre from grupos_productos;";
     private String queryConsultarPedido = "select producto,cantidad from pedidos where cuenta=?;";
+    private String queryInsertarNuevaCuenta = "INSERT INTO cuentas (camarero,mesa,comensales) VALUES (?,?,?);";
     private String queryConsultarCuenta = "select id_cuenta,fecha_hora,camarero,comensales,precio from cuentas where mesa=? and fecha_salida is null;";
-    private String queryConsultarCamareros = "select id_empleado,nombre  from empleados where departamento=2;";
+    private String queryConsultarCamareros = "select id_empleado,nombre  from empleados where departamento=3;";
     private String queryConsultarEmpleadoUsuario = "select e.nombre from empleados as e inner join usuarios as u on e.id_empleado = u.empleado where u.id_usuario=?;;";
     private String queryEnviarPedido = "insert into pedidos values(?,?,?) on duplicate key update cantidad=cantidad+?;";
     private String funtionEliminarProducto = "select  BORRAR_PRODUCTO(?,?,?);";
@@ -49,7 +51,7 @@ public class ControllerBBDD {
     private PreparedStatement preConsultarEmpleadoUsuario;
     private PreparedStatement preEnviarPedido;
     private PreparedStatement preEliminarProducto;
-
+    private PreparedStatement preInsertarNuevaCuenta;
     //CONEXION
     ConexionBBDD bbdd;
 
@@ -87,6 +89,7 @@ public class ControllerBBDD {
         preConsultarEmpleadoUsuario = bbdd.getCon().prepareStatement(queryConsultarEmpleadoUsuario);
         preEnviarPedido = bbdd.getCon().prepareStatement(queryEnviarPedido);
         preEliminarProducto = bbdd.getCon().prepareStatement(funtionEliminarProducto);
+        preInsertarNuevaCuenta = bbdd.getCon().prepareStatement(queryInsertarNuevaCuenta, Statement.RETURN_GENERATED_KEYS);
     }
 
     /**
@@ -150,6 +153,19 @@ public class ControllerBBDD {
             return null;
         }
 
+    }
+
+    public ResultSet insertarNuevaCuenta(int id_camarero, int id_mesa, int comensales) {
+        try {
+            preInsertarNuevaCuenta.setInt(1, id_camarero);
+            preInsertarNuevaCuenta.setInt(2, id_mesa);
+            preInsertarNuevaCuenta.setInt(3, comensales);
+            preInsertarNuevaCuenta.executeUpdate();
+            return preInsertarNuevaCuenta.getGeneratedKeys();
+        } catch (SQLException ex) {
+            logExcepcion.anadirExcepcionLog(ex);
+            return null;
+        }
     }
 
     public ResultSet consultarCuenta(int id_mesa) {

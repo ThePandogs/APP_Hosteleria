@@ -22,7 +22,7 @@ public class Local {
     String prefijo_telefono;
     String telefono;
     List<Sala> salas;
-    List<Camarero> camareros;
+    Map<Integer, Camarero> camareros;
     Map<Integer, Producto> productos;
     List<GrupoProducto> gruposProductos;
 
@@ -36,7 +36,7 @@ public class Local {
         this.telefono = telefono;
 
         salas = new ArrayList();
-        camareros = new ArrayList();
+        camareros = new HashMap();
         productos = new HashMap();
         gruposProductos = new ArrayList();
 
@@ -113,13 +113,15 @@ public class Local {
         this.salas = salas;
     }
 
-    public List<Camarero> getCamareros() {
+    public Map<Integer, Camarero> getCamareros() {
         return camareros;
     }
 
-    public void setCamareros(List<Camarero> camareros) {
+    public void setCamareros(Map<Integer, Camarero> camareros) {
         this.camareros = camareros;
     }
+
+    
 
     public List<GrupoProducto> getGruposProductos() {
         return gruposProductos;

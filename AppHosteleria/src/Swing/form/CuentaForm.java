@@ -235,14 +235,15 @@ public class CuentaForm extends javax.swing.JPanel {
     public void setData(Mesa data) {
         mesa = data;
         if (data.getCuenta() == null) {
-            data.setCuenta(new Cuenta());
+            data.setCuenta(new Cuenta(data, localForm.getGestion().getCamareroActual()));
         }
         cargarInformacionCuenta();
+
     }
 
     private void cargarInformacionCuenta() {
 
-        tituloMesa.setText("Mesa: " + mesa.getNumero() + " Sala: " + localForm.getSalaActual().getId());
+        tituloMesa.setText("Mesa: " + mesa.getNumero() + " Sala: " + localForm.getSalaActual().getId() + " Camarero: " + mesa.getCuenta().getCamarero().getNombre());
         modelo.setProductos(mesa.getCuenta().getProductos(), mesa.getCuenta().getPedidoProductos());
 
     }

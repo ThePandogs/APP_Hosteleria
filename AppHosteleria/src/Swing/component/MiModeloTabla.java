@@ -59,7 +59,9 @@ public class MiModeloTabla extends DefaultTableModel {
 
     public void actualizarProductos() {
         listaProductos.clear();
+
         listaProductos.putAll(productos);
+
         for (Map.Entry<Producto, Integer> entry : productosPedido.entrySet()) {
             Producto producto = entry.getKey();
             int cantidadPedidos = entry.getValue();

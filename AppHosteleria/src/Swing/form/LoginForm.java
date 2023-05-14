@@ -19,6 +19,7 @@ public class LoginForm extends javax.swing.JPanel {
 
     Gestion gestion;
     Interfaz interfaz;
+    Usuario usuarioSeleccionado;
 
     public LoginForm(Gestion gestion, Interfaz interfaz) {
         this.gestion = gestion;
@@ -52,13 +53,14 @@ public class LoginForm extends javax.swing.JPanel {
             @Override
             public void mousePressed(MouseEvent me) {
                 if (SwingUtilities.isLeftMouseButton(me)) {
-
+                    usuarioSeleccionado = data;
                     setSelected(user);
                     nombre.setText(data.getItemName());
                     if (!campoPassword.isEditable()) {
                         campoPassword.setEditable(true);
                         advertencia.setText("");
                     }
+
                     botonLogin.setBackground(new java.awt.Color(94, 156, 255));
                 }
             }
@@ -79,9 +81,9 @@ public class LoginForm extends javax.swing.JPanel {
         Iterator<Usuario> usuarios = gestion.getUsuarios().iterator();
 
         while (usuarios.hasNext()) {
-            //  for (int i = 0; i < 15; i++) {
+
             addUser(usuarios.next());
-            //    }
+
         }
     }
 
@@ -314,6 +316,7 @@ public class LoginForm extends javax.swing.JPanel {
         if (!campoPassword.isEditable()) {
             advertencia.setText("* Elige un Usuario!");
         } else if (gestion.comprobarUsuario(nombre.getText(), new String(campoPassword.getPassword()))) {
+            gestion.setCamareroActual(gestion.getLocales().get(0).getCamareros().get(usuarioSeleccionado.getIdEmpleado()));
             interfaz.cambiarFormulario(interfaz.getLocalForm());
         } else {
 
