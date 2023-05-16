@@ -113,13 +113,21 @@ public class CuentaForm extends javax.swing.JPanel {
             public void mousePressed(MouseEvent me) {
                 Cuenta cuenta = mesa.getCuenta();
                 if (SwingUtilities.isLeftMouseButton(me)) {
+                    String valorCalc = calcText.getText();
 
-                    int cantidadProductos = Integer.parseInt(calcText.getText());
-                    if (cantidadProductos == 0) {
-                        cantidadProductos = 1;
+                    if (valorCalc.contains("-")) {
+                        valorCalc = valorCalc.replace("-", "");
+
+                        eliminarProducto(producto, Integer.parseInt(valorCalc));
+                        return;
+                    } else {
+                        int cantidadProductos = Integer.parseInt(valorCalc);
+                        if (cantidadProductos == 0) {
+                            cantidadProductos = 1;
+                        }
+                        cuenta.anadirProductosPedido(producto, cantidadProductos);
+
                     }
-
-                    cuenta.anadirProductosPedido(producto, cantidadProductos);
                     modelo.actualizarProductos();
                     calcText.setText("0");
                 }
@@ -181,13 +189,7 @@ public class CuentaForm extends javax.swing.JPanel {
                     if (valorCalc.contains("-")) {
                         valorCalc = valorCalc.replace("-", "");
 
-                        if (localForm.getGestion().borrarProducto(mesa.getCuenta(), producto, Integer.parseInt(valorCalc))) {
-
-                            modelo.actualizarProductos();
-
-                        } else {
-                            //mostrarJdialog : la cantidad a borrar es superior a la actual
-                        }
+                        eliminarProducto(producto, Integer.parseInt(valorCalc));
 
                     } else {
                         mesa.getCuenta().anadirProductosPedido(producto, Integer.parseInt(valorCalc));
@@ -206,6 +208,16 @@ public class CuentaForm extends javax.swing.JPanel {
                 interaccionBotonNumero(buttonPressed);
         }
         // Realizar alguna acción cuando se presiona el botón "✓"
+    }
+
+    private void eliminarProducto(Producto producto, int cantidad) {
+        if (localForm.getGestion().borrarProducto(mesa.getCuenta(), producto, cantidad)) {
+
+            modelo.actualizarProductos();
+
+        } else {
+            //mostrarJdialog : la cantidad a borrar es superior a la actual
+        }
     }
 
     private void interaccionBotonOperador(String currentOperator, String oppositeOperator) {
@@ -286,8 +298,10 @@ public class CuentaForm extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(153, 180, 209));
 
+        cabecera.setBackground(new java.awt.Color(255, 255, 255));
         cabecera.setPreferredSize(new java.awt.Dimension(874, 30));
 
+        tituloMesa.setBackground(new java.awt.Color(255, 255, 255));
         tituloMesa.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         tituloMesa.setPreferredSize(new java.awt.Dimension(55, 30));
 
@@ -305,6 +319,7 @@ public class CuentaForm extends javax.swing.JPanel {
             .addComponent(tituloMesa, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
         );
 
+        tabla.setBackground(new java.awt.Color(255, 255, 255));
         tabla.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         tabla.setPreferredSize(new java.awt.Dimension(500, 375));
 
@@ -365,8 +380,11 @@ public class CuentaForm extends javax.swing.JPanel {
                 .addGap(7, 7, 7))
         );
 
+        calc.setBackground(new java.awt.Color(255, 255, 255));
         calc.setMaximumSize(new java.awt.Dimension(284, 365));
         calc.setPreferredSize(new java.awt.Dimension(284, 365));
+
+        panelRedondeado1.setBackground(new java.awt.Color(255, 255, 255));
 
         operatorsPanel.setMaximumSize(new java.awt.Dimension(80, 32767));
         operatorsPanel.setPreferredSize(new java.awt.Dimension(60, 256));
@@ -442,6 +460,7 @@ public class CuentaForm extends javax.swing.JPanel {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        productos.setBackground(new java.awt.Color(255, 255, 255));
         productos.setPreferredSize(new java.awt.Dimension(600, 375));
 
         panelProductos.setLayout(new javax.swing.OverlayLayout(panelProductos));
@@ -463,6 +482,8 @@ public class CuentaForm extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        panelGruposProductos.setBackground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout panelGruposProductosLayout = new javax.swing.GroupLayout(panelGruposProductos);
         panelGruposProductos.setLayout(panelGruposProductosLayout);
         panelGruposProductosLayout.setHorizontalGroup(
@@ -479,6 +500,8 @@ public class CuentaForm extends javax.swing.JPanel {
                 .addComponent(grupositos, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        opcionesCuenta.setBackground(new java.awt.Color(255, 255, 255));
 
         buttonRedondeado1.setBackground(new java.awt.Color(153, 180, 209));
         buttonRedondeado1.setForeground(new java.awt.Color(255, 255, 255));
@@ -506,6 +529,8 @@ public class CuentaForm extends javax.swing.JPanel {
                 .addComponent(buttonRedondeado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        panelRedondeado2.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout panelRedondeado2Layout = new javax.swing.GroupLayout(panelRedondeado2);
         panelRedondeado2.setLayout(panelRedondeado2Layout);

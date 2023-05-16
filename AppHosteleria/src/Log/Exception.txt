@@ -188,3 +188,23 @@ Fecha:  2023-05-14
 Hora:   22:07:20
 Motivo: Data truncation: Out of range value for column 'cantidad' at row 1
 
+Excepción: class java.sql.SQLException
+Fecha:  2023-05-16
+Hora:   12:34:52
+Motivo: No suitable driver found for jdbc:mysql://localhost/hosteleria
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-16
+Hora:   12:50:25
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-16
+Hora:   12:51:12
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-16
+Hora:   12:51:51
+Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
+

@@ -1,11 +1,13 @@
 package Swing.form;
 
+import Swing.ToggleButtonRedondeado;
 import Swing.component.MesaComponent;
 import Swing.component.ComponentsContainer;
 import Swing.component.UserComponent;
 import iu.Interfaz;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -27,6 +29,7 @@ public class LocalForm extends javax.swing.JPanel {
     private ArrayList<ComponentsContainer> salas;
     private Interfaz interfaz;
     private Sala salaActual;
+    private boolean editarSala = false;
 
     public LocalForm(Gestion gestion, Interfaz interfaz, Local local) {
         this.gestion = gestion;
@@ -84,8 +87,15 @@ public class LocalForm extends javax.swing.JPanel {
         botonSala.addActionListener((ActionEvent e) -> {
             cambiarSala(sala);
         });
+        //Le asociamos en layout del panel para que sea redimensiobable
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.weightx = 1.0; // Permite el redimensionamiento horizontal
+        gbc.gridx = 0;
+        //gbc.gridy = listaSalas.getComponentCount();
+        listaSalas.add(botonSala, gbc);
 
-        listaSalas.add(botonSala);
         salas.add(sala);
 
     }
@@ -99,7 +109,7 @@ public class LocalForm extends javax.swing.JPanel {
     }
 
     private void addMesa(Mesa data, ComponentsContainer sala) {
-        MesaComponent mesa = new MesaComponent();
+        MesaComponent mesa = new MesaComponent(this);
         mesa.setData(data);
         mesa.addMouseListener(new MouseAdapter() {
             @Override
@@ -152,6 +162,14 @@ public class LocalForm extends javax.swing.JPanel {
         return gestion;
     }
 
+    public boolean isEditarSala() {
+        return editarSala;
+    }
+
+    public ToggleButtonRedondeado getToggleButtonRedondeado2() {
+        return toggleButtonRedondeado2;
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -161,6 +179,7 @@ public class LocalForm extends javax.swing.JPanel {
         listaSalas = new Swing.PanelComponentes();
         panelSala = new Swing.PanelRedondeado();
         panelRedondeado1 = new Swing.PanelRedondeado();
+        toggleButtonRedondeado2 = new Swing.ToggleButtonRedondeado();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new javax.swing.OverlayLayout(this));
@@ -172,23 +191,34 @@ public class LocalForm extends javax.swing.JPanel {
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setPreferredSize(new java.awt.Dimension(200, 378));
 
-        listaSalas.setLayout(new javax.swing.BoxLayout(listaSalas, javax.swing.BoxLayout.Y_AXIS));
+        listaSalas.setLayout(new java.awt.GridBagLayout());
         jScrollPane1.setViewportView(listaSalas);
 
         panelSala.setPreferredSize(new java.awt.Dimension(720, 528));
         panelSala.setLayout(new java.awt.GridLayout(1, 0));
 
+        panelRedondeado1.setBackground(new java.awt.Color(207, 255, 255));
         panelRedondeado1.setPreferredSize(new java.awt.Dimension(200, 150));
+
+        toggleButtonRedondeado2.setBackground(new java.awt.Color(102, 153, 255));
+        toggleButtonRedondeado2.setText("Editar Sala");
+        toggleButtonRedondeado2.setToolTipText("");
 
         javax.swing.GroupLayout panelRedondeado1Layout = new javax.swing.GroupLayout(panelRedondeado1);
         panelRedondeado1.setLayout(panelRedondeado1Layout);
         panelRedondeado1Layout.setHorizontalGroup(
             panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 203, Short.MAX_VALUE)
+            .addGroup(panelRedondeado1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(toggleButtonRedondeado2, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
+                .addContainerGap())
         );
         panelRedondeado1Layout.setVerticalGroup(
             panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(panelRedondeado1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(toggleButtonRedondeado2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelSalasLayout = new javax.swing.GroupLayout(panelSalas);
@@ -210,12 +240,11 @@ public class LocalForm extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(panelSalasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelSalasLayout.createSequentialGroup()
-                        .addComponent(panelSala, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(panelSalasLayout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(12, 12, 12)
-                        .addComponent(panelRedondeado1, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panelRedondeado1, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE))
+                    .addComponent(panelSala, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         add(panelSalas);
@@ -227,5 +256,6 @@ public class LocalForm extends javax.swing.JPanel {
     private Swing.PanelRedondeado panelRedondeado1;
     private Swing.PanelRedondeado panelSala;
     private javax.swing.JPanel panelSalas;
+    private Swing.ToggleButtonRedondeado toggleButtonRedondeado2;
     // End of variables declaration//GEN-END:variables
 }

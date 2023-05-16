@@ -49,7 +49,7 @@ public class PanelRedondeado extends JPanel {
         Graphics2D g2 = (Graphics2D) grphcs.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         if (color == null) {
-            g2.setColor(Color.WHITE);
+            g2.setColor(getBackground());
         } else {
             g2.setColor(color);
         }

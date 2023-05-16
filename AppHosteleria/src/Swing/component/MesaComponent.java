@@ -1,5 +1,6 @@
 package Swing.component;
 
+import Swing.form.LocalForm;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
@@ -19,15 +20,19 @@ public class MesaComponent extends javax.swing.JPanel {
     private boolean resizing = false;
     private int resizeMargin = 5;
     private Mesa data;
+    private LocalForm local;
 
-    public MesaComponent() {
+    public MesaComponent(LocalForm local) {
         initComponents();
         setOpaque(false);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
-
+        this.local = local;
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                if (!local.getToggleButtonRedondeado2().isSelected()) {
+                    return;
+                }
                 startX = e.getX();
                 startY = e.getY();
                 if (isOnResizeMargin(e.getPoint())) {
@@ -46,6 +51,9 @@ public class MesaComponent extends javax.swing.JPanel {
         addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
+                if (!local.getToggleButtonRedondeado2().isSelected()) {
+                    return;
+                }
                 int deltaX = e.getX() - startX;
                 int deltaY = e.getY() - startY;
                 if (!resizing) {
@@ -59,6 +67,9 @@ public class MesaComponent extends javax.swing.JPanel {
 
             @Override
             public void mouseMoved(MouseEvent e) {
+                if (!local.getToggleButtonRedondeado2().isSelected()) {
+                    return;
+                }
                 if (isOnResizeMargin(e.getPoint())) {
                     setCursor(getCursorForPoint(e.getPoint()));
                 } else {
@@ -205,7 +216,7 @@ public class MesaComponent extends javax.swing.JPanel {
 
     }
 // </editor-fold>  
-   
+
     @Override
     public void paint(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs.create();
