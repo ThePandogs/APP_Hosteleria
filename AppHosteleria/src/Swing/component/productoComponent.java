@@ -68,29 +68,36 @@ public class ProductoComponent extends javax.swing.JPanel {
     private void initComponents() {
 
         panelRedondeado1 = new Swing.PanelRedondeado();
-        nombre = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        nombre = new javax.swing.JTextArea();
 
-        nombre.setBackground(new Color(240, 240, 240, 5));
-        nombre.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        nombre.setForeground(new java.awt.Color(106, 106, 106));
-        nombre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        nombre.setText("jLabel1");
-        nombre.setOpaque(true);
+        jScrollPane1.setBorder(null);
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        nombre.setEditable(false);
+        nombre.setColumns(20);
+        nombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        nombre.setLineWrap(true);
+        nombre.setRows(5);
+        nombre.setWrapStyleWord(true);
+        nombre.setAutoscrolls(false);
+        nombre.setDisabledTextColor(new java.awt.Color(255, 255, 255));
+        nombre.setOpaque(false);
+        nombre.setSelectionColor(new java.awt.Color(0, 0, 0));
+        jScrollPane1.setViewportView(nombre);
 
         javax.swing.GroupLayout panelRedondeado1Layout = new javax.swing.GroupLayout(panelRedondeado1);
         panelRedondeado1.setLayout(panelRedondeado1Layout);
         panelRedondeado1Layout.setHorizontalGroup(
             panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRedondeado1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
         );
         panelRedondeado1Layout.setVerticalGroup(
             panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRedondeado1Layout.createSequentialGroup()
-                .addContainerGap(64, Short.MAX_VALUE)
-                .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(44, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -107,7 +114,8 @@ public class ProductoComponent extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel nombre;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea nombre;
     private Swing.PanelRedondeado panelRedondeado1;
     // End of variables declaration//GEN-END:variables
 }

@@ -63,6 +63,7 @@ public class MesaComponent extends javax.swing.JPanel {
                 } else {
                     resize(e.getPoint());
                 }
+
             }
 
             @Override
