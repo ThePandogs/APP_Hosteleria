@@ -4,8 +4,6 @@
  */
 package iu;
 
-import Swing.form.LocalForm;
-import Swing.form.LoginForm;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
@@ -107,9 +105,10 @@ public class Interfaz extends javax.swing.JFrame {
         mainPanel1 = new Swing.MainPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1150, 647));
+        setMinimumSize(new java.awt.Dimension(1150, 850));
         setName("APP_Hosteleria"); // NOI18N
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(1150, 850));
 
         background1.setRound(40);
 
@@ -121,7 +120,7 @@ public class Interfaz extends javax.swing.JFrame {
         headerLayout.setHorizontalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
-                .addContainerGap(1078, Short.MAX_VALUE)
+                .addContainerGap(928, Short.MAX_VALUE)
                 .addComponent(winButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
@@ -131,6 +130,7 @@ public class Interfaz extends javax.swing.JFrame {
         );
 
         mainPanel1.setMinimumSize(new java.awt.Dimension(0, 0));
+        mainPanel1.setPreferredSize(new java.awt.Dimension(988, 764));
 
         javax.swing.GroupLayout mainPanel1Layout = new javax.swing.GroupLayout(mainPanel1);
         mainPanel1.setLayout(mainPanel1Layout);
@@ -140,7 +140,7 @@ public class Interfaz extends javax.swing.JFrame {
         );
         mainPanel1Layout.setVerticalGroup(
             mainPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 611, Short.MAX_VALUE)
+            .addGap(0, 764, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
@@ -151,7 +151,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(mainPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, 1138, Short.MAX_VALUE))
+                    .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE))
                 .addContainerGap())
         );
         background1Layout.setVerticalGroup(

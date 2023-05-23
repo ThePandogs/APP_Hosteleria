@@ -1,10 +1,9 @@
-package Swing.form;
+package iu;
 
 import Swing.ToggleButtonRedondeado;
 import Swing.component.MesaComponent;
 import Swing.component.ComponentsContainer;
 import Swing.component.UserComponent;
-import iu.Interfaz;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -197,7 +196,7 @@ public class LocalForm extends javax.swing.JPanel {
         panelSala.setPreferredSize(new java.awt.Dimension(720, 528));
         panelSala.setLayout(new java.awt.GridLayout(1, 0));
 
-        panelRedondeado1.setBackground(new java.awt.Color(207, 255, 255));
+        panelRedondeado1.setBackground(new java.awt.Color(255, 255, 255));
         panelRedondeado1.setPreferredSize(new java.awt.Dimension(200, 150));
 
         toggleButtonRedondeado2.setBackground(new java.awt.Color(102, 153, 255));

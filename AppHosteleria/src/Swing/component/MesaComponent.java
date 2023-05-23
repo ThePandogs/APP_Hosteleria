@@ -1,6 +1,6 @@
 package Swing.component;
 
-import Swing.form.LocalForm;
+import iu.LocalForm;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
@@ -13,10 +13,9 @@ import modelo.Mesa;
 
 public class MesaComponent extends javax.swing.JPanel {
 
-    private boolean selected;
     private int startX, startY;
-    private int minWidth = 100;
-    private int minHeight = 100;
+    private int minWidth = 50;
+    private int minHeight = 50;
     private boolean resizing = false;
     private int resizeMargin = 5;
     private Mesa data;
@@ -201,15 +200,6 @@ public class MesaComponent extends javax.swing.JPanel {
         return data;
     }
 
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-        repaint();
-    }
-
     public void setData(Mesa data) {
         this.data = data;
         numeroMesa.setText(String.valueOf(data.getNumero()));
@@ -222,11 +212,11 @@ public class MesaComponent extends javax.swing.JPanel {
     public void paint(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(new Color(242, 242, 242));
+         g2.setColor(new Color(242, 242, 242));
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
-        if (selected) {
-            g2.setColor(new Color(94, 156, 255));
-            g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 20, 20);
+        if (data.getCuenta() != null) {
+            g2.setColor(new Color(255, 156, 150));
+            g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 10, 10);
         }
         g2.dispose();
         super.paint(grphcs);

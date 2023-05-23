@@ -4,10 +4,13 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[1150, 647]"/>
+      <Dimension value="[1150, 850]"/>
     </Property>
     <Property name="name" type="java.lang.String" value="APP_Hosteleria" noResource="true"/>
     <Property name="undecorated" type="boolean" value="true"/>
+    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[1150, 850]"/>
+    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -50,7 +53,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="mainPanel1" max="32767" attributes="0"/>
-                      <Component id="header" pref="1138" max="32767" attributes="0"/>
+                      <Component id="header" pref="988" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -83,7 +86,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="1078" max="32767" attributes="0"/>
+                      <EmptySpace pref="928" max="32767" attributes="0"/>
                       <Component id="winButton2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   </Group>
@@ -105,6 +108,9 @@
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[0, 0]"/>
             </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[988, 764]"/>
+            </Property>
           </Properties>
 
           <Layout>
@@ -115,7 +121,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="611" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="764" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>

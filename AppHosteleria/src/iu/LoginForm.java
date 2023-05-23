@@ -1,11 +1,10 @@
-package Swing.form;
+package iu;
 
 import Swing.ScrollBar;
 import Swing.component.NumeroComponent;
 import Swing.component.UserComponent;
 import Swing.component.ModelNumero;
 import modelo.Usuario;
-import iu.Interfaz;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
@@ -247,11 +246,13 @@ public class LoginForm extends javax.swing.JPanel {
         campoPassword.setEditable(false);
         campoPassword.setText("password");
         campoPassword.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        campoPassword.setPreferredSize(new java.awt.Dimension(100, 50));
 
-        botonLogin.setBackground(new java.awt.Color(204, 204, 204));
+        botonLogin.setBackground(new java.awt.Color(102, 102, 102));
         botonLogin.setForeground(new java.awt.Color(255, 255, 255));
-        botonLogin.setText("Entrar");
-        botonLogin.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        botonLogin.setText("Acceder");
+        botonLogin.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        botonLogin.setPreferredSize(new java.awt.Dimension(100, 50));
         botonLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonLoginActionPerformed(evt);
@@ -266,9 +267,9 @@ public class LoginForm extends javax.swing.JPanel {
             .addGroup(panelNumericoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelNumericoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(botonLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(advertencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tecladoNumerico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botonLogin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(campoPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(inicioSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -277,17 +278,17 @@ public class LoginForm extends javax.swing.JPanel {
             panelNumericoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelNumericoLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(inicioSesion, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                .addComponent(inicioSesion, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nombre, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(campoPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(9, 9, 9)
                 .addComponent(advertencia, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(tecladoNumerico, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                .addComponent(tecladoNumerico, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
                 .addGap(28, 28, 28))
         );
 
