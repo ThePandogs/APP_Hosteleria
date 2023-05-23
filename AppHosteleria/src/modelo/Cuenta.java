@@ -20,7 +20,7 @@ public class Cuenta {
     private LocalDateTime fechaHora;
     private Camarero camarero;
     private int comensales;
-    private double precio;
+    private double totalCuenta;
     private Mesa mesa;
 
     private Map<Producto, Integer> productos;
@@ -31,7 +31,7 @@ public class Cuenta {
         this.fechaHora = fechaHora;
         this.camarero = camarero;
         this.comensales = comensales;
-        this.precio = precio;
+        this.totalCuenta = precio;
         this.mesa = mesa;
         this.productos = new HashMap();
         this.pedidoProductos = new HashMap();
@@ -42,7 +42,25 @@ public class Cuenta {
         this.camarero = camarero;
         this.productos = new HashMap();
         this.pedidoProductos = new HashMap();
+        totalCuenta = 0.0;
+    }
 
+    private void actualizarTotalCuenta() {
+         totalCuenta = 0.0;
+        if (!productos.isEmpty()) {
+            for (Map.Entry<Producto, Integer> entry : productos.entrySet()) {
+                double precio = entry.getKey().getPrecio();
+                int cantidad = entry.getValue();
+                totalCuenta += (cantidad * precio);
+            }
+        }
+        if (!pedidoProductos.isEmpty()) {
+            for (Map.Entry<Producto, Integer> entry : pedidoProductos.entrySet()) {
+                double precio = entry.getKey().getPrecio();
+                int cantidad = entry.getValue();
+                totalCuenta += (cantidad * precio);
+            }
+        }
     }
 
     public void anadirProductosPedido(Producto producto, int cantidad) {
@@ -54,7 +72,7 @@ public class Cuenta {
         } else {
             pedidoProductos.put(producto, cantidad);
         }
-
+        actualizarTotalCuenta();
     }
 
     public void generarPedido() {
@@ -76,6 +94,7 @@ public class Cuenta {
         int oldCantidad = productos.get(producto);
         int newCantidad = oldCantidad + cantidad;
         productos.replace(producto, newCantidad);
+        actualizarTotalCuenta();
     }
 
     public void eliminarProducto(Producto producto, int cantidadEliminar) {
@@ -87,7 +106,7 @@ public class Cuenta {
         if (cantidadEliminar != 0) {
             eliminarProductoCuenta(producto, cantidadEliminar);
         }
-
+        actualizarTotalCuenta();
     }
 
     private int eliminarProductoPedido(Producto producto, int cantidadEliminar) {
@@ -117,7 +136,7 @@ public class Cuenta {
     }
 
     public double dividirImporte(Double Precio, int personas) {
-        return precio / personas;
+        return totalCuenta / personas;
     }
 
     public void cobrarTarjeta() {
@@ -135,9 +154,9 @@ public class Cuenta {
         this.fechaHora = fechaHora;
         this.camarero = camarero;
         this.comensales = comensales;
-        this.precio = precio;
+        this.totalCuenta = precio;
         this.productos = new HashMap();
-
+        actualizarTotalCuenta();
     }
 
     public int getIdCuenta() {
@@ -164,8 +183,8 @@ public class Cuenta {
         return comensales;
     }
 
-    public double getPrecio() {
-        return precio;
+    public double getTotalCuenta() {
+        return totalCuenta;
     }
 
     public Mesa getMesa() {

@@ -208,3 +208,58 @@ Fecha:  2023-05-16
 Hora:   12:51:51
 Motivo: Data truncation: Out of range value for column 'CANTIDAD_A_BORRAR' at row 1
 
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-23
+Hora:   22:13:31
+Motivo: Unknown column 'fecha_salida' in 'where clause'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-23
+Hora:   22:13:31
+Motivo: Unknown column 'fecha_salida' in 'where clause'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-23
+Hora:   22:13:31
+Motivo: Unknown column 'fecha_salida' in 'where clause'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-23
+Hora:   22:13:31
+Motivo: Unknown column 'fecha_salida' in 'where clause'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-23
+Hora:   22:13:31
+Motivo: Unknown column 'fecha_salida' in 'where clause'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-23
+Hora:   22:45:41
+Motivo: Unknown column 'id' in 'where clause'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-23
+Hora:   22:47:31
+Motivo: Unknown column 'id' in 'where clause'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-23
+Hora:   22:47:31
+Motivo: Unknown column 'id' in 'where clause'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-23
+Hora:   23:14:15
+Motivo: Unknown column 'id' in 'where clause'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-23
+Hora:   23:14:26
+Motivo: Unknown column 'id' in 'where clause'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-23
+Hora:   23:19:16
+Motivo: Unknown column 'id' in 'where clause'
+

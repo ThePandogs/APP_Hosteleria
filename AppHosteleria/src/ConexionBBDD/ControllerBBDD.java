@@ -28,7 +28,7 @@ public class ControllerBBDD {
     private String queryConsultarSalas = "select id_sala,nombre from salas;";
     private String queryConsultarEstablecimientos = "select id_establecimiento,nombre,direccion,cif,prefijo_telefono,telefono from establecimientos;";
     private String queryConsultarGruposProductos = "select id_grupo,nombre from grupos_productos;";
-    private String queryConsultarPedido = "select producto,cantidad from pedidos where cuenta=?;";
+    private String queryConsultarPedido = "select producto,cantidad from pedidos where cuenta=?";
     private String queryInsertarNuevaCuenta = "INSERT INTO cuentas (camarero,mesa,comensales) VALUES (?,?,?);";
     private String queryConsultarCuenta = "select id_cuenta,fecha_hora,camarero,comensales,precio from cuentas where mesa=? and fecha_salida is null;";
     private String queryConsultarCamareros = "select id_empleado,nombre  from empleados where departamento=3;";

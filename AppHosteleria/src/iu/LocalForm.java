@@ -181,10 +181,11 @@ public class LocalForm extends javax.swing.JPanel {
         toggleButtonRedondeado2 = new Swing.ToggleButtonRedondeado();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setPreferredSize(new java.awt.Dimension(1138, 814));
         setLayout(new javax.swing.OverlayLayout(this));
 
         panelSalas.setOpaque(false);
-        panelSalas.setPreferredSize(new java.awt.Dimension(960, 540));
+        panelSalas.setPreferredSize(new java.awt.Dimension(1138, 814));
 
         jScrollPane1.setBorder(null);
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -200,8 +201,13 @@ public class LocalForm extends javax.swing.JPanel {
         panelRedondeado1.setPreferredSize(new java.awt.Dimension(200, 150));
 
         toggleButtonRedondeado2.setBackground(new java.awt.Color(102, 153, 255));
+        toggleButtonRedondeado2.setForeground(new java.awt.Color(255, 255, 255));
+        toggleButtonRedondeado2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/editarSala.png"))); // NOI18N
         toggleButtonRedondeado2.setText("Editar Sala");
-        toggleButtonRedondeado2.setToolTipText("");
+        toggleButtonRedondeado2.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
+        toggleButtonRedondeado2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        toggleButtonRedondeado2.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        toggleButtonRedondeado2.setIconTextGap(0);
 
         javax.swing.GroupLayout panelRedondeado1Layout = new javax.swing.GroupLayout(panelRedondeado1);
         panelRedondeado1.setLayout(panelRedondeado1Layout);
@@ -215,8 +221,8 @@ public class LocalForm extends javax.swing.JPanel {
         panelRedondeado1Layout.setVerticalGroup(
             panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRedondeado1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(toggleButtonRedondeado2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17)
+                .addComponent(toggleButtonRedondeado2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 

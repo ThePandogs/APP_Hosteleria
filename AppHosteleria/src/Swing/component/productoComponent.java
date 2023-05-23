@@ -1,6 +1,7 @@
 package Swing.component;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,7 +11,6 @@ import modelo.Producto;
 
 public class ProductoComponent extends javax.swing.JPanel {
 
-    private boolean selected;
     private Producto dataProducto;
     private GrupoProducto dataGrupoProducto;
 
@@ -18,6 +18,10 @@ public class ProductoComponent extends javax.swing.JPanel {
         initComponents();
         setOpaque(false);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+         // Establecer alineación centrada
+        nombre.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
     }
 
     public void setData(Producto data) {
@@ -40,25 +44,13 @@ public class ProductoComponent extends javax.swing.JPanel {
         return dataGrupoProducto;
     }
 
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-        repaint();
-    }
-
     @Override
     public void paint(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(new Color(242, 242, 242));
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
-        if (selected) {
-            g2.setColor(new Color(94, 156, 255));
-            g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 20, 20);
-        }
+
         g2.dispose();
         super.paint(grphcs);
     }
@@ -83,6 +75,7 @@ public class ProductoComponent extends javax.swing.JPanel {
         nombre.setWrapStyleWord(true);
         nombre.setAutoscrolls(false);
         nombre.setDisabledTextColor(new java.awt.Color(255, 255, 255));
+        nombre.setFocusable(false);
         nombre.setOpaque(false);
         nombre.setSelectionColor(new java.awt.Color(0, 0, 0));
         jScrollPane1.setViewportView(nombre);

@@ -36,6 +36,8 @@ public class PanelRedondeado extends JPanel {
         this.imagen = redimensionarImagen(ruta);
         repaint();
     }
+    
+    
 
     private ImageIcon redimensionarImagen(String ruta) {
 
