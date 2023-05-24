@@ -263,3 +263,68 @@ Fecha:  2023-05-23
 Hora:   23:19:16
 Motivo: Unknown column 'id' in 'where clause'
 
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-24
+Hora:   09:02:30
+Motivo: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'set fecha_cierre=CURRENT_TIMESTAMP where cuenta 'efectivo'' at line 1
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-24
+Hora:   09:03:18
+Motivo: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'set fecha_cierre=CURRENT_TIMESTAMP where cuenta 'efectivo'' at line 1
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-24
+Hora:   09:04:51
+Motivo: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'set fecha_cierre=CURRENT_TIMESTAMP where cuenta 'efectivo'' at line 1
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-24
+Hora:   09:10:07
+Motivo: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'set fecha_cierre=CURRENT_TIMESTAMP where cuenta = 'efectivo'' at line 1
+
+Excepción: class java.sql.SQLException
+Fecha:  2023-05-24
+Hora:   09:14:36
+Motivo: Parameter index out of range (2 > number of parameters, which is 1).
+
+Excepción: class java.sql.SQLIntegrityConstraintViolationException
+Fecha:  2023-05-24
+Hora:   09:53:49
+Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`cuentas`, CONSTRAINT `cuentas_ibfk_2` FOREIGN KEY (`camarero`) REFERENCES `usuarios` (`id_usuario`) ON DELETE SET NULL ON UPDATE CASCADE)
+
+Excepción: class java.sql.SQLIntegrityConstraintViolationException
+Fecha:  2023-05-24
+Hora:   09:54
+Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`cuentas`, CONSTRAINT `cuentas_ibfk_2` FOREIGN KEY (`camarero`) REFERENCES `usuarios` (`id_usuario`) ON DELETE SET NULL ON UPDATE CASCADE)
+
+Excepción: class java.sql.SQLIntegrityConstraintViolationException
+Fecha:  2023-05-24
+Hora:   09:54:55
+Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`cuentas`, CONSTRAINT `cuentas_ibfk_2` FOREIGN KEY (`camarero`) REFERENCES `usuarios` (`id_usuario`) ON DELETE SET NULL ON UPDATE CASCADE)
+
+Excepción: class java.sql.SQLIntegrityConstraintViolationException
+Fecha:  2023-05-24
+Hora:   09:54:56
+Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`cuentas`, CONSTRAINT `cuentas_ibfk_2` FOREIGN KEY (`camarero`) REFERENCES `usuarios` (`id_usuario`) ON DELETE SET NULL ON UPDATE CASCADE)
+
+Excepción: class java.sql.SQLIntegrityConstraintViolationException
+Fecha:  2023-05-24
+Hora:   09:54:56
+Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`cuentas`, CONSTRAINT `cuentas_ibfk_2` FOREIGN KEY (`camarero`) REFERENCES `usuarios` (`id_usuario`) ON DELETE SET NULL ON UPDATE CASCADE)
+
+Excepción: class java.sql.SQLIntegrityConstraintViolationException
+Fecha:  2023-05-24
+Hora:   09:54:56
+Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`cuentas`, CONSTRAINT `cuentas_ibfk_2` FOREIGN KEY (`camarero`) REFERENCES `usuarios` (`id_usuario`) ON DELETE SET NULL ON UPDATE CASCADE)
+
+Excepción: class java.sql.SQLIntegrityConstraintViolationException
+Fecha:  2023-05-24
+Hora:   09:54:56
+Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`cuentas`, CONSTRAINT `cuentas_ibfk_2` FOREIGN KEY (`camarero`) REFERENCES `usuarios` (`id_usuario`) ON DELETE SET NULL ON UPDATE CASCADE)
+
+Excepción: class java.sql.SQLIntegrityConstraintViolationException
+Fecha:  2023-05-24
+Hora:   09:54:56
+Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`cuentas`, CONSTRAINT `cuentas_ibfk_2` FOREIGN KEY (`camarero`) REFERENCES `usuarios` (`id_usuario`) ON DELETE SET NULL ON UPDATE CASCADE)
+

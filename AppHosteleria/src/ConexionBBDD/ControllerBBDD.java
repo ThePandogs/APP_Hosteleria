@@ -35,6 +35,7 @@ public class ControllerBBDD {
     private String queryConsultarEmpleadoUsuario = "select e.nombre from empleados as e inner join usuarios as u on e.id_empleado = u.empleado where u.id_usuario=?;;";
     private String queryEnviarPedido = "insert into pedidos values(?,?,?) on duplicate key update cantidad=cantidad+?;";
     private String funtionEliminarProducto = "select  BORRAR_PRODUCTO(?,?,?);";
+    private String cerrarCuenta = "update cuentas set metodo_pago=?, fecha_salida=CURRENT_TIMESTAMP where id_cuenta=?";
     //PREPAREDSTATEMENT
     private PreparedStatement preconsultarEstablecimientos;
     private PreparedStatement preGetUsuarios;
@@ -52,6 +53,7 @@ public class ControllerBBDD {
     private PreparedStatement preEnviarPedido;
     private PreparedStatement preEliminarProducto;
     private PreparedStatement preInsertarNuevaCuenta;
+    private PreparedStatement preCerrarCuenta;
     //CONEXION
     ConexionBBDD bbdd;
 
@@ -90,6 +92,7 @@ public class ControllerBBDD {
         preEnviarPedido = bbdd.getCon().prepareStatement(queryEnviarPedido);
         preEliminarProducto = bbdd.getCon().prepareStatement(funtionEliminarProducto);
         preInsertarNuevaCuenta = bbdd.getCon().prepareStatement(queryInsertarNuevaCuenta, Statement.RETURN_GENERATED_KEYS);
+        preCerrarCuenta = bbdd.getCon().prepareStatement(cerrarCuenta);
     }
 
     /**
@@ -301,6 +304,19 @@ public class ControllerBBDD {
             preEnviarPedido.setInt(3, cantidad);
             preEnviarPedido.setInt(4, cantidad);
             preEnviarPedido.executeUpdate();
+        } catch (SQLException ex) {
+            logExcepcion.anadirExcepcionLog(ex);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean cerrarCuenta(String metodoPago,int idCuenta) {
+
+        try {
+            preCerrarCuenta.setString(1, metodoPago);
+             preCerrarCuenta.setInt(2, idCuenta);
+            preCerrarCuenta.executeUpdate();
         } catch (SQLException ex) {
             logExcepcion.anadirExcepcionLog(ex);
             return false;

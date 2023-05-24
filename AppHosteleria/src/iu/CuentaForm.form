@@ -54,7 +54,7 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="tabla" pref="416" max="32767" attributes="0"/>
+                              <Component id="tabla" max="32767" attributes="0"/>
                               <Component id="opcionesCuenta" pref="416" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
@@ -86,7 +86,7 @@
                           <Component id="panelGruposProductos" linkSize="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
-                          <Component id="tabla" pref="597" max="32767" attributes="0"/>
+                          <Component id="tabla" max="32767" attributes="0"/>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Component id="opcionesCuenta" linkSize="3" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -659,6 +659,9 @@
                       <Dimension value="[60, 60]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tarjetaActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="swing.ButtonRedondeado" name="efectivo">
                   <Properties>
@@ -679,6 +682,9 @@
                       <Dimension value="[60, 60]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="efectivoActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="swing.ButtonRedondeado" name="dividir">
                   <Properties>

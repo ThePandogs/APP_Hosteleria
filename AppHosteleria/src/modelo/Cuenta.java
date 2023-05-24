@@ -22,7 +22,7 @@ public class Cuenta {
     private int comensales;
     private double totalCuenta;
     private Mesa mesa;
-
+    private String metodoPago;
     private Map<Producto, Integer> productos;
     private Map<Producto, Integer> pedidoProductos;
 
@@ -201,6 +201,14 @@ public class Cuenta {
 
     public Map<Producto, Integer> getPedidoProductos() {
         return pedidoProductos;
+    }
+
+    public String getMetodoPago() {
+        return metodoPago;
+    }
+
+    public void setMetodoPago(String metodoPago) {
+        this.metodoPago = metodoPago;
     }
 
 }

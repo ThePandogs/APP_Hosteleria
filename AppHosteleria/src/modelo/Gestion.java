@@ -18,31 +18,31 @@ import java.util.logging.Logger;
  * @author a14carlosfd
  */
 public class Gestion {
-    
+
     ControllerBBDD controllerBBDD = new ControllerBBDD();
     Camarero camareroActual;
     ArrayList<Local> locales;
     ArrayList<Usuario> usuarios;
     Usuario usuarioActual;
-    
+
     public Gestion() {
         locales = new ArrayList();
         usuarios = new ArrayList();
         try {
-            
+
             cargarUsuarios();
             cargarTodo();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Gestion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void cargarLocales() throws SQLException {
-        
+
         ResultSet consulta = controllerBBDD.consultarEstablecimientos();
         while (consulta.next()) {
-            
+
             locales.add(new Local(consulta.getInt("id_establecimiento"),
                     consulta.getString("nombre"),
                     consulta.getString("direccion"),
@@ -50,27 +50,27 @@ public class Gestion {
                     consulta.getString("prefijo_telefono"),
                     consulta.getString("telefono")));
         }
-        
+
     }
-    
+
     private void cargarGruposProductos(Local local) throws SQLException {
-        
+
         ResultSet consulta = controllerBBDD.consultarGruposProductos();
-        
+
         while (consulta.next()) {
             GrupoProducto nuevoGrupo = new GrupoProducto(consulta.getInt("id_grupo"),
                     consulta.getString("nombre"));
             local.getGruposProductos().add(nuevoGrupo);
             cargarProductosGrupo(nuevoGrupo);
         }
-        
+
     }
 
     /*carga los productos, si consulta es null retorna false*/
     private boolean cargarProductosGrupo(GrupoProducto grupoProducto) throws SQLException {
         int id_grupo = grupoProducto.getId();
         ResultSet consulta = controllerBBDD.consultarProductosPorGrupo(id_grupo);
-        
+
         if (consulta != null) {
             while (consulta.next()) {
                 Producto nuevoProducto = new Producto(consulta.getInt("id_producto"),
@@ -80,55 +80,55 @@ public class Gestion {
                         consulta.getString("imagen"));
                 grupoProducto.getProductos().add(nuevoProducto);
                 locales.get(0).productos.put(consulta.getInt("id_producto"), nuevoProducto);
-                
+
             }
             return true;
         }
         return false;
     }
-    
+
     private void cargarTodo() throws SQLException {
-        
+
         cargarLocales();
         if (!locales.isEmpty()) {
             Iterator<Local> localesIte = locales.iterator();
             while (localesIte.hasNext()) {
                 Local local = localesIte.next();
                 cargarCamareros();
-                
+
                 cargarGruposProductos(local);
                 cargarSalas(local);
-                
+
             }
         }
-        
+
     }
-    
+
     private void cargarSalas(Local local) throws SQLException {
-        
+
         ResultSet consulta = controllerBBDD.consultarSalas();
-        
+
         while (consulta.next()) {
             Sala nuevaSala = new Sala(consulta.getInt("id_sala"),
                     consulta.getString("nombre"));
             local.getSalas().add(nuevaSala);
             cargarMesas(nuevaSala);
         }
-        
+
     }
-    
+
     private void cargarUsuarios() throws SQLException {
         ResultSet consulta = controllerBBDD.cargarUsuarios();
         while (consulta.next()) {
             usuarios.add(new Usuario(consulta.getInt("id_usuario"), consulta.getInt("empleado"), consulta.getString("usuario"), consulta.getString("rol")));
         }
-        
+
     }
-    
+
     private boolean cargarCamareros() throws SQLException {
-        
+
         ResultSet consulta = controllerBBDD.consultarCamareros();
-        
+
         if (consulta != null) {
             while (consulta.next()) {
                 locales.get(0).camareros.put(consulta.getInt("id_empleado"), new Camarero(consulta.getInt("id_empleado"), consulta.getString("nombre")));
@@ -137,15 +137,15 @@ public class Gestion {
         }
         return false;
     }
-    
+
     private void cargarCamareroUsuario(int id_usuario) {
-        
+
         ResultSet consulta = controllerBBDD.consultarEmpleadoUsuario(id_usuario);
-        
+
     }
-    
+
     public boolean cargarCuenta(Mesa mesa) throws SQLException {
-        
+
         int id_mesa = mesa.getIdMesa();
         ResultSet consulta = controllerBBDD.consultarCuenta(id_mesa);
         if (consulta != null) {
@@ -163,19 +163,19 @@ public class Gestion {
             return true;
         }
         return false;
-        
+
     }
-    
+
     public void cargarPedidos(Cuenta cuenta) throws SQLException {
-        
+
         int id_cuenta = cuenta.getIdCuenta();
         ResultSet consulta = controllerBBDD.consultarPedido(id_cuenta);
         Map<Producto, Integer> productos = cuenta.getProductos();
         if (consulta != null) {
             while (consulta.next()) {
-                
+
                 productos.put(locales.get(0).getProductos().get(consulta.getInt("producto")), consulta.getInt("cantidad"));
-                
+
             }
         }
     }
@@ -196,56 +196,56 @@ public class Gestion {
                 sala.getMesas().add(nuevaMesa);
                 cargarCuenta(nuevaMesa);
             }
-            
+
             return true;
         }
         return false;
     }
-    
+
     public boolean comprobarUsuario(String usuario, String password) {
         return controllerBBDD.comprobarPasswordUsuario(usuario, password);
     }
-    
+
     public ArrayList<Local> getLocales() {
         return locales;
     }
-    
+
     public void setLocales(ArrayList<Local> locales) {
         this.locales = locales;
     }
-    
+
     public ControllerBBDD getControllerBBDD() {
         return controllerBBDD;
     }
-    
+
     public Camarero getCamareroActual() {
         return camareroActual;
     }
-    
+
     public void setCamareroActual(Camarero camareroActual) {
         this.camareroActual = camareroActual;
     }
-    
+
     public void setUsuarioActual(Usuario usuarioActual) {
         this.usuarioActual = usuarioActual;
     }
-    
+
     public Usuario getUsuarioActual() {
         return usuarioActual;
     }
-    
+
     public void setControllerBBDD(ControllerBBDD controllerBBDD) {
         this.controllerBBDD = controllerBBDD;
     }
-    
+
     public ArrayList<Usuario> getUsuarios() {
         return usuarios;
     }
-    
+
     public void setUsuarios(ArrayList<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
-    
+
     public void insertarCuentaNueva(Cuenta cuenta) {
         try {
             ResultSet id_cuenta = controllerBBDD.insertarNuevaCuenta(camareroActual.getId(), cuenta.getMesa().getIdMesa(), cuenta.getComensales());
@@ -256,12 +256,17 @@ public class Gestion {
             Logger.getLogger(Gestion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    public void cerrarMesa(Mesa mesa) {
+        controllerBBDD.cerrarCuenta(mesa.getCuenta().getMetodoPago(),mesa.getCuenta().getIdCuenta());
+        mesa.setCuenta(null);
+    }
+
     public void enviarPedido(Cuenta cuenta) {
-        
+
         Map<Producto, Integer> nuevosProductos = cuenta.getPedidoProductos();
         Iterator<Producto> itNuevosProductos = nuevosProductos.keySet().iterator();
-        
+
         while (itNuevosProductos.hasNext()) {
             Producto producto = itNuevosProductos.next();
             int cantidad = nuevosProductos.get(producto);
@@ -272,11 +277,11 @@ public class Gestion {
         }
         cuenta.generarPedido();
     }
-    
+
     public boolean borrarProducto(Cuenta cuenta, Producto producto, int cantidad) {
         int cantidadProductos = cuenta.getProductos().getOrDefault(producto, 0);
         int cantidadPedidos = cuenta.getPedidoProductos().getOrDefault(producto, 0);
-        
+
         int suma = cantidadProductos + cantidadPedidos;
         if (cantidad <= suma) {
             controllerBBDD.eliminarProducto(producto.getId(), cuenta.getIdCuenta(), cantidad);

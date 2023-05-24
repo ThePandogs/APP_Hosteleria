@@ -19,13 +19,11 @@ public class MesaComponent extends javax.swing.JPanel {
     private boolean resizing = false;
     private int resizeMargin = 5;
     private Mesa data;
-    private LocalForm local;
 
     public MesaComponent(LocalForm local) {
         initComponents();
         setOpaque(false);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
-        this.local = local;
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -212,9 +210,9 @@ public class MesaComponent extends javax.swing.JPanel {
     public void paint(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-         g2.setColor(new Color(242, 242, 242));
+        g2.setColor(new Color(242, 242, 242));
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
-        if (data.getCuenta() != null) {
+        if (data.getCuenta() != null && !data.getCuenta().getProductos().isEmpty()) {
             g2.setColor(new Color(255, 156, 150));
             g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 10, 10);
         }
@@ -229,6 +227,7 @@ public class MesaComponent extends javax.swing.JPanel {
         numeroMesa = new javax.swing.JLabel();
 
         setOpaque(false);
+        setPreferredSize(new java.awt.Dimension(90, 90));
 
         numeroMesa.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
         numeroMesa.setForeground(new java.awt.Color(76, 76, 76));
@@ -236,7 +235,7 @@ public class MesaComponent extends javax.swing.JPanel {
         numeroMesa.setText("Mesa");
         numeroMesa.setMaximumSize(new java.awt.Dimension(100, 32));
         numeroMesa.setMinimumSize(new java.awt.Dimension(100, 32));
-        numeroMesa.setPreferredSize(new java.awt.Dimension(100, 100));
+        numeroMesa.setPreferredSize(new java.awt.Dimension(90, 90));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

@@ -27,7 +27,7 @@ public class ProductoComponent extends javax.swing.JPanel {
     public void setData(Producto data) {
         this.dataProducto = data;
         nombre.setText(data.getNombre());
-        panelRedondeado1.setImagen(data.getImagen());
+      
 
     }
 
@@ -59,59 +59,37 @@ public class ProductoComponent extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelRedondeado1 = new Swing.PanelRedondeado();
-        jScrollPane1 = new javax.swing.JScrollPane();
         nombre = new javax.swing.JTextArea();
 
-        jScrollPane1.setBorder(null);
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-
         nombre.setEditable(false);
-        nombre.setColumns(20);
+        nombre.setColumns(25);
         nombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         nombre.setLineWrap(true);
-        nombre.setRows(5);
+        nombre.setRows(2);
         nombre.setWrapStyleWord(true);
         nombre.setAutoscrolls(false);
+        nombre.setBorder(null);
         nombre.setDisabledTextColor(new java.awt.Color(255, 255, 255));
         nombre.setFocusable(false);
         nombre.setOpaque(false);
+        nombre.setPreferredSize(new java.awt.Dimension(80, 40));
         nombre.setSelectionColor(new java.awt.Color(0, 0, 0));
-        jScrollPane1.setViewportView(nombre);
-
-        javax.swing.GroupLayout panelRedondeado1Layout = new javax.swing.GroupLayout(panelRedondeado1);
-        panelRedondeado1.setLayout(panelRedondeado1Layout);
-        panelRedondeado1Layout.setHorizontalGroup(
-            panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRedondeado1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        panelRedondeado1Layout.setVerticalGroup(
-            panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRedondeado1Layout.createSequentialGroup()
-                .addContainerGap(44, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelRedondeado1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(nombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelRedondeado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 55, Short.MAX_VALUE)
+                .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea nombre;
-    private Swing.PanelRedondeado panelRedondeado1;
     // End of variables declaration//GEN-END:variables
 }
