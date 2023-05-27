@@ -8,6 +8,7 @@ import ConexionBBDD.ControllerBBDD;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
@@ -154,7 +155,6 @@ public class Gestion {
                         consulta.getTimestamp("fecha_hora").toLocalDateTime(),
                         locales.get(0).camareros.get(consulta.getInt("camarero")),
                         consulta.getInt("comensales"),
-                        consulta.getDouble("precio"),
                         mesa
                 );
                 mesa.setCuenta(cuentaNueva);
@@ -170,7 +170,7 @@ public class Gestion {
 
         int id_cuenta = cuenta.getIdCuenta();
         ResultSet consulta = controllerBBDD.consultarPedido(id_cuenta);
-        Map<Producto, Integer> productos = cuenta.getProductos();
+        Map<Producto, Integer> productos = new HashMap();
         if (consulta != null) {
             while (consulta.next()) {
 
@@ -178,6 +178,7 @@ public class Gestion {
 
             }
         }
+        cuenta.setProductos(productos);
     }
 
     /*carga las mesas, si consulta es null retorna false*/

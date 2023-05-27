@@ -1,20 +1,18 @@
 package iu;
 
-import Swing.component.MiModeloTabla;
+import Swing.component.ModeloTablaPedidos;
 import Swing.PanelComponentes;
 import Swing.WrapLayout;
 import Swing.component.ProductoComponent;
 import Swing.component.ComponentsContainer;
 import Swing.component.ModelNumero;
+import Swing.component.ModeloTablaProductos;
 import Swing.component.NumeroComponent;
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -25,25 +23,26 @@ import modelo.Mesa;
 import modelo.Producto;
 
 public class CuentaForm extends javax.swing.JPanel {
-    
+
     Local local;
     ArrayList<ComponentsContainer> gruposProductos;
     LocalForm localForm;
     Mesa mesa;
-    MiModeloTabla modelo;
-    
+    ModeloTablaProductos modelTablaProductos;
+    ModeloTablaPedidos modelTablaPedidos;
+
     public CuentaForm(Local local, LocalForm localForm) {
-        
+
         initComponents();
         this.local = local;
         this.localForm = localForm;
         gruposProductos = new ArrayList();
-        
+
         init();
         grupositos.setLayout(new WrapLayout(WrapLayout.LEFT, 5, 5));
-        
+
     }
-    
+
     private void init() {
         this.setVisible(false);
         cargarTodosProductos();
@@ -51,44 +50,46 @@ public class CuentaForm extends javax.swing.JPanel {
         if (!gruposProductos.isEmpty()) {
             panelProductos.add(gruposProductos.get(1));
         }
-        modelo = (MiModeloTabla) tablaProductos.getModel();
-        
+
+        modelTablaProductos = (ModeloTablaProductos) tablaProductos.getModel();
+        modelTablaPedidos = (ModeloTablaPedidos) tablaPedidos.getModel();
+
     }
-    
+
     private void cargarTodosProductos() {
         cargarGrupoProductos(local);
         Iterator<ComponentsContainer> gruposIte = gruposProductos.iterator();
         while (gruposIte.hasNext()) {
             cargarProductos(gruposIte.next());
         }
-        
+
     }
-    
+
     private void cargarGrupoProductos(Local local) {
         Iterator<GrupoProducto> grupoProductos = local.getGruposProductos().iterator();
         while (grupoProductos.hasNext()) {
             addGrupo(grupoProductos.next());
         }
     }
-    
+
     private void cambiarGrupoProductos(ComponentsContainer nuevoGrupo) {
         panelProductos.removeAll();
         panelProductos.add(nuevoGrupo);
         panelProductos.revalidate(); // actualiza el layout del panel
         panelProductos.repaint(); // repinta el panel
     }
-    
+
     private void addGrupo(GrupoProducto data) {
         ComponentsContainer grupo = new ComponentsContainer(Color.white, new WrapLayout(WrapLayout.LEFT, 5, 5));
         grupo.setData(data);
-        
+
         ProductoComponent botonSala = new ProductoComponent();
         botonSala.setData(data);
         botonSala.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent me) {
                 if (SwingUtilities.isLeftMouseButton(me)) {
-                    
+
                     cambiarGrupoProductos(grupo);
                 }
             }
@@ -96,16 +97,16 @@ public class CuentaForm extends javax.swing.JPanel {
         grupositos.add(botonSala);
         gruposProductos.add(grupo);
     }
-    
+
     private void cargarProductos(ComponentsContainer grupoProducto) {
-        
+
         Iterator<Producto> grupoProductos = grupoProducto.getDataGrupo().getProductos().iterator();
         while (grupoProductos.hasNext()) {
-            
+
             addProducto(grupoProductos.next(), grupoProducto);
         }
     }
-    
+
     private void addProducto(Producto producto, ComponentsContainer grupoProducto) {
         ProductoComponent productoComponent = new ProductoComponent();
         productoComponent.setData(producto);
@@ -115,48 +116,59 @@ public class CuentaForm extends javax.swing.JPanel {
                 Cuenta cuenta = mesa.getCuenta();
                 if (SwingUtilities.isLeftMouseButton(me)) {
                     String valorCalc = calcText.getText();
-                    
+
                     if (valorCalc.contains("-")) {
                         valorCalc = valorCalc.replace("-", "");
-                        
+                        if (valorCalc.isBlank()) {
+                            valorCalc = "1";
+                        }
                         eliminarProducto(producto, Integer.parseInt(valorCalc));
-                        return;
+
                     } else {
                         int cantidadProductos = Integer.parseInt(valorCalc);
                         if (cantidadProductos == 0) {
                             cantidadProductos = 1;
                         }
                         cuenta.anadirProductosPedido(producto, cantidadProductos);
-                        
+
                     }
-                    modelo.actualizarProductos();
+                    if (!mesa.getCuenta().getPedidoProductos().isEmpty()) {
+                        pedidos.setVisible(true);
+                        precioTotal.setForeground(Color.red);
+                    } else {
+                        pedidos.setVisible(false);
+                        precioTotal.setForeground(Color.black);
+                    }
+
+                    modelTablaProductos.actualizarProductos();
+                    modelTablaPedidos.actualizarProductos();
                     calcText.setText("0");
                     actualizarPrecioTotal();
                 }
             }
-            
+
         }
         );
-        
+
         grupoProducto.add(productoComponent);
-        
+
         grupoProducto.repaint();
-        
+
         grupoProducto.revalidate();
     }
-    
+
     private void inicializarTecladoNumerico() {
         for (int i = 1; i < 10; i++) {
             addNumber(new ModelNumero(String.valueOf(i)), numbersPanel);
         }
-        
+
         addNumber(new ModelNumero("0"), numbersPanel);
         addNumber(new ModelNumero("+"), operatorsPanel);
         addNumber(new ModelNumero("-"), operatorsPanel);
         addNumber(new ModelNumero("C"), operatorsPanel);
         addNumber(new ModelNumero("✓"), operatorsPanel);
     }
-    
+
     private void addNumber(ModelNumero data, PanelComponentes panel) {
         NumeroComponent numberButton = new NumeroComponent();
         numberButton.setData(data);
@@ -168,42 +180,44 @@ public class CuentaForm extends javax.swing.JPanel {
                 }
             }
         });
-        
+
         panel.add(numberButton);
         panel.repaint();
         panel.revalidate();
     }
-    
+
     private void manejarInteraccionTecladoNumerico(ModelNumero data) {
         String buttonPressed = data.getNumero();
         String valorCalc = calcText.getText();
         switch (buttonPressed) {
             case "C" -> {
                 calcText.setText("0");
-                
+
             }
             case "✓" -> {
                 int selectedRow = tablaProductos.getSelectedRow();
-                
+
                 if (selectedRow != -1) {
-                    
+
                     int productoValorDefault = 3; // Columna que contiene el objeto en la tabla
-                    Producto producto = (Producto) modelo.getValueAt(selectedRow, productoValorDefault);
-                    
+                    Producto producto = (Producto) modelTablaProductos.getValueAt(selectedRow, productoValorDefault);
+
                     if (valorCalc.contains("-")) {
+
                         valorCalc = valorCalc.replace("-", "");
+
                         if (valorCalc.isBlank()) {
                             valorCalc = "1";
                         }
                         eliminarProducto(producto, Integer.parseInt(valorCalc));
-                        
+
                     } else {
                         mesa.getCuenta().anadirProductosPedido(producto, Integer.parseInt(valorCalc));
-                        modelo.actualizarProductos();
+                        modelTablaProductos.actualizarProductos();
                         calcText.setText("0");
-                        
+
                     }
-                    
+
                 }
                 actualizarPrecioTotal();
             }
@@ -214,23 +228,22 @@ public class CuentaForm extends javax.swing.JPanel {
             default ->
                 interaccionBotonNumero(buttonPressed);
         }
-        // Realizar alguna acción cuando se presiona el botón "✓"
     }
-    
+
     private void eliminarProducto(Producto producto, int cantidad) {
         if (localForm.getGestion().borrarProducto(mesa.getCuenta(), producto, cantidad)) {
-            
-            modelo.actualizarProductos();
+
+            modelTablaProductos.actualizarProductos();
             actualizarPrecioTotal();
         } else {
             JOptionPane.showMessageDialog(this, "Cantidad a borrar superior a productos totales!");
             calcText.setText("0");
         }
     }
-    
+
     private void interaccionBotonOperador(String currentOperator, String oppositeOperator) {
         String currentText = calcText.getText();
-        
+
         if (!currentText.contains(currentOperator) && !currentText.contains(oppositeOperator)) {
             if (currentText.equals("0")) {
                 calcText.setText(currentOperator);
@@ -241,48 +254,40 @@ public class CuentaForm extends javax.swing.JPanel {
             calcText.setText(currentText.replace(oppositeOperator, currentOperator));
         }
     }
-    
+
     private void interaccionBotonNumero(String buttonPressed) {
         String currentText = calcText.getText();
-        
+
         if (currentText.equals("0")) {
             calcText.setText(buttonPressed);
         } else {
             calcText.setText(currentText + buttonPressed);
         }
     }
-    
+
     public void setData(Mesa data) {
         mesa = data;
         if (data.getCuenta() == null) {
             data.setCuenta(new Cuenta(data, localForm.getGestion().getCamareroActual()));
         }
         cargarInformacionCuenta();
-        
+
     }
-    
+
     private void cargarInformacionCuenta() {
-        
+
         tituloMesa.setText("Mesa: " + mesa.getNumero() + " Sala: " + localForm.getSalaActual().getId() + " Camarero: " + mesa.getCuenta().getCamarero().getNombre());
-        modelo.setProductos(mesa.getCuenta().getProductos(), mesa.getCuenta().getPedidoProductos());
+        modelTablaProductos.setProductos(mesa.getCuenta().getProductos(), mesa.getCuenta().getPedidoProductos());
+        modelTablaPedidos.setProductos(mesa.getCuenta().getPedidoProductos());
         actualizarPrecioTotal();
     }
-    
-    private void redimensionar(String url, JLabel label) {
-        
-        Image image = new ImageIcon(url).getImage();
-        // Image newImage = image.getScaledInstance(boton.getWidth(), boton.getHeight(), java.awt.Image.SCALE_SMOOTH); // Redimensiona la imagen
-        Image newImage = image.getScaledInstance((int) label.getPreferredSize().getWidth(), (int) label.getPreferredSize().getHeight(), java.awt.Image.SCALE_SMOOTH); // Redimensiona la imagen
-        ImageIcon newIcon = new ImageIcon(newImage);
-        label.setIcon(newIcon);
-    }
-    
+
     private void actualizarPrecioTotal() {
-        
+
         String numeroFormateado = String.format("%.2f", mesa.getCuenta().getTotalCuenta());
         precioTotal.setText("Total: " + numeroFormateado + "€");
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -293,8 +298,11 @@ public class CuentaForm extends javax.swing.JPanel {
         tabla = new Swing.PanelRedondeado();
         scrolltabla = new javax.swing.JScrollPane();
         tablaProductos = new javax.swing.JTable();
-        buttonRedondeado2 = new swing.ButtonRedondeado();
         precioTotal = new javax.swing.JLabel();
+        pedidos = new javax.swing.JPanel();
+        scrolltabla1 = new javax.swing.JScrollPane();
+        tablaPedidos = new javax.swing.JTable();
+        enviarPedido = new swing.ButtonRedondeado();
         calc = new Swing.PanelRedondeado();
         panelRedondeado1 = new Swing.PanelRedondeado();
         operatorsPanel = new Swing.PanelComponentes();
@@ -327,7 +335,7 @@ public class CuentaForm extends javax.swing.JPanel {
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(1288, 864));
 
-        jPanel1.setBackground(new java.awt.Color(153, 180, 209));
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setPreferredSize(new java.awt.Dimension(1288, 864));
 
         cabecera.setBackground(new java.awt.Color(255, 255, 255));
@@ -354,11 +362,12 @@ public class CuentaForm extends javax.swing.JPanel {
         tabla.setBackground(new java.awt.Color(255, 255, 255));
         tabla.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         tabla.setMinimumSize(new java.awt.Dimension(338, 496));
+        tabla.setPreferredSize(new java.awt.Dimension(430, 597));
 
         scrolltabla.setPreferredSize(new java.awt.Dimension(326, 402));
 
         tablaProductos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tablaProductos.setModel(new MiModeloTabla());
+        tablaProductos.setModel(new ModeloTablaProductos());
         tablaProductos.setColumnSelectionAllowed(true);
         tablaProductos.setMinimumSize(new java.awt.Dimension(105, 80));
         tablaProductos.getTableHeader().setReorderingAllowed(false);
@@ -383,43 +392,75 @@ public class CuentaForm extends javax.swing.JPanel {
 
         }
 
-        buttonRedondeado2.setBackground(new java.awt.Color(153, 180, 209));
-        buttonRedondeado2.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRedondeado2.setText("EnviarPedido");
-        buttonRedondeado2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        buttonRedondeado2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonRedondeado2ActionPerformed(evt);
-            }
-        });
-
         precioTotal.setFont(new java.awt.Font("Bahnschrift", 0, 36)); // NOI18N
         precioTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         precioTotal.setText("Total: 0.0€");
+        precioTotal.setPreferredSize(new java.awt.Dimension(423, 44));
+
+        pedidos.setBackground(new java.awt.Color(255, 255, 255));
+
+        scrolltabla1.setPreferredSize(new java.awt.Dimension(326, 402));
+
+        tablaPedidos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tablaPedidos.setModel(new ModeloTablaPedidos());
+        tablaPedidos.setColumnSelectionAllowed(true);
+        tablaPedidos.setMinimumSize(new java.awt.Dimension(105, 80));
+        tablaPedidos.getTableHeader().setReorderingAllowed(false);
+        scrolltabla1.setViewportView(tablaPedidos);
+        tablaPedidos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+
+        enviarPedido.setBackground(new java.awt.Color(153, 180, 209));
+        enviarPedido.setForeground(new java.awt.Color(255, 255, 255));
+        enviarPedido.setText("EnviarPedido");
+        enviarPedido.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        enviarPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enviarPedidoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pedidosLayout = new javax.swing.GroupLayout(pedidos);
+        pedidos.setLayout(pedidosLayout);
+        pedidosLayout.setHorizontalGroup(
+            pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(enviarPedido, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(scrolltabla1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        pedidosLayout.setVerticalGroup(
+            pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pedidosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scrolltabla1, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(enviarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout tablaLayout = new javax.swing.GroupLayout(tabla);
         tabla.setLayout(tablaLayout);
         tablaLayout.setHorizontalGroup(
             tablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tablaLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tablaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(tablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(tablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(scrolltabla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonRedondeado2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(precioTotal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(precioTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
+            .addComponent(pedidos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         tablaLayout.setVerticalGroup(
             tablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tablaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(scrolltabla, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(precioTotal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
-                .addComponent(buttonRedondeado2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(scrolltabla, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(precioTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pedidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        pedidos.setVisible(false);
 
         calc.setBackground(new java.awt.Color(255, 255, 255));
         calc.setMaximumSize(new java.awt.Dimension(300, 365));
@@ -441,9 +482,9 @@ public class CuentaForm extends javax.swing.JPanel {
             panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRedondeado1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(numbersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(numbersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(operatorsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(operatorsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelRedondeado1Layout.setVerticalGroup(
@@ -488,7 +529,7 @@ public class CuentaForm extends javax.swing.JPanel {
         );
         panelRedondeado3Layout.setVerticalGroup(
             panelRedondeado3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 214, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout calcLayout = new javax.swing.GroupLayout(calc);
@@ -514,7 +555,7 @@ public class CuentaForm extends javax.swing.JPanel {
                 .addGap(12, 12, 12)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panelRedondeado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelRedondeado1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelRedondeado3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -750,7 +791,7 @@ public class CuentaForm extends javax.swing.JPanel {
             opcionesCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(opcionesCuentaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(control, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                .addComponent(control, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
                 .addContainerGap())
         );
         opcionesCuentaLayout.setVerticalGroup(
@@ -773,14 +814,14 @@ public class CuentaForm extends javax.swing.JPanel {
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tabla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(opcionesCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE))
+                            .addComponent(opcionesCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
+                            .addComponent(tabla, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE))
                         .addGap(5, 5, 5)
-                        .addComponent(calc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(calc, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(panelGruposProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(productos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(panelGruposProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
+                            .addComponent(productos, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE))
                         .addGap(5, 5, 5))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -822,37 +863,51 @@ public class CuentaForm extends javax.swing.JPanel {
         resetPanelCuenta();
     }//GEN-LAST:event_atrasActionPerformed
 
-    private void buttonRedondeado2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRedondeado2ActionPerformed
+    private void enviarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarPedidoActionPerformed
         localForm.getGestion().enviarPedido(mesa.getCuenta());
-    }//GEN-LAST:event_buttonRedondeado2ActionPerformed
+        modelTablaProductos.actualizarProductos();
+        pedidos.setVisible(false);
+        precioTotal.setForeground(Color.black);
+        modelTablaPedidos.vaciarTabla();
+    }//GEN-LAST:event_enviarPedidoActionPerformed
 
     private void buttonRedondeado8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRedondeado8ActionPerformed
 
     }//GEN-LAST:event_buttonRedondeado8ActionPerformed
 
     private void tarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tarjetaActionPerformed
-        cerrarCuenta("tarjeta");
+        if (mesa.getCuenta().comprobarCierreMesa()) {
+            cerrarCuenta("tarjeta");
+        } else {
+            JOptionPane.showMessageDialog(this, "Hay productos en la cesta de pedido");
+        }
     }//GEN-LAST:event_tarjetaActionPerformed
 
     private void efectivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_efectivoActionPerformed
-        cerrarCuenta("efectivo");
+        if (mesa.getCuenta().comprobarCierreMesa()) {
+            cerrarCuenta("efectivo");
+        } else {
+            JOptionPane.showMessageDialog(this, "Hay productos en la cesta de pedido");
+        }
 
     }//GEN-LAST:event_efectivoActionPerformed
-    
+
     private void cerrarCuenta(String metodoPago) {
-        
+
         mesa.getCuenta().setMetodoPago(metodoPago);
         localForm.getGestion().cerrarMesa(mesa);
         resetPanelCuenta();
     }
-    
+
     private void resetPanelCuenta() {
-        
-        modelo.vaciarTabla();
+
+        modelTablaProductos.vaciarTabla();
+        modelTablaPedidos.vaciarTabla();
         mesa = null;
         localForm.cerrarMesa();
         calcText.setText("0");
-        
+        pedidos.setVisible(false);
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -864,7 +919,6 @@ public class CuentaForm extends javax.swing.JPanel {
     private swing.ButtonRedondeado buttonRedondeado14;
     private swing.ButtonRedondeado buttonRedondeado15;
     private swing.ButtonRedondeado buttonRedondeado16;
-    private swing.ButtonRedondeado buttonRedondeado2;
     private swing.ButtonRedondeado buttonRedondeado6;
     private swing.ButtonRedondeado buttonRedondeado7;
     private swing.ButtonRedondeado buttonRedondeado8;
@@ -875,6 +929,7 @@ public class CuentaForm extends javax.swing.JPanel {
     private javax.swing.JPanel control;
     private swing.ButtonRedondeado dividir;
     private swing.ButtonRedondeado efectivo;
+    private swing.ButtonRedondeado enviarPedido;
     private Swing.PanelComponentes grupositos;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -885,10 +940,13 @@ public class CuentaForm extends javax.swing.JPanel {
     private Swing.PanelComponentes panelProductos;
     private Swing.PanelRedondeado panelRedondeado1;
     private Swing.PanelRedondeado panelRedondeado3;
+    private javax.swing.JPanel pedidos;
     private javax.swing.JLabel precioTotal;
     private Swing.PanelRedondeado productos;
     private javax.swing.JScrollPane scrolltabla;
+    private javax.swing.JScrollPane scrolltabla1;
     private Swing.PanelRedondeado tabla;
+    private javax.swing.JTable tablaPedidos;
     private javax.swing.JTable tablaProductos;
     private swing.ButtonRedondeado tarjeta;
     private javax.swing.JLabel tituloMesa;

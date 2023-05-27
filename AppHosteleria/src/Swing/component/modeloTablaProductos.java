@@ -9,21 +9,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import modelo.Producto;
 
 /**
  *
  * @author fraid
  */
-public class MiModeloTabla extends DefaultTableModel {
+public class ModeloTablaProductos extends DefaultTableModel {
 
     private Map<Producto, Integer> listaProductos = new HashMap();
 
     Map<Producto, Integer> productos;
-    Map<Producto, Integer> productosPedido;
 
-    public MiModeloTabla() {
+
+    public ModeloTablaProductos() {
 
         addColumn("Producto");
         addColumn("Precio");
@@ -48,7 +47,7 @@ public class MiModeloTabla extends DefaultTableModel {
     public void setProductos(Map<Producto, Integer> productos, Map<Producto, Integer> productosPedido) {
 
         this.productos = productos;
-        this.productosPedido = productosPedido;
+
         actualizarProductos();
     }
 
@@ -62,12 +61,6 @@ public class MiModeloTabla extends DefaultTableModel {
 
         listaProductos.putAll(productos);
 
-        for (Map.Entry<Producto, Integer> entry : productosPedido.entrySet()) {
-            Producto producto = entry.getKey();
-            int cantidadPedidos = entry.getValue();
-
-            listaProductos.merge(producto, cantidadPedidos, Integer::sum);
-        }
         fireTableDataChanged();
     }
 
@@ -80,7 +73,6 @@ public class MiModeloTabla extends DefaultTableModel {
 
     public void eliminarProducto(Producto producto) {
         listaProductos.remove(producto);
-        //  fireTableRowsDeleted(rowIndex, rowIndex);
     }
 
     @Override

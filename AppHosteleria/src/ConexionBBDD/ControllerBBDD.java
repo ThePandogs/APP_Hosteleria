@@ -30,7 +30,7 @@ public class ControllerBBDD {
     private String queryConsultarGruposProductos = "select id_grupo,nombre from grupos_productos;";
     private String queryConsultarPedido = "select producto,cantidad from pedidos where cuenta=?";
     private String queryInsertarNuevaCuenta = "INSERT INTO cuentas (camarero,mesa,comensales) VALUES (?,?,?);";
-    private String queryConsultarCuenta = "select id_cuenta,fecha_hora,camarero,comensales,precio from cuentas where mesa=? and fecha_salida is null;";
+    private String queryConsultarCuenta = "select id_cuenta,fecha_hora,camarero,comensales from cuentas where mesa=? and fecha_salida is null;";
     private String queryConsultarCamareros = "select id_empleado,nombre  from empleados where departamento=3;";
     private String queryConsultarEmpleadoUsuario = "select e.nombre from empleados as e inner join usuarios as u on e.id_empleado = u.empleado where u.id_usuario=?;;";
     private String queryEnviarPedido = "insert into pedidos values(?,?,?) on duplicate key update cantidad=cantidad+?;";

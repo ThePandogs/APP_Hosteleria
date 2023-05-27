@@ -328,3 +328,183 @@ Fecha:  2023-05-24
 Hora:   09:54:56
 Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`cuentas`, CONSTRAINT `cuentas_ibfk_2` FOREIGN KEY (`camarero`) REFERENCES `usuarios` (`id_usuario`) ON DELETE SET NULL ON UPDATE CASCADE)
 
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   19:56:10
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   19:56:12
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   19:56:15
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   19:56:17
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   19:56:18
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   19:56:19
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-27
+Hora:   20:16
+Motivo: Unknown column 'precio' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-27
+Hora:   20:16
+Motivo: Unknown column 'precio' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-27
+Hora:   20:16
+Motivo: Unknown column 'precio' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-27
+Hora:   20:16
+Motivo: Unknown column 'precio' in 'field list'
+
+Excepción: class java.sql.SQLSyntaxErrorException
+Fecha:  2023-05-27
+Hora:   20:16
+Motivo: Unknown column 'precio' in 'field list'
+
+Excepción: class java.sql.SQLIntegrityConstraintViolationException
+Fecha:  2023-05-27
+Hora:   20:16:13
+Motivo: Cannot add or update a child row: a foreign key constraint fails (`hosteleria`.`cuentas`, CONSTRAINT `cuentas_ibfk_2` FOREIGN KEY (`camarero`) REFERENCES `usuarios` (`id_usuario`) ON DELETE SET NULL ON UPDATE CASCADE)
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:42:05
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:42:06
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:42:59
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:43:02
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:43:04
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:43:06
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:43:08
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:43:10
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:43:11
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:43:12
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:43:17
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:43:27
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:45:47
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:46:59
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:46:59
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:46:59
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:47
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:47
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:47
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:52:41
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:53:06
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:55:15
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:55:26
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+
+Excepción: class com.mysql.cj.jdbc.exceptions.MysqlDataTruncation
+Fecha:  2023-05-27
+Hora:   20:55:31
+Motivo: Data truncation: BIGINT UNSIGNED value is out of range in '(`hosteleria`.`pedidos`.`cantidad` - CANTIDAD_A_BORRAR@2)'
+

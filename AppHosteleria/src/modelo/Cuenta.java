@@ -7,7 +7,6 @@ package modelo;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,15 +25,15 @@ public class Cuenta {
     private Map<Producto, Integer> productos;
     private Map<Producto, Integer> pedidoProductos;
 
-    public Cuenta(int idCuenta, LocalDateTime fechaHora, Camarero camarero, int comensales, double precio, Mesa mesa) {
+    public Cuenta(int idCuenta, LocalDateTime fechaHora, Camarero camarero, int comensales, Mesa mesa) {
         this.idCuenta = idCuenta;
         this.fechaHora = fechaHora;
         this.camarero = camarero;
         this.comensales = comensales;
-        this.totalCuenta = precio;
         this.mesa = mesa;
         this.productos = new HashMap();
         this.pedidoProductos = new HashMap();
+
     }
 
     public Cuenta(Mesa mesa, Camarero camarero) {
@@ -45,19 +44,19 @@ public class Cuenta {
         totalCuenta = 0.0;
     }
 
-    private void actualizarTotalCuenta() {
-         totalCuenta = 0.0;
+    public void actualizarTotalCuenta() {
+        totalCuenta = 0.0;
         if (!productos.isEmpty()) {
-            for (Map.Entry<Producto, Integer> entry : productos.entrySet()) {
-                double precio = entry.getKey().getPrecio();
-                int cantidad = entry.getValue();
+            for (Map.Entry<Producto, Integer> entry1 : productos.entrySet()) {
+                double precio = entry1.getKey().getPrecio();
+                int cantidad = entry1.getValue();
                 totalCuenta += (cantidad * precio);
             }
         }
         if (!pedidoProductos.isEmpty()) {
-            for (Map.Entry<Producto, Integer> entry : pedidoProductos.entrySet()) {
-                double precio = entry.getKey().getPrecio();
-                int cantidad = entry.getValue();
+            for (Map.Entry<Producto, Integer> entry2 : pedidoProductos.entrySet()) {
+                double precio = entry2.getKey().getPrecio();
+                int cantidad = entry2.getValue();
                 totalCuenta += (cantidad * precio);
             }
         }
@@ -118,9 +117,12 @@ public class Cuenta {
 
         } else {
             pedidoProductos.replace(producto, pedidoProductos.get(producto) - cantidadEliminar);
+            return 0;
 
         }
-        return cantidadEliminar - cantidadActual;
+
+        return cantidadActual - cantidadEliminar;
+
     }
 
     private void eliminarProductoCuenta(Producto producto, int cantidadEliminar) {
@@ -132,30 +134,16 @@ public class Cuenta {
             productos.replace(producto, productos.get(producto) - cantidadEliminar);
 
         }
-
+        actualizarTotalCuenta();
     }
 
-    public double dividirImporte(Double Precio, int personas) {
-        return totalCuenta / personas;
-    }
-
-    public void cobrarTarjeta() {
-    }
-
-    public void cobrarEfectivo() {
-    }
-
-    public void asociarIdTicket() {
-    }
-
-    public void setData(int idCuenta, LocalDateTime fechaHora, Camarero camarero, int comensales, double precio, List productos) {
+    public void setData(int idCuenta, LocalDateTime fechaHora, Camarero camarero, int comensales, HashMap productos) {
 
         this.idCuenta = idCuenta;
         this.fechaHora = fechaHora;
         this.camarero = camarero;
         this.comensales = comensales;
-        this.totalCuenta = precio;
-        this.productos = new HashMap();
+        this.productos = productos;
         actualizarTotalCuenta();
     }
 
@@ -169,6 +157,7 @@ public class Cuenta {
 
     public void setProductos(Map productos) {
         this.productos = productos;
+        actualizarTotalCuenta();
     }
 
     public LocalDateTime getFechaHora() {
@@ -209,6 +198,10 @@ public class Cuenta {
 
     public void setMetodoPago(String metodoPago) {
         this.metodoPago = metodoPago;
+    }
+
+    public boolean comprobarCierreMesa() {
+        return pedidoProductos.isEmpty();
     }
 
 }
