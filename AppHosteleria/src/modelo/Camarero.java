@@ -7,12 +7,20 @@ package modelo;
 /**
  *
  * @author ThePandogs
+ *
+ * Clase que representa a un camarero.
  */
 public class Camarero {
 
-    int id;
-    String nombre;
+    private int id;
+    private String nombre;
 
+    /**
+     * Crea una instancia de Camarero.
+     *
+     * @param id el ID del camarero
+     * @param nombre el nombre del camarero
+     */
     public Camarero(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
@@ -30,6 +38,4 @@ public class Camarero {
         return nombre;
     }
 
-    
-    
 }

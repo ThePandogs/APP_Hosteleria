@@ -12,7 +12,10 @@ import java.sql.SQLException;
 
 /**
  *
- * @author a14carlosfd
+ * @author thepandogs
+ *
+ * Esta clase representa un controlador para gestionar operaciones de base de
+ * datos.
  */
 public class ControllerBBDD {
 
@@ -57,6 +60,12 @@ public class ControllerBBDD {
     //CONEXION
     ConexionBBDD bbdd;
 
+    /**
+     * Crea una instancia de ControllerBBDD.
+     *
+     * Inicializa la conexión a la base de datos y carga los PreparedStatements
+     * necesarios.
+     */
     public ControllerBBDD() {
 
         bbdd = new ConexionBBDD();
@@ -114,8 +123,13 @@ public class ControllerBBDD {
 
     }
 
+    /**
+     * Consulta todos los establecimientos en la base de datos.
+     *
+     * @return un objeto ResultSet que contiene los resultados de la consulta, o
+     * null si ocurre una excepción.
+     */
     public ResultSet consultarEstablecimientos() {
-
         try {
             return preconsultarEstablecimientos.executeQuery();
         } catch (SQLException ex) {
@@ -124,30 +138,44 @@ public class ControllerBBDD {
         }
     }
 
+    /**
+     * Consulta todas las salas en la base de datos.
+     *
+     * @return un objeto ResultSet que contiene los resultados de la consulta, o
+     * null si ocurre una excepción.
+     */
     public ResultSet consultarSalas() {
-
         try {
             return preConsultarSalas.executeQuery();
         } catch (SQLException ex) {
             logExcepcion.anadirExcepcionLog(ex);
             return null;
         }
-
     }
 
+    /**
+     * Consulta todos los camareros en la base de datos.
+     *
+     * @return un objeto ResultSet que contiene los resultados de la consulta, o
+     * null si ocurre una excepción.
+     */
     public ResultSet consultarCamareros() {
-
         try {
             return preConsultarCamareros.executeQuery();
         } catch (SQLException ex) {
             logExcepcion.anadirExcepcionLog(ex);
             return null;
         }
-
     }
 
+    /**
+     * Consulta el empleado asociado a un usuario específico.
+     *
+     * @param id_usuario el ID del usuario.
+     * @return un objeto ResultSet que contiene los resultados de la consulta, o
+     * null si ocurre una excepción.
+     */
     public ResultSet consultarEmpleadoUsuario(int id_usuario) {
-
         try {
             preConsultarEmpleadoUsuario.setInt(1, id_usuario);
             return preConsultarEmpleadoUsuario.executeQuery();
@@ -155,9 +183,17 @@ public class ControllerBBDD {
             logExcepcion.anadirExcepcionLog(ex);
             return null;
         }
-
     }
 
+    /**
+     * Inserta una nueva cuenta en la base de datos.
+     *
+     * @param id_camarero el ID del camarero asociado a la cuenta.
+     * @param id_mesa el ID de la mesa asociada a la cuenta.
+     * @param comensales el número de comensales en la cuenta.
+     * @return un objeto ResultSet que contiene los resultados de la inserción,
+     * o null si ocurre una excepción.
+     */
     public ResultSet insertarNuevaCuenta(int id_camarero, int id_mesa, int comensales) {
         try {
             preInsertarNuevaCuenta.setInt(1, id_camarero);
@@ -171,8 +207,14 @@ public class ControllerBBDD {
         }
     }
 
+    /**
+     * Consulta una cuenta específica en la base de datos.
+     *
+     * @param id_mesa el ID de la mesa asociada a la cuenta.
+     * @return un objeto ResultSet que contiene los resultados de la consulta, o
+     * null si ocurre una excepción.
+     */
     public ResultSet consultarCuenta(int id_mesa) {
-
         try {
             preConsultarCuenta.setInt(1, id_mesa);
             return preConsultarCuenta.executeQuery();
@@ -180,11 +222,16 @@ public class ControllerBBDD {
             logExcepcion.anadirExcepcionLog(ex);
             return null;
         }
-
     }
 
+    /**
+     * Consulta un pedido específico en la base de datos.
+     *
+     * @param id_cuenta el ID de la cuenta asociada al pedido.
+     * @return un objeto ResultSet que contiene los resultados de la consulta, o
+     * null si ocurre una excepción.
+     */
     public ResultSet consultarPedido(int id_cuenta) {
-
         try {
             preConsultarPedido.setInt(1, id_cuenta);
             return preConsultarPedido.executeQuery();
@@ -192,44 +239,61 @@ public class ControllerBBDD {
             logExcepcion.anadirExcepcionLog(ex);
             return null;
         }
-
     }
 
+    /**
+     * Consulta todos los grupos de productos en la base de datos.
+     *
+     * @return un objeto ResultSet que contiene los resultados de la consulta, o
+     * null si ocurre una excepción.
+     */
     public ResultSet consultarGruposProductos() {
-
         try {
             return preConsultarGruposProductos.executeQuery();
         } catch (SQLException ex) {
             logExcepcion.anadirExcepcionLog(ex);
             return null;
         }
-
     }
 
+    /**
+     * Consulta todos los productos en la base de datos.
+     *
+     * @return un objeto ResultSet que contiene los resultados de la consulta, o
+     * null si ocurre una excepción.
+     */
     public ResultSet consultarProductos() {
-
         try {
             return preConsultarProductos.executeQuery();
         } catch (SQLException ex) {
             logExcepcion.anadirExcepcionLog(ex);
             return null;
         }
-
     }
 
+    /**
+     * Consulta todas las mesas en la base de datos.
+     *
+     * @return un objeto ResultSet que contiene los resultados de la consulta, o
+     * null si ocurre una excepción.
+     */
     public ResultSet consultarMesas() {
-
         try {
             return preConsultarMesas.executeQuery();
         } catch (SQLException ex) {
             logExcepcion.anadirExcepcionLog(ex);
             return null;
         }
-
     }
 
+    /**
+     * Consulta los productos de un grupo específico en la base de datos.
+     *
+     * @param id_sala el ID de la sala asociada al grupo de productos.
+     * @return un objeto ResultSet que contiene los resultados de la consulta, o
+     * null si ocurre una excepción.
+     */
     public ResultSet consultarProductosPorGrupo(int id_sala) {
-
         try {
             preConsultarProductosPorGrupo.setInt(1, id_sala);
             return preConsultarProductosPorGrupo.executeQuery();
@@ -239,8 +303,14 @@ public class ControllerBBDD {
         }
     }
 
+    /**
+     * Consulta las mesas de una sala específica en la base de datos.
+     *
+     * @param id_sala el ID de la sala asociada a las mesas.
+     * @return un objeto ResultSet que contiene los resultados de la consulta, o
+     * null si ocurre una excepción.
+     */
     public ResultSet consultarMesasPorSala(int id_sala) {
-
         try {
             consultarMesasPorSala.setInt(1, id_sala);
             return consultarMesasPorSala.executeQuery();
@@ -250,6 +320,13 @@ public class ControllerBBDD {
         }
     }
 
+    /**
+     * Carga todas las mesas en la base de datos.
+     *
+     * @param sala el número de sala a cargar.
+     * @return un objeto ResultSet que contiene los resultados de la carga, o
+     * null si ocurre una excepción.
+     */
     public ResultSet cargarMesas(int sala) {
         try {
             return preConsultarMesas.executeQuery();
@@ -257,9 +334,14 @@ public class ControllerBBDD {
             logExcepcion.anadirExcepcionLog(ex);
             return null;
         }
-
     }
 
+    /**
+     * Carga todos los productos en la base de datos.
+     *
+     * @return un objeto ResultSet que contiene los resultados de la carga, o
+     * null si ocurre una excepción.
+     */
     public ResultSet cargarProductos() {
         try {
             return preConsultarProductos.executeQuery();
@@ -267,7 +349,6 @@ public class ControllerBBDD {
             logExcepcion.anadirExcepcionLog(ex);
             return null;
         }
-
     }
 
     /**
@@ -296,8 +377,16 @@ public class ControllerBBDD {
 
     }
 
+    /**
+     * Envía un pedido a la base de datos.
+     *
+     * @param producto el ID del producto a enviar.
+     * @param cuenta el ID de la cuenta asociada al pedido.
+     * @param cantidad la cantidad del producto a enviar.
+     * @return true si el pedido se envió correctamente, false si ocurre una
+     * excepción.
+     */
     public boolean enviarPedido(int producto, int cuenta, int cantidad) {
-
         try {
             preEnviarPedido.setInt(1, producto);
             preEnviarPedido.setInt(2, cuenta);
@@ -311,11 +400,18 @@ public class ControllerBBDD {
         return true;
     }
 
-    public boolean cerrarCuenta(String metodoPago,int idCuenta) {
-
+    /**
+     * Cierra una cuenta en la base de datos.
+     *
+     * @param metodoPago el método de pago asociado al cierre de la cuenta.
+     * @param idCuenta el ID de la cuenta a cerrar.
+     * @return true si la cuenta se cerró correctamente, false si ocurre una
+     * excepción.
+     */
+    public boolean cerrarCuenta(String metodoPago, int idCuenta) {
         try {
             preCerrarCuenta.setString(1, metodoPago);
-             preCerrarCuenta.setInt(2, idCuenta);
+            preCerrarCuenta.setInt(2, idCuenta);
             preCerrarCuenta.executeUpdate();
         } catch (SQLException ex) {
             logExcepcion.anadirExcepcionLog(ex);
@@ -324,13 +420,20 @@ public class ControllerBBDD {
         return true;
     }
 
+    /**
+     * Elimina un producto de una cuenta en la base de datos.
+     *
+     * @param producto el ID del producto a eliminar.
+     * @param cuenta el ID de la cuenta asociada al producto.
+     * @param cantidad la cantidad del producto a eliminar.
+     * @return true si el producto se eliminó correctamente, false si ocurre una
+     * excepción.
+     */
     public boolean eliminarProducto(int producto, int cuenta, int cantidad) {
-
         try {
             preEliminarProducto.setInt(1, producto);
             preEliminarProducto.setInt(2, cuenta);
             preEliminarProducto.setInt(3, cantidad);
-
             preEliminarProducto.executeQuery();
         } catch (SQLException ex) {
             logExcepcion.anadirExcepcionLog(ex);
@@ -339,18 +442,21 @@ public class ControllerBBDD {
         return true;
     }
 
-    public int calcularRows(ResultSet resulSet) {
-
+    /**
+     * Calcula el número de filas en un objeto ResultSet.
+     *
+     * @param resultSet el objeto ResultSet a calcular.
+     * @return el número de filas en el ResultSet, -1 si ocurre una excepción.
+     */
+    public int calcularRows(ResultSet resultSet) {
         int numFilas = 0;
-
         try {
-            while (resulSet.next()) {
+            while (resultSet.next()) {
                 numFilas++;
             }
         } catch (SQLException ex) {
             return -1;
         }
-
         return numFilas;
     }
 }

@@ -11,7 +11,8 @@ import java.util.Map;
 
 /**
  *
- * @author ThePandogs
+ * @author ThePandogs Clase que representa un local. Contiene información sobre
+ * el establecimiento, las salas, camareros, productos y grupos de productos.
  */
 public class Local {
 
@@ -26,6 +27,16 @@ public class Local {
     Map<Integer, Producto> productos;
     List<GrupoProducto> gruposProductos;
 
+    /**
+     * Constructor de la clase Local.
+     *
+     * @param id_establecimiento el identificador del establecimiento
+     * @param nombre el nombre del local
+     * @param direccion la dirección del local
+     * @param cif el CIF del local
+     * @param prefijo_telefono el prefijo del número de teléfono del local
+     * @param telefono el número de teléfono del local
+     */
     public Local(int id_establecimiento, String nombre, String direccion, String cif, String prefijo_telefono, String telefono) {
 
         this.id_establecimiento = id_establecimiento;
@@ -40,21 +51,6 @@ public class Local {
         productos = new HashMap();
         gruposProductos = new ArrayList();
 
-    }
-
-    public void anadirSala(Sala sala) {
-        salas.add(sala);
-    }
-
-    public void borrarSala(Sala sala) {
-        salas.remove(sala);
-    }
-
-    public void anadirGrupoProducto(GrupoProducto grupo) {
-        gruposProductos.add(grupo);
-    }
-
-    public void cierreCaja() {
     }
 
     public int getId_establecimiento() {
@@ -120,8 +116,6 @@ public class Local {
     public void setCamareros(Map<Integer, Camarero> camareros) {
         this.camareros = camareros;
     }
-
-    
 
     public List<GrupoProducto> getGruposProductos() {
         return gruposProductos;

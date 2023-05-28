@@ -22,6 +22,13 @@ import modelo.Local;
 import modelo.Mesa;
 import modelo.Producto;
 
+/**
+ *
+ * @author ThePandogs
+ *
+ * Clase que representa un formulario de cuenta. Extiende de javax.swing.JPanel
+ * y se encuentra en el paquete "iu".
+ */
 public class CuentaForm extends javax.swing.JPanel {
 
     Local local;
@@ -31,6 +38,12 @@ public class CuentaForm extends javax.swing.JPanel {
     ModeloTablaProductos modelTablaProductos;
     ModeloTablaPedidos modelTablaPedidos;
 
+    /**
+     * Constructor de la clase CuentaForm.
+     *
+     * @param local el objeto Local al que pertenece la cuenta
+     * @param localForm el objeto LocalForm que contiene el formulario principal
+     */
     public CuentaForm(Local local, LocalForm localForm) {
 
         initComponents();
@@ -214,12 +227,13 @@ public class CuentaForm extends javax.swing.JPanel {
                     } else {
                         mesa.getCuenta().anadirProductosPedido(producto, Integer.parseInt(valorCalc));
                         modelTablaProductos.actualizarProductos();
-                        calcText.setText("0");
 
                     }
 
                 }
                 actualizarPrecioTotal();
+                calcText.setText("0");
+
             }
             case "+" ->
                 interaccionBotonOperador("+", "-");
@@ -265,6 +279,12 @@ public class CuentaForm extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Establece los datos de la mesa y carga la información de la cuenta en la
+     * interfaz gráfica.
+     *
+     * @param data el objeto Mesa con los datos de la mesa
+     */
     public void setData(Mesa data) {
         mesa = data;
         if (data.getCuenta() == null) {
@@ -279,11 +299,12 @@ public class CuentaForm extends javax.swing.JPanel {
         tituloMesa.setText("Mesa: " + mesa.getNumero() + " Sala: " + localForm.getSalaActual().getId() + " Camarero: " + mesa.getCuenta().getCamarero().getNombre());
         modelTablaProductos.setProductos(mesa.getCuenta().getProductos(), mesa.getCuenta().getPedidoProductos());
         modelTablaPedidos.setProductos(mesa.getCuenta().getPedidoProductos());
+
         actualizarPrecioTotal();
     }
 
     private void actualizarPrecioTotal() {
-
+        mesa.getCuenta().actualizarTotalCuenta();
         String numeroFormateado = String.format("%.2f", mesa.getCuenta().getTotalCuenta());
         precioTotal.setText("Total: " + numeroFormateado + "€");
     }
@@ -900,13 +921,15 @@ public class CuentaForm extends javax.swing.JPanel {
     }
 
     private void resetPanelCuenta() {
-
-        modelTablaProductos.vaciarTabla();
-        modelTablaPedidos.vaciarTabla();
+//        modelTablaPedidos.vaciarTabla();
+//
+//        modelTablaProductos.vaciarTabla();
+//        modelTablaPedidos.vaciarTabla();
         mesa = null;
         localForm.cerrarMesa();
         calcText.setText("0");
         pedidos.setVisible(false);
+        precioTotal.setForeground(Color.black);
 
     }
 

@@ -1,5 +1,8 @@
 package modelo;
 
+/**
+ * Clase que representa una mesa en un local.
+ */
 public class Mesa {
 
     private int idMesa;
@@ -12,6 +15,17 @@ public class Mesa {
     private int width;
     private int height;
 
+      /**
+     * Crea una instancia de Mesa con los valores proporcionados.
+     *
+     * @param idMesa el ID de la mesa
+     * @param numero el número de la mesa
+     * @param posicionX la posición X de la mesa
+     * @param posicionY la posición Y de la mesa
+     * @param width el ancho de la mesa
+     * @param height la altura de la mesa
+     * @param disponible indica si la mesa está disponible o no
+     */
     public Mesa(int idMesa, int numero, int posicionX, int posicionY, int width, int height, boolean disponible) {
         this.idMesa = idMesa;
         this.numero = numero;

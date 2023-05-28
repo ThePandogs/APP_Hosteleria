@@ -12,7 +12,10 @@ import java.sql.Statement;
 
 /**
  *
- * @author a14carlosfd
+ * @author ThePandogs
+ *
+ * La clase `ConexionBBDD` se utiliza para establecer una conexión a una base de
+ * datos utilizando JDBC.
  */
 public class ConexionBBDD {
 
@@ -27,11 +30,11 @@ public class ConexionBBDD {
     private LogExcepcion logExcepcion = new LogExcepcion();
 
     /**
-     * Crea una conexion a la base de datos con los datos aportados.
+     * Crea una conexión a la base de datos con los datos proporcionados.
      *
-     * @param url ruta de la BBDD
-     * @param usuario nombre de usuario
-     * @param clave Contraseña
+     * @param url la ruta de la base de datos
+     * @param usuario el nombre de usuario
+     * @param clave la contraseña
      */
     public ConexionBBDD(String url, String usuario, String clave) {
         try {
@@ -43,7 +46,7 @@ public class ConexionBBDD {
     }
 
     /**
-     * Crea una conexion a la base de datos con los datos por defecto.
+     * Crea una conexión a la base de datos utilizando los datos por defecto.
      */
     public ConexionBBDD() {
         try {
@@ -54,14 +57,20 @@ public class ConexionBBDD {
         }
     }
 
+    /**
+     * Devuelve la conexión actual.
+     *
+     * @return la conexión a la base de datos
+     */
     public Connection getCon() {
         return con;
     }
 
     /**
-     * Cierra tanto el Statement como la conexion existente.
+     * Cierra tanto el Statement como la conexión existente.
      *
-     * @return "true" si se realizó sin la excepcion "SQLException".
+     * @return `true` si se cerraron correctamente sin lanzar una excepción
+     * `SQLException`
      */
     public boolean cerrarConexion() {
         try {
@@ -72,9 +81,5 @@ public class ConexionBBDD {
             logExcepcion.anadirExcepcionLog(ex);
         }
         return false;
-
     }
-
-   
-
 }

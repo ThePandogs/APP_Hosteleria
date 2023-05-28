@@ -31,13 +31,13 @@ CREATE TABLE `cuentas` (
   `mesa` int unsigned NOT NULL,
   `fecha_salida` datetime DEFAULT NULL,
   `comensales` int unsigned DEFAULT NULL,
-  `precio` double unsigned NOT NULL DEFAULT '0',
+  `metodo_pago` enum('tarjeta','efectivo') DEFAULT NULL,
   PRIMARY KEY (`id_cuenta`),
   KEY `fk_camarero` (`camarero`),
   KEY `cuentas.ibfk_2_idx` (`mesa`),
   CONSTRAINT `cuentas.ibfk_2` FOREIGN KEY (`mesa`) REFERENCES `mesas` (`id_mesa`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `cuentas_ibfk_2` FOREIGN KEY (`camarero`) REFERENCES `usuarios` (`id_usuario`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +46,7 @@ CREATE TABLE `cuentas` (
 
 LOCK TABLES `cuentas` WRITE;
 /*!40000 ALTER TABLE `cuentas` DISABLE KEYS */;
-INSERT INTO `cuentas` VALUES (1,'2023-04-27 13:47:01',1,1,NULL,1,12.2),(2,'2023-04-27 13:47:21',2,2,NULL,2,14.8),(3,'2023-04-27 13:47:25',2,3,NULL,2,14);
+INSERT INTO `cuentas` VALUES (11,'2023-05-23 22:47:31',3,1,NULL,0,NULL),(12,'2023-05-23 23:14:15',3,3,'2023-05-27 20:55:40',0,'tarjeta'),(13,'2023-05-23 23:14:26',3,4,NULL,0,NULL),(15,'2023-05-27 21:08:51',5,3,'2023-05-27 21:58:52',0,'efectivo'),(16,'2023-05-27 22:21:53',5,3,'2023-05-27 22:24:38',0,'tarjeta'),(17,'2023-05-27 22:24:52',3,3,NULL,0,NULL),(18,'2023-05-28 19:56:30',3,5,NULL,0,NULL);
 /*!40000 ALTER TABLE `cuentas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -230,7 +230,7 @@ CREATE TABLE `mesas` (
   KEY `fk_imagen` (`imagen`),
   CONSTRAINT `mesas_ibfk_1` FOREIGN KEY (`sala`) REFERENCES `salas` (`id_sala`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `mesas_ibfk_2` FOREIGN KEY (`imagen`) REFERENCES `imagenes` (`id_imagen`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -239,7 +239,7 @@ CREATE TABLE `mesas` (
 
 LOCK TABLES `mesas` WRITE;
 /*!40000 ALTER TABLE `mesas` DISABLE KEYS */;
-INSERT INTO `mesas` VALUES (1,1,50,65,100,100,0,NULL,1),(2,1,50,50,100,150,1,NULL,2),(3,2,200,150,200,100,0,NULL,1),(4,2,200,300,100,250,1,NULL,2),(5,3,50,200,100,100,1,NULL,1);
+INSERT INTO `mesas` VALUES (1,1,50,65,100,100,0,NULL,1),(2,1,50,50,100,150,1,NULL,2),(3,5,200,150,200,100,0,NULL,1),(4,2,200,300,100,250,1,NULL,2),(5,2,50,200,100,100,1,NULL,1),(6,3,200,200,50,50,1,NULL,2),(7,4,300,300,250,100,1,NULL,1),(8,3,50,350,100,100,1,NULL,1);
 /*!40000 ALTER TABLE `mesas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -258,7 +258,7 @@ CREATE TABLE `pedidos` (
   KEY `producto` (`producto`),
   KEY `cuenta` (`cuenta`),
   CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`producto`) REFERENCES `productos` (`id_producto`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`cuenta`) REFERENCES `cuentas` (`id_cuenta`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`cuenta`) REFERENCES `cuentas` (`id_cuenta`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -268,7 +268,7 @@ CREATE TABLE `pedidos` (
 
 LOCK TABLES `pedidos` WRITE;
 /*!40000 ALTER TABLE `pedidos` DISABLE KEYS */;
-INSERT INTO `pedidos` VALUES (2,1,1),(2,2,2),(3,1,3),(3,2,2),(4,2,1),(4,3,2),(7,1,3);
+INSERT INTO `pedidos` VALUES (1,11,4),(1,15,1),(2,11,5),(2,15,1),(3,11,3),(3,12,1),(3,15,22),(3,16,1),(3,17,3),(4,11,2),(4,12,1),(4,13,6),(4,15,28),(4,16,3),(4,17,7),(4,18,3),(5,11,4),(5,15,11),(5,16,3),(5,17,4),(5,18,2),(6,11,3),(6,15,13),(6,16,2),(6,17,3),(7,11,2),(7,15,3),(7,16,1),(8,15,1),(9,15,1);
 /*!40000 ALTER TABLE `pedidos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -360,6 +360,10 @@ INSERT INTO `usuarios` VALUES (1,1,'Matias','1234','normal'),(2,3,'Lucas','1234'
 UNLOCK TABLES;
 
 --
+-- Dumping events for database 'hosteleria'
+--
+
+--
 -- Dumping routines for database 'hosteleria'
 --
 /*!50003 DROP FUNCTION IF EXISTS `BORRAR_PRODUCTO` */;
@@ -410,4 +414,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-11  1:34:37
+-- Dump completed on 2023-05-28 21:16:10

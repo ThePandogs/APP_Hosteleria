@@ -8,12 +8,23 @@ import java.awt.RenderingHints;
 import modelo.GrupoProducto;
 import modelo.Sala;
 
+/**
+ * @author ThePandogs
+ * 
+ * Clase que representa un contenedor de componentes. Extiende
+ * javax.swing.JPanel.
+ */
 public class ComponentsContainer extends javax.swing.JPanel {
 
     private Color color;
     private Sala dataSala;
     private GrupoProducto dataGrupoProducto;
 
+    /**
+     * Constructor predeterminado de ComponentsContainer. Inicializa el
+     * contenedor y establece su opacidad como transparente. Establece un layout
+     * nulo (null) para permitir el posicionamiento absoluto de los componentes.
+     */
     public ComponentsContainer() {
         init();
         setOpaque(false);
@@ -21,6 +32,13 @@ public class ComponentsContainer extends javax.swing.JPanel {
 
     }
 
+    /**
+     * Constructor de ComponentsContainer con parámetros. Inicializa el
+     * contenedor con un color y un layout específicos.
+     *
+     * @param color el color del contenedor.
+     * @param layaot el layout a utilizar para organizar los componentes.
+     */
     public ComponentsContainer(Color color, LayoutManager layaot) {
         init();
 
@@ -34,7 +52,6 @@ public class ComponentsContainer extends javax.swing.JPanel {
         setOpaque(false);
 
     }
-
 
     public void setColor(Color color) {
         this.color = color;
@@ -58,12 +75,23 @@ public class ComponentsContainer extends javax.swing.JPanel {
 
     }
 
+    /**
+     * Sobrescribe el método paint para personalizar la apariencia del
+     * contenedor. Este método dibuja un rectángulo redondeado en el fondo del
+     * contenedor con el color especificado. Utiliza anti-aliasing para obtener
+     * bordes suavizados.
+     *
+     * @param grphcs el objeto Graphics utilizado para dibujar.
+     */
     @Override
     public void paint(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        if(color!=null){ g2.setColor(color);}
-        else{g2.setColor(Color.WHITE);}
+        if (color != null) {
+            g2.setColor(color);
+        } else {
+            g2.setColor(Color.WHITE);
+        }
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
         g2.dispose();
         super.paint(grphcs);

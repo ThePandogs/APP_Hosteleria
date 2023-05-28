@@ -6,7 +6,11 @@ package modelo;
 
 /**
  *
- * @author a14carlosfd
+ * @author thepandogs
+ *
+ * La clase Producto representa un producto en el sistema de gestión de pedidos.
+ * Contiene información como el identificador, nombre, precio, disponibilidad y
+ * ruta de la imagen del producto.
  */
 public class Producto {
 
@@ -16,20 +20,21 @@ public class Producto {
     private boolean disponible;
     private String imagen;
 
+    /**
+     * Constructor de la clase Producto.
+     *
+     * @param id el identificador del producto
+     * @param nombre el nombre del producto
+     * @param precio el precio del producto
+     * @param disponible indica si el producto está disponible
+     * @param imagen la ruta de la imagen del producto
+     */
     public Producto(int id, String nombre, double precio, boolean disponible, String imagen) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
         this.disponible = disponible;
         this.imagen = imagen;
-    }
-
-    public void cambiarPrecio(Producto producto, Double nuevoPrecio) {
-        producto.precio = nuevoPrecio;
-    }
-
-    public void comprobarStock(Producto producto) {
-        //consulta BBDD
     }
 
     public int getId() {

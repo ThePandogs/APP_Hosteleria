@@ -14,12 +14,26 @@ import java.util.Iterator;
 import javax.swing.SwingUtilities;
 import modelo.Gestion;
 
+/**
+ *
+ * @author ThePandogs
+ *
+ * La clase `LoginForm` representa un panel de inicio de sesión en la interfaz
+ * de usuario. Permite a los usuarios seleccionar su nombre de usuario, ingresar
+ * su contraseña y acceder a la aplicación.
+ */
 public class LoginForm extends javax.swing.JPanel {
 
     Gestion gestion;
     Interfaz interfaz;
     Usuario usuarioSeleccionado;
 
+    /**
+     * Constructor de la clase LoginForm.
+     *
+     * @param gestion la instancia de Gestion utilizada en el programa
+     * @param interfaz la instancia de Interfaz utilizada en el programa
+     */
     public LoginForm(Gestion gestion, Interfaz interfaz) {
         this.gestion = gestion;
         this.interfaz = interfaz;

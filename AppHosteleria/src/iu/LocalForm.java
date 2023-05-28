@@ -12,7 +12,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import javax.swing.SwingUtilities;
 import modelo.Gestion;
 import modelo.Local;
@@ -20,6 +19,13 @@ import modelo.Mesa;
 import modelo.Sala;
 import swing.ButtonRedondeado;
 
+/**
+ * 
+ * @author ThePandogs
+ * 
+ * Representa un formulario de local. Contiene la lógica y los componentes
+ * necesarios para gestionar un local.
+ */
 public class LocalForm extends javax.swing.JPanel {
 
     private Gestion gestion;
@@ -30,6 +36,14 @@ public class LocalForm extends javax.swing.JPanel {
     private Sala salaActual;
     private boolean editarSala = false;
 
+    /**
+     * Crea una instancia de LocalForm.
+     *
+     * @param gestion la instancia de Gestion utilizada para gestionar el local
+     * @param interfaz la instancia de Interfaz utilizada para la interfaz
+     * gráfica
+     * @param local el objeto Local que representa el local actual
+     */
     public LocalForm(Gestion gestion, Interfaz interfaz, Local local) {
         this.gestion = gestion;
         this.local = local;
@@ -135,6 +149,9 @@ public class LocalForm extends javax.swing.JPanel {
         this.repaint();
     }
 
+    /**
+     * Cierra la mesa actual y muestra el panel de salas.
+     */
     public void cerrarMesa() {
         cuentaForm.setVisible(false);
         panelSalas.setVisible(true);
@@ -142,6 +159,12 @@ public class LocalForm extends javax.swing.JPanel {
         this.repaint();
     }
 
+    /**
+     * Establece el componente de usuario seleccionado y deselecciona todos los
+     * demás componentes en el panel de sala.
+     *
+     * @param user el componente de usuario que se seleccionará
+     */
     public void setSelected(Component user) {
         for (Component com : panelSala.getComponents()) {
             UserComponent i = (UserComponent) com;

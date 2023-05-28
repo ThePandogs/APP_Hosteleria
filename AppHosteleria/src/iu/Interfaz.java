@@ -18,6 +18,9 @@ import modelo.Gestion;
 /**
  *
  * @author ThePandogs
+ *
+ * Clase principal que representa la interfaz de la aplicación. Extiende de
+ * javax.swing.JFrame para crear una ventana de aplicación.
  */
 public class Interfaz extends javax.swing.JFrame {
 
@@ -27,6 +30,12 @@ public class Interfaz extends javax.swing.JFrame {
 
     private Point initialClick;
 
+    /**
+     * Constructor de la clase Interfaz. Inicializa los componentes de la
+     * interfaz, crea una instancia de la clase Gestion, configura el fondo de
+     * la ventana como transparente y habilita la funcionalidad de arrastrar la
+     * ventana.
+     */
     public Interfaz() {
         initComponents();
 
@@ -75,6 +84,12 @@ public class Interfaz extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Cambia el formulario actual por uno nuevo en el panel principal.
+     *
+     * @param nuevoFormulario el nuevo formulario a mostrar en el panel
+     * principal
+     */
     public void cambiarFormulario(JPanel nuevoFormulario) {
 
         mainPanel1.removeAll();

@@ -18,7 +18,11 @@ import java.util.logging.Logger;
  *
  * @author a14carlosfd
  */
-public class Gestion {
+/**
+ * Clase que implementa la interfaz GestionPedidos y se encarga de gestionar los
+ * pedidos, cuentas y usuarios del sistema.
+ */
+public class Gestion implements GestionPedidos {
 
     ControllerBBDD controllerBBDD = new ControllerBBDD();
     Camarero camareroActual;
@@ -26,6 +30,10 @@ public class Gestion {
     ArrayList<Usuario> usuarios;
     Usuario usuarioActual;
 
+    /**
+     * Constructor de la clase Gestion. Inicializa las listas de locales y
+     * usuarios, y carga los datos desde la base de datos.
+     */
     public Gestion() {
         locales = new ArrayList();
         usuarios = new ArrayList();
@@ -139,13 +147,7 @@ public class Gestion {
         return false;
     }
 
-    private void cargarCamareroUsuario(int id_usuario) {
-
-        ResultSet consulta = controllerBBDD.consultarEmpleadoUsuario(id_usuario);
-
-    }
-
-    public boolean cargarCuenta(Mesa mesa) throws SQLException {
+    private boolean cargarCuenta(Mesa mesa) throws SQLException {
 
         int id_mesa = mesa.getIdMesa();
         ResultSet consulta = controllerBBDD.consultarCuenta(id_mesa);
@@ -166,6 +168,18 @@ public class Gestion {
 
     }
 
+    /**
+     * Carga los pedidos de una cuenta específica. Recibe como parámetro una
+     * instancia de la clase Cuenta. Realiza una consulta en la base de datos
+     * para obtener los pedidos asociados a la cuenta. Crea un mapa de productos
+     * y cantidades a partir de los resultados de la consulta. Actualiza los
+     * productos de la cuenta con el mapa obtenido.
+     *
+     * @param cuenta la cuenta de la cual se cargarán los pedidos
+     * @throws SQLException si ocurre un error al realizar la consulta en la
+     * base de datos
+     */
+    @Override
     public void cargarPedidos(Cuenta cuenta) throws SQLException {
 
         int id_cuenta = cuenta.getIdCuenta();
@@ -203,8 +217,87 @@ public class Gestion {
         return false;
     }
 
+    /**
+     * Comprueba si un usuario y contraseña son válidos.
+     *
+     * @param usuario el nombre de usuario a comprobar
+     * @param password la contraseña a comprobar
+     * @return true si el usuario y contraseña son válidos, false en caso
+     * contrario
+     */
     public boolean comprobarUsuario(String usuario, String password) {
         return controllerBBDD.comprobarPasswordUsuario(usuario, password);
+    }
+
+    /**
+     * Inserta una nueva cuenta en la base de datos.
+     *
+     * @param cuenta la cuenta a insertar
+     */
+    public void insertarCuentaNueva(Cuenta cuenta) {
+        try {
+            ResultSet id_cuenta = controllerBBDD.insertarNuevaCuenta(camareroActual.getId(), cuenta.getMesa().getIdMesa(), cuenta.getComensales());
+            while (id_cuenta.next()) {
+                cuenta.setIdCuenta(id_cuenta.getInt(1));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Cierra la cuenta asociada a una mesa y la marca como no asignada.
+     *
+     * @param mesa a la que se le cerrará la cuenta.
+     */
+    public void cerrarMesa(Mesa mesa) {
+        controllerBBDD.cerrarCuenta(mesa.getCuenta().getMetodoPago(), mesa.getCuenta().getIdCuenta());
+        mesa.setCuenta(null);
+    }
+
+    /**
+     * Envía un pedido asociado a una cuenta, registrando los nuevos productos y
+     * sus cantidades.
+     *
+     * @param cuenta La cuenta a la que se le enviará el pedido.
+     */
+    @Override
+    public void enviarPedido(Cuenta cuenta) {
+        Map<Producto, Integer> nuevosProductos = cuenta.getPedidoProductos();
+        Iterator<Producto> itNuevosProductos = nuevosProductos.keySet().iterator();
+
+        while (itNuevosProductos.hasNext()) {
+            Producto producto = itNuevosProductos.next();
+            int cantidad = nuevosProductos.get(producto);
+            if (cuenta.getIdCuenta() == 0) {
+                insertarCuentaNueva(cuenta);
+            }
+            controllerBBDD.enviarPedido(producto.getId(), cuenta.getIdCuenta(), cantidad);
+        }
+        cuenta.generarPedido();
+    }
+
+    /**
+     * Borra un producto de una cuenta, actualizando las cantidades
+     * correspondientes.
+     *
+     * @param cuenta La cuenta de la cual se eliminará el producto.
+     * @param producto El producto a eliminar.
+     * @param cantidad La cantidad del producto a eliminar.
+     * @return          <code>true</code> si el producto se eliminó exitosamente,
+     * <code>false</code> si no.
+     */
+    public boolean borrarProducto(Cuenta cuenta, Producto producto, int cantidad) {
+        int cantidadProductos = cuenta.getProductos().getOrDefault(producto, 0);
+        int cantidadPedidos = cuenta.getPedidoProductos().getOrDefault(producto, 0);
+
+        int suma = cantidadProductos + cantidadPedidos;
+        if (cantidad <= suma) {
+            controllerBBDD.eliminarProducto(producto.getId(), cuenta.getIdCuenta(), cantidad);
+            cuenta.eliminarProducto(producto, cantidad);
+            return true;
+        }
+        return false;
     }
 
     public ArrayList<Local> getLocales() {
@@ -247,48 +340,4 @@ public class Gestion {
         this.usuarios = usuarios;
     }
 
-    public void insertarCuentaNueva(Cuenta cuenta) {
-        try {
-            ResultSet id_cuenta = controllerBBDD.insertarNuevaCuenta(camareroActual.getId(), cuenta.getMesa().getIdMesa(), cuenta.getComensales());
-            while (id_cuenta.next()) {
-                cuenta.setIdCuenta(id_cuenta.getInt(1));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Gestion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void cerrarMesa(Mesa mesa) {
-        controllerBBDD.cerrarCuenta(mesa.getCuenta().getMetodoPago(),mesa.getCuenta().getIdCuenta());
-        mesa.setCuenta(null);
-    }
-
-    public void enviarPedido(Cuenta cuenta) {
-
-        Map<Producto, Integer> nuevosProductos = cuenta.getPedidoProductos();
-        Iterator<Producto> itNuevosProductos = nuevosProductos.keySet().iterator();
-
-        while (itNuevosProductos.hasNext()) {
-            Producto producto = itNuevosProductos.next();
-            int cantidad = nuevosProductos.get(producto);
-            if (cuenta.getIdCuenta() == 0) {
-                insertarCuentaNueva(cuenta);
-            }
-            controllerBBDD.enviarPedido(producto.getId(), cuenta.getIdCuenta(), cantidad);
-        }
-        cuenta.generarPedido();
-    }
-
-    public boolean borrarProducto(Cuenta cuenta, Producto producto, int cantidad) {
-        int cantidadProductos = cuenta.getProductos().getOrDefault(producto, 0);
-        int cantidadPedidos = cuenta.getPedidoProductos().getOrDefault(producto, 0);
-
-        int suma = cantidadProductos + cantidadPedidos;
-        if (cantidad <= suma) {
-            controllerBBDD.eliminarProducto(producto.getId(), cuenta.getIdCuenta(), cantidad);
-            cuenta.eliminarProducto(producto, cantidad);
-            return true;
-        }
-        return false;
-    }
 }

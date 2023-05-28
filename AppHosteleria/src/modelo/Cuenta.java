@@ -11,7 +11,9 @@ import java.util.Map;
 
 /**
  *
- * @author a14carlosfd
+ * @author thepandogs
+ *
+ * Clase que representa una cuenta en un restaurante.
  */
 public class Cuenta {
 
@@ -25,6 +27,15 @@ public class Cuenta {
     private Map<Producto, Integer> productos;
     private Map<Producto, Integer> pedidoProductos;
 
+    /**
+     * Crea una instancia de Cuenta con los valores proporcionados.
+     *
+     * @param idCuenta el ID de la cuenta
+     * @param fechaHora la fecha y hora de la cuenta
+     * @param camarero el camarero asociado a la cuenta
+     * @param comensales el número de comensales en la cuenta
+     * @param mesa la mesa asociada a la cuenta
+     */
     public Cuenta(int idCuenta, LocalDateTime fechaHora, Camarero camarero, int comensales, Mesa mesa) {
         this.idCuenta = idCuenta;
         this.fechaHora = fechaHora;
@@ -36,6 +47,13 @@ public class Cuenta {
 
     }
 
+    /**
+     * Crea una nueva instancia de la clase Cuenta con la mesa y el camarero
+     * proporcionados.
+     *
+     * @param mesa la mesa asociada a la cuenta
+     * @param camarero el camarero asociado a la cuenta
+     */
     public Cuenta(Mesa mesa, Camarero camarero) {
         this.mesa = mesa;
         this.camarero = camarero;
@@ -44,6 +62,9 @@ public class Cuenta {
         totalCuenta = 0.0;
     }
 
+    /**
+     * Actualiza el valor total de la cuenta.
+     */
     public void actualizarTotalCuenta() {
         totalCuenta = 0.0;
         if (!productos.isEmpty()) {
@@ -62,6 +83,12 @@ public class Cuenta {
         }
     }
 
+    /**
+     * Añade productos a la lista de productos en espera de ser pedidos.
+     *
+     * @param producto el producto a añadir
+     * @param cantidad la cantidad del producto a añadir
+     */
     public void anadirProductosPedido(Producto producto, int cantidad) {
 
         if (pedidoProductos.containsKey(producto)) {
@@ -74,6 +101,10 @@ public class Cuenta {
         actualizarTotalCuenta();
     }
 
+    /**
+     * Genera el pedido a partir de los productos en espera y los añade a la
+     * lista de productos de la cuenta.
+     */
     public void generarPedido() {
 
         Iterator<Producto> it = pedidoProductos.keySet().iterator();
@@ -96,6 +127,12 @@ public class Cuenta {
         actualizarTotalCuenta();
     }
 
+    /**
+     * Elimina un producto de la cuenta.
+     *
+     * @param producto el producto a eliminar
+     * @param cantidadEliminar la cantidad del producto a eliminar
+     */
     public void eliminarProducto(Producto producto, int cantidadEliminar) {
 
         if (pedidoProductos.containsKey(producto)) {
@@ -137,6 +174,15 @@ public class Cuenta {
         actualizarTotalCuenta();
     }
 
+    /**
+     * Establece los datos de la cuenta.
+     *
+     * @param idCuenta el ID de la cuenta
+     * @param fechaHora la fecha y hora de la cuenta
+     * @param camarero el camarero asociado a la cuenta
+     * @param comensales el número de comensales en la cuenta
+     * @param productos los productos de la cuenta
+     */
     public void setData(int idCuenta, LocalDateTime fechaHora, Camarero camarero, int comensales, HashMap productos) {
 
         this.idCuenta = idCuenta;
@@ -200,6 +246,11 @@ public class Cuenta {
         this.metodoPago = metodoPago;
     }
 
+    /**
+     * Verifica si no hay productos pendientes en el pedido de la cuenta.
+     *
+     * @return true si no hay productos pendientes, false de lo contrario
+     */
     public boolean comprobarCierreMesa() {
         return pedidoProductos.isEmpty();
     }

@@ -8,14 +8,22 @@ import java.util.ArrayList;
 
 /**
  *
- * @author a14carlosfd
+ * @author thepandogs
+
+ * Clase que representa un grupo de productos.
  */
 public class GrupoProducto {
 
-    int id;
-    String nombre;
-    ArrayList<Producto> productos;
+    private int id;
+    private String nombre;
+    private ArrayList<Producto> productos;
 
+    /**
+     * Crea una instancia de GrupoProducto con los valores proporcionados.
+     *
+     * @param idGrupoProducto el ID del grupo de productos
+     * @param nombre el nombre del grupo de productos
+     */
     public GrupoProducto(int idGrupoProducto, String nombre) {
         this.id = idGrupoProducto;
         this.nombre = nombre;

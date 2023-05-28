@@ -1,5 +1,8 @@
 package modelo;
 
+/**
+ * Representa a un usuario con su información asociada.
+ */
 public class Usuario {
 
     private int idUsuario;
@@ -7,6 +10,15 @@ public class Usuario {
     private String itemName;
     private String rol;
 
+    /**
+     * Crea una nueva instancia de la clase Usuario con los valores
+     * proporcionados.
+     *
+     * @param itemID el ID del usuario
+     * @param idEmpleado el ID del empleado asociado al usuario
+     * @param itemName el nombre del usuario
+     * @param rol el rol del usuario
+     */
     public Usuario(int itemID, int idEmpleado, String itemName, String rol) {
         this.idUsuario = itemID;
         this.idEmpleado = idEmpleado;
