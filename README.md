@@ -56,27 +56,27 @@ mvn clean install
 mvn exec:java
 ```
 
-###Usage
+### Usage
 
--Log in with your assigned role (admin, waiter, chef) and start managing the restaurant.
+Log in with your assigned role (admin, waiter, chef) and start managing the restaurant.
 
-##Roles and Functionalities
-###Admin
+## Roles and Functionalities
+### Admin
 - User and role management
 - Table and menu configuration
-###Waiter
+### Waiter
 - Taking orders
 - Table management and billing
-###Chef
+### Chef
 - Viewing pending orders
 - Updating order status
 
-##Atributtions
+## Atributtions
 
-###Icons and Images
+### Icons and Images
 - Icons: Iconos8 (https://www.iconos8.com)
 
-##Libraries
+## Libraries
 Spring Boot: spring.io
 Hibernate: hibernate.org
 Thymeleaf: thymeleaf.org
