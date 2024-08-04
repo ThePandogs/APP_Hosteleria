@@ -77,8 +77,3 @@ Log in with your assigned role (admin, waiter, chef) and start managing the rest
 
 ### Icons and Images
 - Icons: Iconos8 (https://www.iconos8.com)
-
-## Libraries
-Spring Boot: spring.io
-Hibernate: hibernate.org
-Thymeleaf: thymeleaf.org
