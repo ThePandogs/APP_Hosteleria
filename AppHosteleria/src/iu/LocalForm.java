@@ -96,7 +96,7 @@ public class LocalForm extends javax.swing.JPanel {
         sala.setColor(new Color(153, 180, 209));
         sala.setData(data);
         ButtonRedondeado botonSala = new ButtonRedondeado(data.getNombre());
-
+        botonSala.setSize(100, 100);
         botonSala.addActionListener((ActionEvent e) -> {
             cambiarSala(sala);
         });
@@ -106,7 +106,6 @@ public class LocalForm extends javax.swing.JPanel {
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.weightx = 1.0; // Permite el redimensionamiento horizontal
         gbc.gridx = 0;
-        //gbc.gridy = listaSalas.getComponentCount();
         listaSalas.add(botonSala, gbc);
 
         salas.add(sala);
