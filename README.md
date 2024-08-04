@@ -23,6 +23,7 @@ This is a personal project for restaurant management, developed to provide a com
 <p align="center">
   <img src="screenshots/dashboard.png" alt="Dashboard Screenshot" width="800">
 </p>
+
 <p align="center">
   <img src="screenshots/preview.gif" alt="Game Screenshot">
 </p>
