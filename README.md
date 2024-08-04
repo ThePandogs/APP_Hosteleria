@@ -14,19 +14,21 @@ This is a personal project for restaurant management, developed to provide a com
 
 ## Screenshots
 
+
+<div style="text-align: center;">
+  <img src="screenshots/login.png" alt="Login Screenshot" width="49%" style="display: inline-block;">
+  <img src="screenshots/room.png" alt="Room Screenshot" width="50%" style="display: inline-block;">
+
+</div>
+
 <p align="center">
-  <img src="screenshots/login.png" alt="Login Screenshot" width="800">
-</p>
-<p align="center">
-  <img src="screenshots/room.png" alt="Room Screenshot" width="800">
-</p>
-<p align="center">
-  <img src="screenshots/dashboard.png" alt="Dashboard Screenshot" width="800">
+  <img src="screenshots/dashboard.png" alt="Dashboard Screenshot" width="100%">
 </p>
 
 <p align="center">
-  <img src="screenshots/preview.gif" alt="Game Screenshot">
+  <img src="screenshots/preview.gif" alt="Preview GIF" width="100%">
 </p>
+
 
 ## Getting Started
 
